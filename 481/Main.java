@@ -53,6 +53,17 @@ class Main {
 	}
 	
 	public static void printResults() {
-		System.out.println(length);
+		P[0] = -1;
+		Stack<Integer> lis = new Stack<Integer>();
+		int index = M[length];
+		do {
+			lis.add(A[index]);
+			index = P[index];
+		} while (index != -1);
+		
+		System.out.println(length + "\n-");
+		
+		while (!lis.isEmpty())
+			System.out.println(lis.pop());
 	}
 }
