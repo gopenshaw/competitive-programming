@@ -26,7 +26,7 @@ class Main {
 		for (int i = 1; i < numElements; i++) {
 			int index = binarySearch(A[i]);
 			M[index] = i;
-			
+			P[i] = M[index - 1];
 			if (index > length)
 				length = index;
 		}
