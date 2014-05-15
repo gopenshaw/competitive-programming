@@ -22,7 +22,15 @@ class Main {
 		int numElements = 0;
 		while (conIn.hasNext())
 			A[numElements++] = conIn.nextInt();
-			
+		
+		//--insert first element with no parent
+		length = 1;
+		M[1] = 0;
+		P[0] = -1;
+		
+		//--no element can be in a sequence of zero length
+		M[0] = -1;
+		
 		for (int i = 1; i < numElements; i++) {
 			int index = binarySearch(A[i]);
 			M[index] = i;
@@ -53,7 +61,6 @@ class Main {
 	}
 	
 	public static void printResults() {
-		P[0] = -1;
 		Stack<Integer> lis = new Stack<Integer>();
 		int index = M[length];
 		do {
