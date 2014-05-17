@@ -13,34 +13,29 @@ class Main {
 		conIn.nextLine();
 		blocks = new int[numBlocks][numBlocks];
 		height = new int[numBlocks];
-		init();
+		buildBoard();
 		
-		String c1, c2;
+		String s1, s2;
 		int i1, i2;
 		
 		while (true) {
-			c1 = conIn.next();
-			if (c1.charAt(0) == 'q')
+			s1 = conIn.next();
+			if (s1.charAt(0) == 'q')
 				break;
 				
 			i1 = conIn.nextInt();
-			c2 = conIn.next();
+			s2 = conIn.next();
 			i2 = conIn.nextInt();
 			
 			if (i1 == i2
 				|| getBlockRow(i1) == getBlockRow(i2))
 				continue;
 			
-			if (c2.equals("onto")) {
+			if (s2.equals("onto"))
 				returnAllAboveBlock(i2);
-			}
 			
-			if (c1.equals("move")) {
+			if (s1.equals("move"))
 				returnAllAboveBlock(i1);
-			}
-			else {
-				findBlock(i1);
-			}
 			
 			movePile(i1, getBlockRow(i2));
 		}
@@ -48,7 +43,7 @@ class Main {
 		printBoard();
 	}
 	
-	public static void init() {
+	public static void buildBoard() {
 		for (int i = 0; i < numBlocks; i++) {
 			blocks[i][0] = i;
 			height[i] = 1;
@@ -91,11 +86,10 @@ class Main {
 	}
 	
 	public static void movePile(int b, int dest) {
-		//--Assumes that findBlock has already been called
+		findBlock(b);
 		int initialHeight = height[row];
 		for (int i = col; i < initialHeight; i++) {
-			int moveBlock = blocks[row][i];
-			blocks[dest][height[dest]] = moveBlock;
+			blocks[dest][height[dest]] = blocks[row][i];
 			height[dest]++;
 			height[row]--;
 		}
