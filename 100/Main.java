@@ -3,6 +3,8 @@ import java.util.*;
 class Main {
 
 	public static int[] A = new int[1000000];
+	public static int temp;
+	public static int count;
 
 	public static void main(String[] args) {
 		fillArray();
@@ -14,7 +16,7 @@ class Main {
 			
 			int low;
 			int high;
-			if (i1 < i1) {
+			if (i1 < i2) {
 				low = i1;
 				high = i2;
 			}
@@ -33,6 +35,20 @@ class Main {
 	}
 	
 	public static void fillArray() {
-	
+		for (int i = 1; i < 100000; i++) {
+			count = 1;
+			temp = i;
+			while (temp != 1) {
+				if (temp % 2 == 0) {
+					temp /= 2;
+					count++;
+				}
+				else {
+					temp = (3 * temp + 1) / 2;
+					count += 2;
+				}
+			}
+			A[i] = count;
+		}
 	}
 }
