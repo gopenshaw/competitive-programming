@@ -27,6 +27,10 @@ class Main {
 			c2 = conIn.next();
 			i2 = conIn.nextInt();
 			
+			if (i1 == i2
+				|| getBlockRow(i1) == getBlockRow(i2))
+				continue;
+			
 			if (c2.equals("onto")) {
 				returnAllAboveBlock(i2);
 			}
