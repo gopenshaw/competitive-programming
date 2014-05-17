@@ -52,6 +52,13 @@ class Main {
 	
 	public static void returnAllAboveBlock(int b) {
 		findBlock(b);
+		int initialHeight = height[row];
+		for (int i = col + 1; i < initialHeight; i++) {
+			int returnBlock = blocks[row][i];
+			blocks[returnBlock][height[returnBlock]] = returnBlock;
+			height[returnBlock]++;
+			height[row]--;
+		}
 	}
 	
 	public static void printBoard() {
