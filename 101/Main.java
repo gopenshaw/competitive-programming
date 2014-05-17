@@ -39,7 +39,15 @@ class Main {
 	}
 	
 	public static void findBlock(int b) {
-	
+		for (int i = 0; i < numBlocks; i++) {
+			for (int j = 0; j < height[i]; j++) {
+				if (blocks[i][j] == b) {
+					row = i;
+					col = j;
+					return;
+				}
+			}
+		}
 	}
 	
 	public static void returnAllAboveBlock(int b) {
