@@ -3,7 +3,7 @@ import java.util.*;
 class Main {
 
 	public static int[] A = new int[1000000];
-	public static int temp;
+	public static double temp;
 	public static int count;
 
 	public static void main(String[] args) {
@@ -35,7 +35,7 @@ class Main {
 	}
 	
 	public static void fillArray() {
-		for (int i = 1; i < 100000; i++) {
+		for (int i = 1; i < 1000000; i++) {
 			count = 1;
 			temp = i;
 			while (temp != 1) {
