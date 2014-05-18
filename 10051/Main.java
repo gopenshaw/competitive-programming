@@ -100,20 +100,13 @@ class Main {
 	}
 	
 	public static void printResults() {
-// 		System.out.println("Case #" + caseNumber);
-// 		System.out.println(length);
-// 		
-// 		while (length != 1) {
-// 			for (int i = 0; i < 6; i ++) {
-// 				if (parent[topBlock][length][i] != 0) {
-// 					System.out.println(topBlock + " " + face(i));
-// 					topBlock = parent[topBlock][length][i];
-// 					length--;
-// 					break;
-// 				}
-// 			}
-// 			System.out.println(topBlock);
-// 		}
+		System.out.println("Case #" + caseNumber);
+		System.out.println(length);
+		
+		while (topBlock != null) {
+			System.out.println(topBlock);
+			topBlock = topBlock.parent;
+		}
 	}
 	
 	public static void clearArrays() {
