@@ -53,7 +53,10 @@ class Main {
 				for (int k = 0; k < 6; k++) {
 					for (int l = 0; l < 6; l++) {
 						if (stack[j][cubes[i][k]][l] != 0) {
+							//--add this block
 							stack[j + 1][cubes[i][k]][opposite(l)] = i;
+							//--set this block's parent
+							parent[i][k] = stack[j][cubes[i][k]][l];
 							if (j == length)
 								length++;
 						}
