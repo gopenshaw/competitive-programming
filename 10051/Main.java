@@ -70,7 +70,7 @@ class Main {
 		length = 1;
 		//--add the heaviest block on its colors
 		for (int i = 0; i < 6; i++)
-			stack[1][cubes[1][i]] = new Block(numCubes, opposite(i));
+			stack[1][cubes[1][i]] = new Block(numCubes, i);
 			
 		//--for each lighter block
 		for (int blockID = numCubes - 1; blockID > 0; blockID--) {
@@ -95,7 +95,7 @@ class Main {
 			
 			//--add all of it's faces to the first position
 			for (int face = 0; face < 6; face++)
-				stack[1][cubes[blockID][face]] = new Block(blockID, opposite(face));
+				stack[1][cubes[blockID][face]] = new Block(blockID, face);
 		}
 	}
 	
