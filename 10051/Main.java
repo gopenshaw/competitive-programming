@@ -41,7 +41,7 @@ class Main {
 		length = 1;
 		//--add the heaviest block on its colors
 		for (int i = 0; i < 6; i++)
-			stack[1][cubes[1][i]][i] = 1;
+			stack[numCubes][cubes[numCubes][i]][i] = numCubes;
 	}
 	
 	public static void clearArrays() {
@@ -58,15 +58,16 @@ class Main {
 		}
 	}
 	
-	public static void opposite(int i) {
+	public static int opposite(int i) {
 		switch (i) {
-			case 0: return 1; break;
-			case 1: return 0; break;
-			case 2: return 3; break;
-			case 3: return 2; break;
-			case 4: return 5; break;
-			default: return 4; break;
+			case 0: return 1;
+			case 1: return 0;
+			case 2: return 3;
+			case 3: return 2;
+			case 4: return 5;
 		}
+		
+		return 4;
 	}
 }
 
