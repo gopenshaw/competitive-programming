@@ -75,8 +75,8 @@ class Main {
 		//--for each lighter block
 		for (int blockID = numCubes - 1; blockID > 0; blockID--) {
 		
-			//--see the stack has any blocks that have a top 
-			//--that matches this block's bottom
+			//--see if the stack has any blocks that have a top color
+			//--that match this block's bottom color
 			for (int position = length; position > 0; position--) {
 				for (int face = 0; face < 6; face++) {
 					if (stack[position][cubes[blockID][opposite(face)]] != null) {
@@ -93,7 +93,7 @@ class Main {
 				}
 			}
 			
-			//--add all of it's faces to the first position
+			//--add the block to the first position
 			for (int face = 0; face < 6; face++)
 				stack[1][cubes[blockID][face]] = new Block(blockID, face);
 		}
