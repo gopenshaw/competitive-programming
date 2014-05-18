@@ -7,7 +7,7 @@ class Main {
 	//--This array will be used to build out the LIS
 	//--Dimensions are block position, color, and face
 	//--Value will be block ID
-	public static int[][] stack = new int[501][101][6];
+	public static int[][][] stack = new int[501][101][6];
 	
 	//--parent[i] will return the id of the block that follows i
 	public static int[][] parent = new int[501][6];
