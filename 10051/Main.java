@@ -28,6 +28,8 @@ class Main {
 			}
 			
 			LIS();
+			
+			System.out.println(length);
 					
 			numCubes = conIn.nextInt();
 			if (numCubes != 0) {
@@ -41,7 +43,24 @@ class Main {
 		length = 1;
 		//--add the heaviest block on its colors
 		for (int i = 0; i < 6; i++)
-			stack[numCubes][cubes[numCubes][i]][i] = numCubes;
+			stack[1][cubes[1][i]][i] = numCubes;
+			
+		//--for each lighter block
+		for (int i = numCubes - 1; i > 0; i--) {
+			//--see the stack has any blocks that have a top 
+			//--that matches this block's bottom
+			for (int j = length; j > 0; j--) {
+				for (int k = 0; k < 6; k++) {
+					for (int l = 0; l < 6; l++) {
+						if (stack[j][cubes[i][k]][l] != 0) {
+							stack[j + 1][cubes[i][k]][opposite(l)] = i;
+							if (j == length)
+								length++;
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	public static void clearArrays() {
