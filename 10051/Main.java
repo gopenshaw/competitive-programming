@@ -38,7 +38,10 @@ class Main {
 	}
 	
 	public static void LIS() {
-	
+		length = 1;
+		//--add the heaviest block on its colors
+		for (int i = 0; i < 6; i++)
+			stack[1][cubes[1][i]][i] = 1;
 	}
 	
 	public static void clearArrays() {
@@ -52,6 +55,17 @@ class Main {
 					stack[i][j][k] = 0;
 				}
 			}
+		}
+	}
+	
+	public static void opposite(int i) {
+		switch (i) {
+			case 0: return 1; break;
+			case 1: return 0; break;
+			case 2: return 3; break;
+			case 3: return 2; break;
+			case 4: return 5; break;
+			default: return 4; break;
 		}
 	}
 }
