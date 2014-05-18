@@ -70,7 +70,7 @@ class Main {
 		length = 1;
 		//--add the heaviest block on its colors
 		for (int i = 0; i < 6; i++)
-			stack[1][cubes[1][i]] = new Block(numCubes, i);
+			stack[1][cubes[numCubes][i]] = new Block(numCubes, i);
 			
 		//--for each lighter block
 		for (int blockID = numCubes - 1; blockID > 0; blockID--) {
