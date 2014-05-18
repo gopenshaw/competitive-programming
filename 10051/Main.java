@@ -79,12 +79,12 @@ class Main {
 			//--that matches this block's bottom
 			for (int position = length; position > 0; position--) {
 				for (int face = 0; face < 6; face++) {
-					if (stack[position][cubes[blockID][face]] != null) {
+					if (stack[position][cubes[blockID][opposite(face)]] != null) {
 						//--add this block
-						Block newBlock = new Block(blockID, opposite(face));
+						Block newBlock = new Block(blockID, face);
 						stack[position + 1][cubes[blockID][face]] = newBlock;
 						//--set this block's parent
-						newBlock.parent = stack[position][cubes[blockID][face]];
+						newBlock.parent = stack[position][cubes[blockID][opposite(face)]];
 						if (position == length) {
 							length++;
 							topBlock = newBlock;
