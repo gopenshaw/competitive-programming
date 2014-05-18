@@ -117,21 +117,14 @@ class Main {
 	}
 	
 	public static void clearArrays() {
-// 		for (int i = 0; i <= numCubes; i++) {
-// 			for (int j = 0; j <= numCubes; j++) {
-// 				for (int k = 0; k < 6; k++) {
-// 					parent[i][j][k] = 0;
-// 				}
-// 			}
-// 			for (int j = 0; j < 101; j++) {
-// 				for (int k = 0; k < 6; k++) {
-// 					stack[i][j][k] = 0;
-// 				}
-// 			}
-// 			for (int j = 0; j < 6; j++) {
-// 				cubes[i][j] = 0;
-// 			}
-// 		}
+		for (int i = 0; i <= numCubes; i++) {
+			for (int j = 0; j < 101; j++) {
+				stack[i][j] = null;
+			}
+			for (int j = 0; j < 6; j++) {
+				cubes[i][j] = 0;
+			}
+		}
 	}
 	
 	public static int opposite(int i) {
