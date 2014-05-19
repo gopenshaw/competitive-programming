@@ -19,9 +19,6 @@ class Main {
 	}
 	
 	public static void makeConnections(int source) {
-		if (result.size() > 8)
-			return;
-	
 		for (int target = 1; target <= 5; target++) {
 			if (graph[source][target] == 1) {
 				graph[source][target] = 0;
@@ -33,14 +30,14 @@ class Main {
 						System.out.print(i);
 					System.out.println();
 				}
-				
-				makeConnections(target);
+				else {
+					makeConnections(target);
+				}
 				
 				graph[source][target] = 1;
 				graph[target][source] = 1;
 				result.removeLast();
 			}
-			
 		}
 	}
 }
