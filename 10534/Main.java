@@ -47,7 +47,7 @@ class Main {
 	}
 	
 	public static int getTopIndex(int low, int high) {
-		//--not implemented
+		//--Use n log n LIS algorithm and return the highest value
 		return -1;
 	}
 }
