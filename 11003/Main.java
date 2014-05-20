@@ -11,8 +11,8 @@ class Main {
 	//--A array will hold the provided input
 	public static Box[] A = new Box[1000];
 	
-	//--M will hold the current weight capacity
-	//--of the box with the smallest remaining capacity
+	//--M will hold the capacity of the box in the stack
+	//--with the smallest remaining capacity
 	public static int[] M = new int[1001];
 	
 	public static int numBoxes;
