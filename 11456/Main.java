@@ -41,6 +41,7 @@ class Main {
 			for (int j = length; j >= 2; j--) {
 				if (weight[i] < train[j].min
 					&& weight[i] > train[j + 1].min) {
+					System.out.println("Adding weight " + weight[i] + " to min.");
 					train[j + 1].max = train[j].max;
 					train[j + 1].min = weight[i];
 					if (j + 1 > length)
@@ -49,6 +50,7 @@ class Main {
 				else if (weight[i] > train[j].max
 						&& (weight[i] < train[j + 1].max
 							|| train[j + 1].max == 0)) {
+					System.out.println("Adding weight " + weight[i] + " to max.");
 					train[j + 1].max = weight[i];
 					train[j + 1].min = train[j].min;
 					if (j + 1 > length)
