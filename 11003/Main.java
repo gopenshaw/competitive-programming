@@ -57,8 +57,6 @@ class Main {
 				
 				if (capacity >= 0
 					&& capacity > M[j + 1]) {
-					System.out.println("Adding block " + i + " to position " + (j + 1)
-										+ " with capacity " + capacity);
 					M[j + 1] = capacity;
 					if (j + 1 > length)
 						length = j + 1;
@@ -68,8 +66,6 @@ class Main {
 			//--Check if block should be added to base
 			if (A[i].capacity > M[1]) {
 				M[1] = A[i].capacity;
-				System.out.println("Adding block " + i + " to position " + 1
-										+ " with capacity " + A[i].capacity);
 			}
 		}
 		
