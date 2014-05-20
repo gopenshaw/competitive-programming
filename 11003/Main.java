@@ -35,6 +35,13 @@ class Main {
 			System.out.println(LIS());
 			
 			numBoxes = conIn.nextInt();
+			if (numBoxes != 0) {
+				for (int i = 0; i <= numBoxes; i++) {
+					A[i].weight = 0;
+					A[i].capacity = 0;
+					M[i] = 0;
+				}
+			}
 		}
 	}
 	
