@@ -63,8 +63,8 @@ class Main {
 	}
 	
 	public static void addFirstTwoCars() {
-		int first = weight[1];
-		int second = weight[2];
+		int first = weight[0];
+		int second = weight[1];
 		
 		if (first < second) {
 			train[2].min = first;
