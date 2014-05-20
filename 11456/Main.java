@@ -35,10 +35,12 @@ class Main {
 		for (int i = 0; i < numCars; i++) {
 			for (int j = length; j >= 2; j--) {
 				if (weight[i] < train[j].min) {
-				
+					train[j + 1].max = train[j].max;
+					train[j + 1].min = weight[i];
 				}
 				else if (weight[i] > train[j].max) {
-				
+					train[j + 1].max = weight[i];
+					train[j + 1].min = train[j].min;
 				}
 			}
 		}
