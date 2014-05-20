@@ -14,7 +14,7 @@ class Main {
 	public static int numCars;
 
 	public static void main(String[] args) {
-		for (int i = 0; i <= 2001; i++) {
+		for (int i = 0; i < 2001; i++) {
 			train[i] = new Train();
 		}
 		Scanner conIn = new Scanner(System.in);
@@ -38,12 +38,16 @@ class Main {
 					&& weight[i] > train[j + 1].min) {
 					train[j + 1].max = train[j].max;
 					train[j + 1].min = weight[i];
+					if (j + 1 > length)
+						length = j + 1;
 				}
 				else if (weight[i] > train[j].max
 						&& (weight[i] < train[j + 1].max
 							|| train[j + 1].max == 0)) {
 					train[j + 1].max = weight[i];
 					train[j + 1].min = train[j].min;
+					if (j + 1 > length)
+						length = j + 1;
 				}
 			}
 		}
