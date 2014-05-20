@@ -52,11 +52,12 @@ class Main {
 		
 		for (int i = 1; i < numBoxes; i++) {
 			for (int j = length; j > 0; j--) {
-				int newCapacity =  M[j] - A[i].weight;
-				if (newCapacity >= 0
-					&& newCapacity > M[j + 1]) {
-					M[j + 1] = newCapacity < A[i].capacity ?
-									newCapacity : A[i].capacity;
+				int capacity =  M[j] - A[i].weight < A[i].capacity ?
+									M[j] - A[i].weight : A[i].capacity;
+				
+				if (capacity >= 0
+					&& capacity > M[j + 1]) {
+					M[j + 1] = capacity;
 					if (j + 1 > length)
 						length = j + 1;
 				}
