@@ -52,7 +52,7 @@ class Main {
 			}
 		}
 		
-		return 0;
+		return length;
 	}
 	
 	public static void addFirstTwoCars() {
