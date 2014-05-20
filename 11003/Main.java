@@ -44,7 +44,7 @@ class Main {
 		int length = 1;
 		
 		for (int i = 1; i < numBoxes; i++) {
-			for (int j = length; j >= 1; j--) {
+			for (int j = length; j > 0; j--) {
 				int newCapacity =  M[j] - A[i].weight;
 				if (newCapacity >= 0
 					&& newCapacity > M[j + 1])
@@ -55,8 +55,8 @@ class Main {
 			}
 			
 			//--Check if block should be added to base
-			if (A[i].capacity > M[i])
-				M[i] = A[i].capacity;
+			if (A[i].capacity > M[1])
+				M[1] = A[i].capacity;
 		}
 		
 		return length;
