@@ -47,11 +47,12 @@ class Main {
 			for (int j = length; j > 0; j--) {
 				int newCapacity =  M[j] - A[i].weight;
 				if (newCapacity >= 0
-					&& newCapacity > M[j + 1])
+					&& newCapacity > M[j + 1]) {
 					M[j + 1] = newCapacity < A[i].capacity ?
 									newCapacity : A[i].capacity;
 					if (j + 1 > length)
 						length = j + 1;
+				}
 			}
 			
 			//--Check if block should be added to base
