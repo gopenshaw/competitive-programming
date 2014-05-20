@@ -43,7 +43,7 @@ class Main {
 		M[1] = A[0].capacity;
 		int length = 1;
 		
-		for (int i = 0; i < numBoxes; i++) {
+		for (int i = 1; i < numBoxes; i++) {
 			for (int j = length; j >= 1; j--) {
 				int blockWeight = A[i].weight;
 				int stackCapacity = M[j];
