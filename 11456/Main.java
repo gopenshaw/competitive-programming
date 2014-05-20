@@ -56,16 +56,16 @@ class Main {
 	}
 	
 	public static void addFirstTwoCars() {
-		int first = 1;
-		int second = 2;
+		int first = weight[1];
+		int second = weight[2];
 		
-		if (weight[first] < weight[second]) {
-			train[2].min = weight[first];
-			train[2].max = weight[second];
+		if (first < second) {
+			train[2].min = first;
+			train[2].max = second;
 		}
 		else {
-			train[2].min = weight[second];
-			train[2].max = weight[first];
+			train[2].min = second;
+			train[2].max = first;
 		}
 	}
 }
