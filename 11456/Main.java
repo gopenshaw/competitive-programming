@@ -5,6 +5,7 @@ import java.util.*;
 class Train {
 	int min;
 	int max;
+	int mid;
 }
 
 class Main {
@@ -58,13 +59,11 @@ class Main {
 				}
 			}
 			
-			//--Check if the two-car connection can be optimized
-			if (weight[i] < train[2].max) {
-				train[2].max = weight[i];
-			}
-			else if (weight[i] > train[2].min) {
-				train[2].min = weight[i];
-			}
+			//--Check if our weight fits inside the optimized
+			//--two car connection
+			if (weight[i] < train[2].max
+				&& weight[i] > train[2].min)
+				train[2].mid = weight;
 		}
 		
 		return length;
