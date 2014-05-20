@@ -45,11 +45,11 @@ class Main {
 		
 		for (int i = 1; i < numBoxes; i++) {
 			for (int j = length; j >= 1; j--) {
-				int blockWeight = A[i].weight;
-				int stackCapacity = M[j];
-				if (blockWeight < stackCapacity
-					&& stackCapacity - blockWeight > M[j + 1])
-					M[j + 1] = stackCapacity - blockWeight;
+				int newCapacity =  M[j] - A[i].weight;
+				if (newCapacity >= 0
+					&& newCapacity > M[j + 1])
+					M[j + 1] = newCapacity < A[i].capacity ?
+									newCapacity : A[i].capacity;
 					if (j + 1 > length)
 						length = j + 1;
 			}
