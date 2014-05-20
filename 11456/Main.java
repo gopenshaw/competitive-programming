@@ -29,6 +29,37 @@ class Main {
 	}
 	
 	public static int solvePuzzle() {
+		addFirstTwoCars();
+		int length = 2;
+		
+		for (int i = 0; i < numCars; i++) {
+			for (int j = length; j >= 2; j--) {
+				if (weight[i] < train[j].min) {
+				
+				}
+				else if (weight[i] > train[j].max) {
+				
+				}
+			}
+		}
+		
 		return 0;
+	}
+	
+	public static void addFirstTwoCars() {
+		int first = 1;
+		int second = 2;
+		while (weight[first] == weight[second]) {
+			second++;
+		}
+		
+		if (weight[first] < weight[second]) {
+			train[2].min = weight[first];
+			train[2].max = weight[second];
+		}
+		else {
+			train[2].min = weight[second];
+			train[2].max = weight[first];
+		}
 	}
 }
