@@ -37,7 +37,7 @@ class Main {
 		addFirstTwoCars();
 		int length = 2;
 		
-		for (int i = 0; i < numCars; i++) {
+		for (int i = 2; i < numCars; i++) {
 			for (int j = length; j >= 2; j--) {
 				if (weight[i] < train[j].min
 					&& weight[i] > train[j + 1].min) {
@@ -56,6 +56,14 @@ class Main {
 					if (j + 1 > length)
 						length = j + 1;
 				}
+			}
+			
+			//--Check if the two-car connection can be optimized
+			if (weight[i] < train[2].max) {
+				train[2].max = weight[i];
+			}
+			else if (weight[i] > train[2].min) {
+				train[2].min = weight[i];
 			}
 		}
 		
