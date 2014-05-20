@@ -25,6 +25,11 @@ class Main {
 				weight[j] = conIn.nextInt();
 				
 			System.out.println(solvePuzzle());
+			
+			for (int j = 0; j <= numCars; j++) {
+				train[j].min = 0;
+				train[j].max = 0;
+			}
 		}
 	}
 	
