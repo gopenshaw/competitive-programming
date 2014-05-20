@@ -32,13 +32,33 @@ class Main {
 				A[i].capacity = conIn.nextInt();
 			}
 			
-			LIS();
+			System.out.println(LIS());
 			
 			numBoxes = conIn.nextInt();
 		}
 	}
 	
-	public static void LIS() {
-	
+	public static int LIS() {
+		//--Add the first box
+		M[1] = A[0].capacity;
+		int length = 1;
+		
+		for (int i = 0; i < numBoxes; i++) {
+			for (int j = length; j >= 1; j--) {
+				int blockWeight = A[i].weight;
+				int stackCapacity = M[j];
+				if (blockWeight < stackCapacity
+					&& stackCapacity - blockWeight > M[j + 1])
+					M[j + 1] = stackCapacity - blockWeight;
+					if (j + 1 > length)
+						length = j + 1;
+			}
+			
+			//--Check if block should be added to base
+			if (A[i].capacity > M[i])
+				M[i] = A[i].capacity;
+		}
+		
+		return length;
 	}
 }
