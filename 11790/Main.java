@@ -40,10 +40,10 @@ class Main {
 	}
 	
 	public static Result getResult() {
-		//--sets up inc and dec arrays and 
-		//--sets lis and lds to longest sequence of length one
 		int lis = 0;
 		int lds = 0;
+		//--copy length values to our working arrays
+		//--and set lis and lds to length of longest building
 		for (int i = 0; i < numBuildings; i++) {
 			inc[i] = dec[i] = L[i];
 			if (L[i] > lis)
