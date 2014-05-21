@@ -42,18 +42,20 @@ class Main {
 			for (int j = length; j >= 2; j--) {
 				if (weight[i] < train[j].min
 					&& weight[i] > train[j + 1].min) {
-					System.out.println("Adding weight " + weight[i] + " to min.");
 					train[j + 1].max = train[j].max;
 					train[j + 1].min = weight[i];
+					System.out.println("Position " + (j + 1) + " is " 
+											+ train[j + 1].min + " " + train[j + 1].max);
 					if (j + 1 > length)
 						length = j + 1;
 				}
 				else if (weight[i] > train[j].max
 						&& (weight[i] < train[j + 1].max
 							|| train[j + 1].max == 0)) {
-					System.out.println("Adding weight " + weight[i] + " to max.");
 					train[j + 1].max = weight[i];
 					train[j + 1].min = train[j].min;
+					System.out.println("Position " + (j + 1) + " is " 
+											+ train[j + 1].min + " " + train[j + 1].max);
 					if (j + 1 > length)
 						length = j + 1;
 				}
@@ -65,10 +67,10 @@ class Main {
 				&& weight[i] < train[2].mid
 				&& weight[i] > train[2].min
 				&& weight[i] > train[3].min) {
-				System.out.println("Adding weight " + weight[i] + " to min"
-									+ " in positon 3 mid");
 				train[3].max = train[2].max;
 				train[3].min = weight[i];
+				System.out.println("Position 3 is " + train[3].min 
+										+ " " + train[3].max);
 				if (length < 3)
 					length = 3;
 			}
@@ -77,10 +79,10 @@ class Main {
 					&& weight[i] < train[2].max
 					&& (weight[i] < train[3].max
 						|| train[3].max == 0)) {
-				System.out.println("Adding weight " + weight[i] + " to max"
-									+ " in positon 3 mid");
 				train[3].max = weight[i];
 				train[3].min = train[2].min;
+				System.out.println("Position 3 is " + train[3].min 
+										+ " " + train[3].max);
 				if (length < 3)
 					length = 3;
 			}
@@ -88,8 +90,11 @@ class Main {
 			//--Check if our weight fits inside the optimized
 			//--two car connection
 			if (weight[i] < train[2].max
-				&& weight[i] > train[2].min)
+				&& weight[i] > train[2].min) {
 				train[2].mid = weight[i];
+				System.out.println("Position 2 is " + train[2].min + " "
+									+ train[2].mid + " " + train[2].max);
+			}
 		}
 		
 		return length;
