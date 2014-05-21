@@ -6,7 +6,8 @@ import java.util.*;
 class Main {
 
 	public static int[] weight = new int[2000];
-	public static int[] length = new int[2000];
+	public static int[] inc = new int[2000];
+	public static int[] dec = new int[2000];
 	public static int numCars;
 
 	public static void main(String[] args) {
@@ -26,65 +27,51 @@ class Main {
 		
 		for (int i = 0; i < numCars; i++) {
 			//--reset length array
-			for (int j = i; j < numCars; j++)
-				length[j] = 1;
+			for (int j = i; j < numCars; j++) {
+				inc[j] = 1;
+				dec[j] = 1;
+			}
 				
-			int lis = LIS(i);
-			System.out.println("DEBUG: lis = " + lis);
+			int trainLength = getLongestTrain(i);
 			
-			//--reset length array
-			for (int j = i; j < numCars; j++)
-				length[j] = 1;
-			
-			int lds = LDS(i);
-			System.out.println("DEBUG: lds = " + lds + "\n");
-			if (lis + lds - 1 > result)
-				result = lis + lds - 1;
+			if (trainLength > result)
+				result = trainLength;
 		}
 		
 		
 		return result;
 	}
 	
-	public static int LIS(int n) {
+	public static int getLongestTrain(int n) {
 		//--compute LIS starting from index n
-		int maxLength = 1;
+		int lisMax = 1;
+		int ldsMax = 1;
 		for (int i = n + 1; i < numCars; i++) {
-			if (weight[i] < weight[n])
-				continue;
 			for (int j = n; j < i; j++) {
-				if (weight[j] < weight[i]) {
-					int currentLength = length[i];
-					int newLength = length[j] + 1;
-					if (newLength > currentLength) {
-						length[i] = newLength;
-						if (newLength > maxLength)
-							maxLength = newLength;
+				if (weight[i] > weight[n]) {
+					if (weight[j] < weight[i]) {
+						int currentLength = inc[i];
+						int newLength = inc[j] + 1;
+						if (newLength > currentLength) {
+							inc[i] = newLength;
+							if (newLength > lisMax)
+								lisMax = newLength;
+						}
+					}
+				}
+				else if (weight[i] < weight[n]) {
+					if (weight[j] > weight[i]) {
+						int currentLength = dec[i];
+						int newLength = dec[j] + 1;
+						if (newLength > currentLength) {
+							dec[i] = newLength;
+							if (newLength > ldsMax)
+								ldsMax = newLength;
+						}
 					}
 				}
 			}
 		}
-		return maxLength;
-	}
-	
-	public static int LDS(int n) {
-		//--compute LDS starting from index n
-		int maxLength = 1;
-		for (int i = n + 1; i < numCars; i++) {
-			if (weight[i] > weight[n])
-				continue;
-			for (int j = n; j < i; j++) {
-				if (weight[j] > weight[i]) {
-					int currentLength = length[i];
-					int newLength = length[j] + 1;
-					if (newLength > currentLength) {
-						length[i] = newLength;
-						if (newLength > maxLength)
-							maxLength = newLength;
-					}
-				}
-			}
-		}
-		return maxLength;
+		return lisMax + ldsMax - 1;
 	}
 }
