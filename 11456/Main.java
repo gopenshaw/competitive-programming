@@ -31,6 +31,7 @@ class Main {
 				train[j].min = 0;
 				train[j].max = 0;
 			}
+			train[2].mid = 0;
 		}
 	}
 	
