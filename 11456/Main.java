@@ -65,7 +65,7 @@ class Main {
 				&& weight[i] > train[2].min
 				&& weight[i] > train[3].min) {
 				System.out.println("Adding weight " + weight[i] + " to min"
-									+ " in positon 2 mid");
+									+ " in positon 3 mid");
 				train[3].max = train[2].max;
 				train[3].min = weight[i];
 				if (length < 3)
@@ -76,7 +76,7 @@ class Main {
 					&& (weight[i] < train[3].max
 						|| train[3].max == 0)) {
 				System.out.println("Adding weight " + weight[i] + " to max"
-									+ " in positon 2 mid");
+									+ " in positon 3 mid");
 				train[3].max = weight[i];
 				train[3].min = train[2].min;
 				if (length < 3)
