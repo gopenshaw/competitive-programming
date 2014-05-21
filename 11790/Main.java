@@ -26,7 +26,7 @@ class Main {
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
-		for (int n = 0; n < numCases; n++) {
+		for (int n = 1; n <= numCases; n++) {
 			//--Get input
 			numBuildings = conIn.nextInt();
 			for (int i = 0; i < numBuildings; i++)
@@ -35,7 +35,7 @@ class Main {
 				L[i] = conIn.nextInt();
 			
 			//--Solve and print result
-			System.out.println("Case " + (n + 1)  + ". " + getResult());
+			System.out.println("Case " + n + ". " + getResult());
 		}
 	}
 	
