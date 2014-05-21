@@ -50,9 +50,8 @@ class Main {
 			for (int j = n; j < i; j++) {
 				if (weight[i] > weight[n]) {
 					if (weight[j] < weight[i]) {
-						int currentLength = inc[i];
 						int newLength = inc[j] + 1;
-						if (newLength > currentLength) {
+						if (newLength > inc[i]) {
 							inc[i] = newLength;
 							lisMax = Math.max(newLength, lisMax);
 						}
@@ -60,9 +59,8 @@ class Main {
 				}
 				else if (weight[i] < weight[n]) {
 					if (weight[j] > weight[i]) {
-						int currentLength = dec[i];
 						int newLength = dec[j] + 1;
-						if (newLength > currentLength) {
+						if (newLength > dec[i]) {
 							dec[i] = newLength;
 							ldsMax = Math.max(newLength, ldsMax);
 						}
