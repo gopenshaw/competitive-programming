@@ -34,25 +34,22 @@ class Main {
 			for (int i = 0; i < numBuildings; i++)
 				L[i] = conIn.nextInt();
 			
-			//--Solve problem
-			solveProblem();
-			
-			//--Print results
-			if (lis > lds) {
-				System.out.println("Case " + (n + 1)
-					+ ". Increasing (" + lis + "). Decreasing ("
-					+ lds + ").");
-			}
-			else {
-				System.out.println("Case " + (n + 1)
-					+ ". Decreasing (" + lds + "). Increasing ("
-					+ lis + ").");
-			}
+			//--Solve and print result
+			System.out.println("Case " + (n + 1)  + ". " + getResult());
 		}
 	}
 	
-	public static void solveProblem() {
-		init();
+	public static Result getResult() {
+		//--sets up inc and dec arrays and 
+		//--sets lis and lds to longest sequence of length one
+		int lis = 0;
+		int lds = 0;
+		for (int i = 0; i < numBuildings; i++) {
+			inc[i] = dec[i] = L[i];
+			if (L[i] > lis)
+				lis = L[i];
+		}
+		lds = lis;
 		
 		//--for every building, check every building to its left
 		for (int i = 1; i < numBuildings; i++) {
@@ -73,17 +70,27 @@ class Main {
 				}
 			}
 		}
+		
+		return new Result(lis, lds);
+	}
+}
+
+class Result {
+	int lis;
+	int lds;
+	
+	public Result(int lis, int lds) {
+		this.lis = lis;
+		this.lds = lds;
 	}
 	
-	public static void init() {
-		//--sets up inc and dec arrays and 
-		//--sets lis and lds to longest sequence of length one
-		int length = 0;
-		for (int i = 0; i < numBuildings; i++) {
-			inc[i] = dec[i] = L[i];
-			if (L[i] > length)
-				length = L[i];
-		}
-		lis = lds = length;
+	@Override
+	public String toString() {
+		if (lis >= lds)
+			return "Increasing (" + lis + "). Decreasing ("
+						+ lds + ").";
+		else				
+			return "Decreasing (" + lds + "). Increasing ("
+						+ lis + ").";
 	}
 }
