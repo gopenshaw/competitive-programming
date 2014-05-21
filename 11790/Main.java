@@ -70,6 +70,26 @@ class Main {
 	}
 	
 	public static int LDS() {
-		return 0;
+		//--initialize every building
+		int length = 0;
+		for (int i = 0; i < numBuildings; i++) {
+			M[i] = L[i];
+			if (L[i] > length)
+				length = L[i];
+		}
+		
+		//--for every building, check every building to its left
+		for (int i = 1; i < numBuildings; i++) {
+			for (int j = 0; j < i; j++) {
+				if (H[j] > H[i]) {
+					int newLength = L[i] + M[j];
+					if (newLength > M[i])
+						M[i] = newLength;
+					if (M[i] > length)
+						length = M[i];
+				}
+			}
+		}
+		return length;
 	}
 }
