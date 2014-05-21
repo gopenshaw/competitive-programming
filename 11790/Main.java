@@ -35,7 +35,7 @@ class Main {
 				L[i] = conIn.nextInt();
 			
 			//--Solve and print result
-			System.out.println("Case " + n + ". " + getResult());
+			System.out.printf("Case %d. %s\n", n, getResult());
 		}
 	}
 	
