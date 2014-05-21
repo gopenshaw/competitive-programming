@@ -6,13 +6,10 @@ import java.util.*;
 class Main {
 
 	public static int[] weight = new int[2000];
-	public static Train[] train = new Train[2001];
+	public static int[] length = new int[2000];
 	public static int numCars;
 
 	public static void main(String[] args) {
-		for (int i = 0; i < 2001; i++) {
-			train[i] = new Train();
-		}
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
 		for (int i = 0; i < numCases; i++) {
@@ -25,6 +22,47 @@ class Main {
 	}
 	
 	public static int solvePuzzle() {
-		return -1;
+		int result = 0;
+		
+		for (int i = 0; i < numCars; i++) {
+			//--reset length array
+			for (int j = i; j < numCars; j++)
+				length[j] = 1;
+				
+			int lis = LIS(i);
+			System.out.println("DEBUG: " + lis);
+			int lds = LDS(i);
+			if (lis + lds - 1 > result)
+				result = lis + lds - 1;
+		}
+		
+		
+		return result;
+	}
+	
+	public static int LIS(int n) {
+		//--compute LIS starting from index n
+		int maxLength = 1;
+		for (int i = n + 1; i < numCars; i++) {
+			if (weight[i] < weight[n])
+				continue;
+			for (int j = n; j < i; j++) {
+				if (j < i) {
+					int currentLength = length[i];
+					int newLength = length[j] + 1;
+					if (newLength > currentLength) {
+						length[i] = newLength;
+						if (newLength > maxLength)
+							maxLength = newLength;
+					}
+				}
+			}
+		}
+		return maxLength;
+	}
+	
+	public static int LDS(int n) {
+		//--compute LDS starting from index n
+		return 1;
 	}
 }
