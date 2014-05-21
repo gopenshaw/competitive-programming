@@ -61,7 +61,8 @@ class Main {
 			
 			//--special logic for adding the third car
 			//--to the two car set
-			if (weight[i] < train[2].mid
+			if (train[2].mid != 0
+				&& weight[i] < train[2].mid
 				&& weight[i] > train[2].min
 				&& weight[i] > train[3].min) {
 				System.out.println("Adding weight " + weight[i] + " to min"
@@ -71,7 +72,8 @@ class Main {
 				if (length < 3)
 					length = 3;
 			}
-			else if (weight[i] > train[2].mid
+			else if (train[2].mid != 0
+					&& weight[i] > train[2].mid
 					&& weight[i] < train[2].max
 					&& (weight[i] < train[3].max
 						|| train[3].max == 0)) {
