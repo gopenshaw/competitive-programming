@@ -65,7 +65,7 @@ class Main {
 				&& weight[i] > train[2].min
 				&& weight[i] > train[3].min) {
 				System.out.println("Adding weight " + weight[i] + " to min.");
-				train[3].max = train[j].max;
+				train[3].max = train[2].max;
 				train[3].min = weight[i];
 				if (length < 3)
 					length = 3;
@@ -73,10 +73,10 @@ class Main {
 			else if (weight[i] > train[2].mid
 					&& weight[i] < train[2].max
 					&& (weight[i] < train[3].max
-						|| train[j + 1].max == 0)) {
+						|| train[3].max == 0)) {
 				System.out.println("Adding weight " + weight[i] + " to max.");
 				train[3].max = weight[i];
-				train[3].min = train[j].min;
+				train[3].min = train[2].min;
 				if (length < 3)
 					length = 3;
 			}
@@ -85,7 +85,7 @@ class Main {
 			//--two car connection
 			if (weight[i] < train[2].max
 				&& weight[i] > train[2].min)
-				train[2].mid = weight;
+				train[2].mid = weight[i];
 		}
 		
 		return length;
