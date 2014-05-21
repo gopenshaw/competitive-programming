@@ -30,8 +30,14 @@ class Main {
 				length[j] = 1;
 				
 			int lis = LIS(i);
-			System.out.println("DEBUG: " + lis);
+			System.out.println("DEBUG: lis = " + lis);
+			
+			//--reset length array
+			for (int j = i; j < numCars; j++)
+				length[j] = 1;
+			
 			int lds = LDS(i);
+			System.out.println("DEBUG: lds = " + lds + "\n");
 			if (lis + lds - 1 > result)
 				result = lis + lds - 1;
 		}
@@ -47,7 +53,7 @@ class Main {
 			if (weight[i] < weight[n])
 				continue;
 			for (int j = n; j < i; j++) {
-				if (j < i) {
+				if (weight[j] < weight[i]) {
 					int currentLength = length[i];
 					int newLength = length[j] + 1;
 					if (newLength > currentLength) {
@@ -63,6 +69,22 @@ class Main {
 	
 	public static int LDS(int n) {
 		//--compute LDS starting from index n
-		return 1;
+		int maxLength = 1;
+		for (int i = n + 1; i < numCars; i++) {
+			if (weight[i] > weight[n])
+				continue;
+			for (int j = n; j < i; j++) {
+				if (weight[j] > weight[i]) {
+					int currentLength = length[i];
+					int newLength = length[j] + 1;
+					if (newLength > currentLength) {
+						length[i] = newLength;
+						if (newLength > maxLength)
+							maxLength = newLength;
+					}
+				}
+			}
+		}
+		return maxLength;
 	}
 }
