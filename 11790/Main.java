@@ -45,14 +45,7 @@ class Main {
 	}
 	
 	public static int LIS() {
-		//--initialize every building
-		//--this ensures that we start with the longest sequence of one
-		int length = 0;
-		for (int i = 0; i < numBuildings; i++) {
-			M[i] = L[i];
-			if (L[i] > length)
-				length = L[i];
-		}
+		int length = init();
 		
 		//--for every building, check every building to its left
 		for (int i = 1; i < numBuildings; i++) {
@@ -70,13 +63,7 @@ class Main {
 	}
 	
 	public static int LDS() {
-		//--initialize every building
-		int length = 0;
-		for (int i = 0; i < numBuildings; i++) {
-			M[i] = L[i];
-			if (L[i] > length)
-				length = L[i];
-		}
+		int length = init();
 		
 		//--for every building, check every building to its left
 		for (int i = 1; i < numBuildings; i++) {
@@ -89,6 +76,17 @@ class Main {
 						length = M[i];
 				}
 			}
+		}
+		return length;
+	}
+	
+	public static int init() {
+		//--sets up M array and returns longest sequence of length one
+		int length = 0;
+		for (int i = 0; i < numBuildings; i++) {
+			M[i] = L[i];
+			if (L[i] > length)
+				length = L[i];
 		}
 		return length;
 	}
