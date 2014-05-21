@@ -54,6 +54,7 @@ class Main {
 		//--for every building, check every building to its left
 		for (int i = 1; i < numBuildings; i++) {
 			for (int j = 0; j < i; j++) {
+				//--update the LIS?
 				if (H[j] < H[i]) {
 					int newLength = L[i] + inc[j];
 					if (newLength > inc[i])
@@ -61,6 +62,7 @@ class Main {
 					if (inc[i] > lis)
 						lis = inc[i];
 				}
+				//--update the LDS?
 				else if (H[j] > H[i]) {
 					int newLength = L[i] + dec[j];
 					if (newLength > dec[i])
