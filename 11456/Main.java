@@ -54,8 +54,7 @@ class Main {
 						int newLength = inc[j] + 1;
 						if (newLength > currentLength) {
 							inc[i] = newLength;
-							if (newLength > lisMax)
-								lisMax = newLength;
+							lisMax = Math.max(newLength, lisMax);
 						}
 					}
 				}
@@ -65,8 +64,7 @@ class Main {
 						int newLength = dec[j] + 1;
 						if (newLength > currentLength) {
 							dec[i] = newLength;
-							if (newLength > ldsMax)
-								ldsMax = newLength;
+							ldsMax = Math.max(newLength, ldsMax);
 						}
 					}
 				}
