@@ -59,6 +59,28 @@ class Main {
 				}
 			}
 			
+			//--special logic for adding the third car
+			//--to the two car set
+			if (weight[i] < train[2].mid
+				&& weight[i] > train[2].min
+				&& weight[i] > train[3].min) {
+				System.out.println("Adding weight " + weight[i] + " to min.");
+				train[3].max = train[j].max;
+				train[3].min = weight[i];
+				if (length < 3)
+					length = 3;
+			}
+			else if (weight[i] > train[2].mid
+					&& weight[i] < train[2].max
+					&& (weight[i] < train[3].max
+						|| train[j + 1].max == 0)) {
+				System.out.println("Adding weight " + weight[i] + " to max.");
+				train[3].max = weight[i];
+				train[3].min = train[j].min;
+				if (length < 3)
+					length = 3;
+			}
+			
 			//--Check if our weight fits inside the optimized
 			//--two car connection
 			if (weight[i] < train[2].max
