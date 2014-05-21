@@ -48,22 +48,20 @@ class Main {
 		int ldsMax = 1;
 		for (int i = n + 1; i < numCars; i++) {
 			for (int j = n; j < i; j++) {
-				if (weight[i] > weight[n]) {
-					if (weight[j] < weight[i]) {
-						int newLength = inc[j] + 1;
-						if (newLength > inc[i]) {
-							inc[i] = newLength;
-							lisMax = Math.max(newLength, lisMax);
-						}
+				if (weight[i] > weight[n]
+					&& weight[j] < weight[i]) {
+					int newLength = inc[j] + 1;
+					if (newLength > inc[i]) {
+						inc[i] = newLength;
+						lisMax = Math.max(newLength, lisMax);
 					}
 				}
-				else if (weight[i] < weight[n]) {
-					if (weight[j] > weight[i]) {
-						int newLength = dec[j] + 1;
-						if (newLength > dec[i]) {
-							dec[i] = newLength;
-							ldsMax = Math.max(newLength, ldsMax);
-						}
+				else if (weight[i] < weight[n]
+					&& weight[j] > weight[i]) {
+					int newLength = dec[j] + 1;
+					if (newLength > dec[i]) {
+						dec[i] = newLength;
+						ldsMax = Math.max(newLength, ldsMax);
 					}
 				}
 			}
