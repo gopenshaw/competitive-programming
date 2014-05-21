@@ -2,12 +2,6 @@
 
 import java.util.*;
 
-class Train {
-	int min;
-	int max;
-	int mid;
-}
-
 class Main {
 
 	public static int[] weight = new int[2000];
@@ -26,92 +20,10 @@ class Main {
 				weight[j] = conIn.nextInt();
 				
 			System.out.println(solvePuzzle());
-			
-			for (int j = 0; j <= numCars; j++) {
-				train[j].min = 0;
-				train[j].max = 0;
-			}
-			train[2].mid = 0;
 		}
 	}
 	
 	public static int solvePuzzle() {
-		addFirstTwoCars();
-		int length = 2;
-		
-		for (int i = 2; i < numCars; i++) {
-			for (int j = length; j >= 2; j--) {
-				if (weight[i] < train[j].min
-					&& weight[i] > train[j + 1].min) {
-					train[j + 1].max = train[j].max;
-					train[j + 1].min = weight[i];
-					System.out.println("Position " + (j + 1) + " is " 
-											+ train[j + 1].min + " " + train[j + 1].max);
-					if (j + 1 > length)
-						length = j + 1;
-				}
-				else if (weight[i] > train[j].max
-						&& (weight[i] < train[j + 1].max
-							|| train[j + 1].max == 0)) {
-					train[j + 1].max = weight[i];
-					train[j + 1].min = train[j].min;
-					System.out.println("Position " + (j + 1) + " is " 
-											+ train[j + 1].min + " " + train[j + 1].max);
-					if (j + 1 > length)
-						length = j + 1;
-				}
-			}
-			
-			//--special logic for adding the third car
-			//--to the two car set
-			if (train[2].mid != 0
-				&& weight[i] < train[2].mid
-				&& weight[i] > train[2].min
-				&& weight[i] > train[3].min) {
-				train[3].max = train[2].max;
-				train[3].min = weight[i];
-				System.out.println("Position 3 is " + train[3].min 
-										+ " " + train[3].max);
-				if (length < 3)
-					length = 3;
-			}
-			else if (train[2].mid != 0
-					&& weight[i] > train[2].mid
-					&& weight[i] < train[2].max
-					&& (weight[i] < train[3].max
-						|| train[3].max == 0)) {
-				train[3].max = weight[i];
-				train[3].min = train[2].min;
-				System.out.println("Position 3 is " + train[3].min 
-										+ " " + train[3].max);
-				if (length < 3)
-					length = 3;
-			}
-			
-			//--Check if our weight fits inside the optimized
-			//--two car connection
-			if (weight[i] < train[2].max
-				&& weight[i] > train[2].min) {
-				train[2].mid = weight[i];
-				System.out.println("Position 2 is " + train[2].min + " "
-									+ train[2].mid + " " + train[2].max);
-			}
-		}
-		
-		return length;
-	}
-	
-	public static void addFirstTwoCars() {
-		int first = weight[0];
-		int second = weight[1];
-		
-		if (first < second) {
-			train[2].min = first;
-			train[2].max = second;
-		}
-		else {
-			train[2].min = second;
-			train[2].max = first;
-		}
+		return -1;
 	}
 }
