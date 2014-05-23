@@ -70,6 +70,9 @@ class Main {
 	}
 
 	public static void shadeContour(int x, int y) {
+		//--This method will checks all four neighbors 
+		//and shades them if appropriate
+		
 		if (x + 1 <= maxRow && flood[x + 1][y] && grid[x + 1][y] == ' ')
 			grid[x + 1][y] = '#';
 			
