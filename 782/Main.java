@@ -30,12 +30,12 @@ class Main {
 			while (true) {
 				temp = conIn.nextLine();
 				int length = temp.length();
+							
+				if (length > 0 && temp.charAt(0) == '_')
+					break;
 									
 				for (int i = 0; i < length; i++)
 					grid[maxRow][i] = temp.charAt(i);
-					
-				if (length > 0 && temp.charAt(0) == '_')
-					break;
 					
 				maxRow++;
 			}
