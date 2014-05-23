@@ -73,16 +73,28 @@ class Main {
 		//--This method will checks all four neighbors 
 		//and shades them if appropriate
 		
-		if (x + 1 <= maxRow && flood[x + 1][y] && grid[x + 1][y] == ' ')
+		if (x + 1 <= maxRow 
+			&& flood[x + 1][y]
+			&& (grid[x + 1][y] == ' '
+				|| grid[x + 1][y] == '\u0000'))
 			grid[x + 1][y] = '#';
 			
-		if (x - 1 >= 0 && flood[x - 1][y] && grid[x - 1][y] == ' ')
+		if (x - 1 >= 0 
+			&& flood[x - 1][y] 
+			&& (grid[x - 1][y] == ' '
+				|| grid[x - 1][y] == '\u0000'))
 			grid[x - 1][y] = '#';
 			
-		if (y + 1 <= grid[x].length && flood[x][y + 1] && grid[x][y + 1] == ' ')
+		if (y + 1 <= grid[x].length 
+			&& flood[x][y + 1] 
+			&& (grid[x][y + 1] == ' '
+				|| grid[x][y + 1] == '\u0000'))
 			grid[x][y + 1] = '#';
 			
-		if (y - 1 >= 0 && flood[x][y - 1] && grid[x][y - 1] == ' ')
+		if (y - 1 >= 0 
+			&& flood[x][y - 1] 
+			&& (grid[x][y - 1] == ' '
+				|| grid[x][y - 1] == '\u0000'))
 			grid[x][y - 1] = '#';
 	}
 
@@ -109,6 +121,7 @@ class Main {
 			for (int j = 0; j < 80; j++) {
 				hasVisited[i][j] = false;
 				flood[i][j] = false;
+				grid[i][j] = '\u0000';
 			}
 		}
 	}
