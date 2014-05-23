@@ -42,18 +42,15 @@ class Main {
 			}
 			
 			//--flood fill
-			boolean found = false;
+			outerloop:
 			for (int i = 0; i < maxRow; i++) {
 				for (int j = 0; j < grid[i].length; j++) {
 					if (grid[i][j] == '*') {
 						grid[i][j] = ' ';
 						floodFill(i, j);
-						found = true;
-						break;
+						break outerloop;
 					}
 				}
-				if (found)
-					break;
 			}
 			
 			//--shade contour
