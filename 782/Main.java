@@ -24,8 +24,6 @@ class Main {
 		for (int n = 0; n < numCases; n++) {
 			//--init
 			maxRow = 0;
-			if (n != 0)
-				clearArrays();
 			
 			//--get input
 			String temp;
@@ -70,6 +68,11 @@ class Main {
 				System.out.println(grid[i]);
 			}
 			System.out.println("__________");
+			
+			//--tear down
+			if (n != numCases - 1) {
+				clearArrays();
+			}
 		}
 	}
 
@@ -121,7 +124,7 @@ class Main {
 	}
 	
 	public static void clearArrays() {
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < maxRow; i++) {
 			for (int j = 0; j < 80; j++) {
 				hasVisited[i][j] = false;
 				flood[i][j] = false;
