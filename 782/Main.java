@@ -61,6 +61,9 @@ class Main {
 				}
 			}
 			
+			updateRow(0);
+			updateRow(maxRow - 1);
+			
 			//--print results
 			for (int i = 0; i < maxRow; i++) {
 				System.out.println(grid[i]);
@@ -123,6 +126,21 @@ class Main {
 				flood[i][j] = false;
 				grid[i][j] = '\u0000';
 			}
+		}
+	}
+	
+	public static void updateRow(int r) {
+		int endOfLine = 0;
+		for (int i = 79; i >= 0; i--) {
+			if (grid[r][i] == '#') {
+				endOfLine = i;
+				break;
+			}
+		}
+		
+		for (int i = 0; i < endOfLine; i++) {
+			if (grid[r][i] == '\u0000')
+				grid[r][i] = ' ';
 		}
 	}
 }
