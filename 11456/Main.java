@@ -1,4 +1,4 @@
-//--UVA #11456
+//--UVA #11456 - Trainsorting
 //--Strategy is to find Max(LIS(i) + LDS(i) - 1)
 
 import java.util.*;
