@@ -9,14 +9,13 @@ class Main {
 	public static boolean[][] flood;
 	public static boolean[][] hasVisited;
 	public static int maxRow;
-	public static int xStar;
-	public static int yStar;
 
 	public static void main(String[] args) {
-		grid = new char[30][80];
-		hasVisited = new boolean[30][80];
-		flood = new boolean[30][80];
-		isAdjacent = new boolean[30][80];
+	
+		grid = new char[32][82];
+		hasVisited = new boolean[32][82];
+		flood = new boolean[32][82];
+		isAdjacent = new boolean[32][82];
 		
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
@@ -43,7 +42,7 @@ class Main {
 			//--flood fill
 			outerloop:
 			for (int i = 0; i < maxRow; i++) {
-				for (int j = 0; j < 80; j++) {
+				for (int j = 0; j < 82; j++) {
 					if (grid[i][j] == '*') {
 						grid[i][j] = ' ';
 						floodFill(i, j);
@@ -54,7 +53,7 @@ class Main {
 			
 			//--shade contour
 			for (int i = 0; i < maxRow; i++) {
-				for (int j = 0; j < 80; j++) {
+				for (int j = 0; j < 82; j++) {
 					if (grid[i][j] == 'X')
 						shadeContour(i, j);	
 				}
@@ -125,7 +124,7 @@ class Main {
 	
 	public static void clearArrays() {
 		for (int i = 0; i < maxRow; i++) {
-			for (int j = 0; j < 80; j++) {
+			for (int j = 0; j < 82; j++) {
 				hasVisited[i][j] = false;
 				flood[i][j] = false;
 				grid[i][j] = '\u0000';
@@ -135,7 +134,7 @@ class Main {
 	
 	public static void updateRow(int r) {
 		int endOfLine = 0;
-		for (int i = 79; i >= 0; i--) {
+		for (int i = 81; i >= 0; i--) {
 			if (grid[r][i] == '#') {
 				endOfLine = i;
 				break;
