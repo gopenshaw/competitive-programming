@@ -20,6 +20,7 @@ class Main {
 		
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
+		conIn.nextLine();
 		for (int n = 0; n < numCases; n++) {
 			//--init
 			maxRow = 0;
