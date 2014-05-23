@@ -44,7 +44,7 @@ class Main {
 			//--flood fill
 			outerloop:
 			for (int i = 0; i < maxRow; i++) {
-				for (int j = 0; j < grid[i].length; j++) {
+				for (int j = 0; j < 80; j++) {
 					if (grid[i][j] == '*') {
 						grid[i][j] = ' ';
 						floodFill(i, j);
@@ -55,7 +55,7 @@ class Main {
 			
 			//--shade contour
 			for (int i = 0; i < maxRow; i++) {
-				for (int j = 0; j < grid[i].length; j++) {
+				for (int j = 0; j < 80; j++) {
 					if (grid[i][j] == 'X')
 						shadeContour(i, j);	
 				}
@@ -70,13 +70,6 @@ class Main {
 	}
 
 	public static void shadeContour(int x, int y) {
-		if (x < 0
-			|| y < 0
-			|| x >= maxRow
-			|| y >= grid[x].length
-			|| hasVisited[x][y])
-			return;
-		
 		if (x + 1 <= maxRow && flood[x + 1][y] && grid[x + 1][y] == ' ')
 			grid[x + 1][y] = '#';
 			
