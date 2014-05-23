@@ -90,7 +90,7 @@ class Main {
 		if (x < 0
 			|| y < 0
 			|| x >= maxRow
-			|| y >= grid[x].length
+			|| y >= 80
 			|| hasVisited[x][y]
 			|| grid[x][y] == 'X')
 			return;
