@@ -30,13 +30,14 @@ class Main {
 			String temp;
 			while (true) {
 				temp = conIn.nextLine();
-				if (temp.length() == 0)
-					continue;
+				int length = temp.length();
+									
+				for (int i = 0; i < length; i++)
+					grid[maxRow][i] = temp.charAt(i);
 					
-				if (temp.charAt(0) == '_')
+				if (length > 0 && temp.charAt(0) == '_')
 					break;
-				
-				grid[maxRow] = temp.toCharArray();
+					
 				maxRow++;
 			}
 			
