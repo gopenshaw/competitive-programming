@@ -12,54 +12,6 @@ class Main {
 	public static int xStar;
 	public static int yStar;
 
-	public static void shadeContour(int x, int y) {
-		if (x < 0
-			|| y < 0
-			|| x >= maxRow
-			|| y >= grid[x].length
-			|| hasVisited[x][y])
-			return;
-		
-		if (x + 1 <= maxRow && flood[x + 1][y] && grid[x + 1][y] == ' ')
-			grid[x + 1][y] = '#';
-			
-		if (x - 1 >= 0 && flood[x - 1][y] && grid[x - 1][y] == ' ')
-			grid[x - 1][y] = '#';
-			
-		if (y + 1 <= grid[x].length && flood[x][y + 1] && grid[x][y + 1] == ' ')
-			grid[x][y + 1] = '#';
-			
-		if (y - 1 >= 0 && flood[x][y - 1] && grid[x][y - 1] == ' ')
-			grid[x][y - 1] = '#';
-	}
-
-	public static void floodFill(int x, int y) {
-		if (x < 0
-			|| y < 0
-			|| x >= maxRow
-			|| y >= grid[x].length
-			|| hasVisited[x][y]
-			|| grid[x][y] == 'X')
-			return;
-		
-		hasVisited[x][y] = true;
-		flood[x][y] = true;
-		
-		floodFill(x + 1, y);
-		floodFill(x, y + 1);
-		floodFill(x - 1, y);
-		floodFill(x, y - 1);
-	}
-	
-	public static void clearArrays() {
-		for (int i = 0; i < 30; i++) {
-			for (int j = 0; j < 80; j++) {
-				hasVisited[i][j] = false;
-				flood[i][j] = false;
-			}
-		}
-	}
-
 	public static void main(String[] args) {
 		grid = new char[30][80];
 		hasVisited = new boolean[30][80];
@@ -119,4 +71,51 @@ class Main {
 		}
 	}
 
+	public static void shadeContour(int x, int y) {
+		if (x < 0
+			|| y < 0
+			|| x >= maxRow
+			|| y >= grid[x].length
+			|| hasVisited[x][y])
+			return;
+		
+		if (x + 1 <= maxRow && flood[x + 1][y] && grid[x + 1][y] == ' ')
+			grid[x + 1][y] = '#';
+			
+		if (x - 1 >= 0 && flood[x - 1][y] && grid[x - 1][y] == ' ')
+			grid[x - 1][y] = '#';
+			
+		if (y + 1 <= grid[x].length && flood[x][y + 1] && grid[x][y + 1] == ' ')
+			grid[x][y + 1] = '#';
+			
+		if (y - 1 >= 0 && flood[x][y - 1] && grid[x][y - 1] == ' ')
+			grid[x][y - 1] = '#';
+	}
+
+	public static void floodFill(int x, int y) {
+		if (x < 0
+			|| y < 0
+			|| x >= maxRow
+			|| y >= grid[x].length
+			|| hasVisited[x][y]
+			|| grid[x][y] == 'X')
+			return;
+		
+		hasVisited[x][y] = true;
+		flood[x][y] = true;
+		
+		floodFill(x + 1, y);
+		floodFill(x, y + 1);
+		floodFill(x - 1, y);
+		floodFill(x, y - 1);
+	}
+	
+	public static void clearArrays() {
+		for (int i = 0; i < 30; i++) {
+			for (int j = 0; j < 80; j++) {
+				hasVisited[i][j] = false;
+				flood[i][j] = false;
+			}
+		}
+	}
 }
