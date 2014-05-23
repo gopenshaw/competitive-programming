@@ -80,7 +80,7 @@ class Main {
 		//--This method will checks all four neighbors 
 		//and shades them if appropriate
 		
-		if (x + 1 <= maxRow 
+		if (x + 1 < maxRow 
 			&& flood[x + 1][y]
 			&& (grid[x + 1][y] == ' '
 				|| grid[x + 1][y] == '\u0000'))
@@ -92,7 +92,7 @@ class Main {
 				|| grid[x - 1][y] == '\u0000'))
 			grid[x - 1][y] = '#';
 			
-		if (y + 1 <= grid[x].length 
+		if (y + 1 < 80 
 			&& flood[x][y + 1] 
 			&& (grid[x][y + 1] == ' '
 				|| grid[x][y + 1] == '\u0000'))
