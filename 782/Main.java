@@ -43,10 +43,12 @@ class Main {
 			}
 			
 			//--flood fill
+			int starRow = -1;
 			outerloop:
 			for (int i = 0; i < numRows; i++) {
 				for (int j = 0; j < LENGTH; j++) {
 					if (grid[i][j] == '*') {
+						starRow = i;
 						grid[i][j] = ' ';
 						floodFill(i, j);
 						break outerloop;
@@ -62,8 +64,14 @@ class Main {
 				}
 			}
 			
+			//--see if empty chars need to be replaced with spaces
 			for (int i = 0; i < numRows; i++)
 				updateRow(i);
+				
+			//--In the row that contained the star,
+			//replace each space with an empty char
+			if (starRow != -1)
+				updateStarRow(starRow);
 			
 			//--print results
 			for (int i = 0; i < numRows; i++) {
@@ -147,6 +155,22 @@ class Main {
 		for (int i = 0; i < endOfLine; i++) {
 			if (grid[r][i] == '\u0000')
 				grid[r][i] = ' ';
+		}
+	}
+	
+	public static void updateStarRow (int starRow) {
+		int position = 0;
+		for (int i = LENGTH - 1; i >= 0; i--) {
+			if (grid[starRow][i] == 'X'
+				|| grid[starRow][i] == '#') {
+					position = i;
+					break;
+			}
+		}
+		
+		for (int i = position; i < LENGTH - 1; i++) {
+			if (grid[starRow][i] == ' ')
+					grid[starRow][i] = '\u0000';
 		}
 	}
 }
