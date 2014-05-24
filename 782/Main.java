@@ -66,14 +66,11 @@ class Main {
 				}
 			}
 			
-			//--see if empty chars need to be replaced with spaces
-			for (int i = 0; i < numRows; i++)
+			//--format rows for printing
+			for (int i = 0; i < numRows; i++) {
 				updateRow(i);
-				
-			//--In the row that contained the star,
-			//replace each space with an empty char
-			if (starRow != -1)
-				updateStarRow(starRow);
+				trimTrailingSpaces(i);	
+			}
 			
 			//--print results
 			for (int i = 0; i < numRows; i++) {
@@ -164,19 +161,19 @@ class Main {
 		}
 	}
 	
-	public static void updateStarRow (int starRow) {
+	public static void trimTrailingSpaces (int r) {
 		int position = 0;
 		for (int i = LENGTH - 1; i >= 0; i--) {
-			if (grid[starRow][i] != ' '
-				&& grid[starRow][i] != '\u0000') {
+			if (grid[r][i] != ' '
+				&& grid[r][i] != '\u0000') {
 					position = i;
 					break;
 			}
 		}
 		
 		for (int i = position; i < LENGTH; i++) {
-			if (grid[starRow][i] == ' ')
-					grid[starRow][i] = '\u0000';
+			if (grid[r][i] == ' ')
+					grid[r][i] = '\u0000';
 		}
 	}
 }
