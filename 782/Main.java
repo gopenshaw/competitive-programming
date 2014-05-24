@@ -69,7 +69,7 @@ class Main {
 			for (int i = 0; i < numRows; i++) {
 				System.out.println(grid[i]);
 			}
-			System.out.println("__________");
+			System.out.println(temp);
 			
 			//--tear down
 			if (n != numCases - 1) {
