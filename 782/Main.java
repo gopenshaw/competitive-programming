@@ -74,10 +74,8 @@ class Main {
 			}
 			
 			//--format rows for printing
-			for (int i = 0; i < numRows; i++) {
-				updateRow(i);
-				trimTrailingSpaces(i);	
-			}
+			for (int i = 0; i < numRows; i++)
+				trimTrailingSpaces(i);
 			
 			//--print results
 			for (int i = 0; i < numRows; i++) {
@@ -149,22 +147,6 @@ class Main {
 				flood[i][j] = false;
 				grid[i][j] = ' ';
 			}
-		}
-	}
-	
-	public static void updateRow(int r) {
-		int endOfLine = 0;
-		for (int i = LENGTH - 1; i >= 0; i--) {
-			if (grid[r][i] != ' '
-				&& grid[r][i] != '\u0000') {
-				endOfLine = i;
-				break;
-			}
-		}
-		
-		for (int i = 0; i < endOfLine; i++) {
-			if (grid[r][i] == '\u0000')
-				grid[r][i] = ' ';
 		}
 	}
 	
