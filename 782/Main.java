@@ -17,7 +17,6 @@ class Main {
 		grid = new char[HEIGHT][LENGTH];
 		hasVisited = new boolean[HEIGHT][LENGTH];
 		flood = new boolean[HEIGHT][LENGTH];
-		isAdjacent = new boolean[HEIGHT][LENGTH];
 		
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
