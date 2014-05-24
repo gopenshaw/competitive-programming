@@ -5,7 +5,6 @@ import java.util.*;
 
 class Main {
 	public static char[][] grid;
-	public static boolean[][] isAdjacent;
 	public static boolean[][] flood;
 	public static boolean[][] hasVisited;
 	public static int numRows;
