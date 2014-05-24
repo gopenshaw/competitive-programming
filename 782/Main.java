@@ -57,8 +57,12 @@ class Main {
 			//--shade contour
 			for (int i = 0; i < numRows; i++) {
 				for (int j = 0; j < LENGTH; j++) {
-					if (grid[i][j] == 'X')
-						shadeContour(i, j);	
+					if (grid[i][j] != '*'
+						&& grid[i][j] != '_'
+						&& grid[i][j] != ' '
+						&& grid[i][j] != '#'
+						&& grid[i][j] != '\u0000')
+						shadeContour(i, j);
 				}
 			}
 			
@@ -118,8 +122,11 @@ class Main {
 			|| y < 0
 			|| x >= numRows
 			|| y >= LENGTH
-			|| hasVisited[x][y]
-			|| grid[x][y] == 'X')
+			|| hasVisited[x][y])
+			return;
+			
+		if (grid[x][y] != ' '
+			&& grid[x][y] != '\u0000')
 			return;
 		
 		hasVisited[x][y] = true;
@@ -144,7 +151,8 @@ class Main {
 	public static void updateRow(int r) {
 		int endOfLine = 0;
 		for (int i = LENGTH - 1; i >= 0; i--) {
-			if (grid[r][i] == '#') {
+			if (grid[r][i] != ' '
+				&& grid[r][i] != '\u0000') {
 				endOfLine = i;
 				break;
 			}
@@ -159,8 +167,8 @@ class Main {
 	public static void updateStarRow (int starRow) {
 		int position = 0;
 		for (int i = LENGTH - 1; i >= 0; i--) {
-			if (grid[starRow][i] == 'X'
-				|| grid[starRow][i] == '#') {
+			if (grid[starRow][i] != ' '
+				&& grid[starRow][i] != '\u0000') {
 					position = i;
 					break;
 			}
