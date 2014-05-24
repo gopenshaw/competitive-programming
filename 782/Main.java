@@ -91,7 +91,7 @@ class Main {
 				|| grid[x - 1][y] == '\u0000'))
 			grid[x - 1][y] = '#';
 			
-		if (y + 1 < 80 
+		if (y + 1 < 82 
 			&& flood[x][y + 1] 
 			&& (grid[x][y + 1] == ' '
 				|| grid[x][y + 1] == '\u0000'))
@@ -108,7 +108,7 @@ class Main {
 		if (x < 0
 			|| y < 0
 			|| x >= maxRow
-			|| y >= 80
+			|| y >= 82
 			|| hasVisited[x][y]
 			|| grid[x][y] == 'X')
 			return;
