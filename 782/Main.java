@@ -15,6 +15,13 @@ class Main {
 	public static void main(String[] args) {
 	
 		grid = new char[HEIGHT][LENGTH];
+		for (int i = 0; i < HEIGHT; i++) {
+			for (int j = 0; j < HEIGHT; j++) {
+				grid[i][j] = ' ';
+			}
+		}
+		
+		
 		hasVisited = new boolean[HEIGHT][LENGTH];
 		flood = new boolean[HEIGHT][LENGTH];
 		
@@ -140,7 +147,7 @@ class Main {
 			for (int j = 0; j < LENGTH; j++) {
 				hasVisited[i][j] = false;
 				flood[i][j] = false;
-				grid[i][j] = '\u0000';
+				grid[i][j] = ' ';
 			}
 		}
 	}
