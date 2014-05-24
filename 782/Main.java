@@ -8,21 +8,24 @@ class Main {
 	public static boolean[][] isAdjacent;
 	public static boolean[][] flood;
 	public static boolean[][] hasVisited;
-	public static int maxRow;
-
+	public static int numRows;
+	
+	public static final int HEIGHT = 32;
+	public static final int LENGTH = 82;
+	
 	public static void main(String[] args) {
 	
-		grid = new char[32][82];
-		hasVisited = new boolean[32][82];
-		flood = new boolean[32][82];
-		isAdjacent = new boolean[32][82];
+		grid = new char[HEIGHT][LENGTH];
+		hasVisited = new boolean[HEIGHT][LENGTH];
+		flood = new boolean[HEIGHT][LENGTH];
+		isAdjacent = new boolean[HEIGHT][LENGTH];
 		
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
 		conIn.nextLine();
 		for (int n = 0; n < numCases; n++) {
 			//--init
-			maxRow = 0;
+			numRows = 0;
 			
 			//--get input
 			String temp;
@@ -34,15 +37,15 @@ class Main {
 					break;
 									
 				for (int i = 0; i < length; i++)
-					grid[maxRow][i] = temp.charAt(i);
+					grid[numRows][i] = temp.charAt(i);
 					
-				maxRow++;
+				numRows++;
 			}
 			
 			//--flood fill
 			outerloop:
-			for (int i = 0; i < maxRow; i++) {
-				for (int j = 0; j < 82; j++) {
+			for (int i = 0; i < numRows; i++) {
+				for (int j = 0; j < LENGTH; j++) {
 					if (grid[i][j] == '*') {
 						grid[i][j] = ' ';
 						floodFill(i, j);
@@ -52,18 +55,18 @@ class Main {
 			}
 			
 			//--shade contour
-			for (int i = 0; i < maxRow; i++) {
-				for (int j = 0; j < 82; j++) {
+			for (int i = 0; i < numRows; i++) {
+				for (int j = 0; j < LENGTH; j++) {
 					if (grid[i][j] == 'X')
 						shadeContour(i, j);	
 				}
 			}
 			
 			updateRow(0);
-			updateRow(maxRow - 1);
+			updateRow(numRows - 1);
 			
 			//--print results
-			for (int i = 0; i < maxRow; i++) {
+			for (int i = 0; i < numRows; i++) {
 				System.out.println(grid[i]);
 			}
 			System.out.println("__________");
@@ -79,7 +82,7 @@ class Main {
 		//--This method will checks all four neighbors 
 		//and shades them if appropriate
 		
-		if (x + 1 < maxRow 
+		if (x + 1 < numRows 
 			&& flood[x + 1][y]
 			&& (grid[x + 1][y] == ' '
 				|| grid[x + 1][y] == '\u0000'))
@@ -91,7 +94,7 @@ class Main {
 				|| grid[x - 1][y] == '\u0000'))
 			grid[x - 1][y] = '#';
 			
-		if (y + 1 < 82 
+		if (y + 1 < LENGTH 
 			&& flood[x][y + 1] 
 			&& (grid[x][y + 1] == ' '
 				|| grid[x][y + 1] == '\u0000'))
@@ -107,8 +110,8 @@ class Main {
 	public static void floodFill(int x, int y) {
 		if (x < 0
 			|| y < 0
-			|| x >= maxRow
-			|| y >= 82
+			|| x >= numRows
+			|| y >= LENGTH
 			|| hasVisited[x][y]
 			|| grid[x][y] == 'X')
 			return;
@@ -123,8 +126,8 @@ class Main {
 	}
 	
 	public static void clearArrays() {
-		for (int i = 0; i < maxRow; i++) {
-			for (int j = 0; j < 82; j++) {
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < LENGTH; j++) {
 				hasVisited[i][j] = false;
 				flood[i][j] = false;
 				grid[i][j] = '\u0000';
@@ -134,7 +137,7 @@ class Main {
 	
 	public static void updateRow(int r) {
 		int endOfLine = 0;
-		for (int i = 81; i >= 0; i--) {
+		for (int i = LENGTH - 1; i >= 0; i--) {
 			if (grid[r][i] == '#') {
 				endOfLine = i;
 				break;
