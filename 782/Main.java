@@ -21,13 +21,13 @@ class Main {
 			}
 		}
 		
-		
 		hasVisited = new boolean[HEIGHT][LENGTH];
 		flood = new boolean[HEIGHT][LENGTH];
 		
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
 		conIn.nextLine();
+		
 		for (int n = 0; n < numCases; n++) {
 			//--init
 			numRows = 0;
@@ -81,6 +81,7 @@ class Main {
 			for (int i = 0; i < numRows; i++) {
 				System.out.println(grid[i]);
 			}
+			
 			System.out.println(temp);
 			
 			//--tear down
