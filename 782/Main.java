@@ -62,8 +62,8 @@ class Main {
 				}
 			}
 			
-			updateRow(0);
-			updateRow(numRows - 1);
+			for (int i = 0; i < numRows; i++)
+				updateRow(i);
 			
 			//--print results
 			for (int i = 0; i < numRows; i++) {
