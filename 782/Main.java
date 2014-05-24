@@ -168,7 +168,7 @@ class Main {
 			}
 		}
 		
-		for (int i = position; i < LENGTH - 1; i++) {
+		for (int i = position; i < LENGTH; i++) {
 			if (grid[starRow][i] == ' ')
 					grid[starRow][i] = '\u0000';
 		}
