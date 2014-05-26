@@ -24,9 +24,10 @@ class Main {
 			}
 			
 			for (int i = 0; i < numLegs; i++) {
-				String a = conIn.next();
-				String b = conIn.next();
-				graph[warehouseMap.get(a)][warehouseMap.get(b)] = true;
+				int source = warehouseMap.get(conIn.next());
+				int dest = warehouseMap.get(conIn.next());
+				graph[source][dest] = true;
+				graph[dest][source] = true;
 			}
 			
 			for (int i = 0; i < numRequests; i++) {
