@@ -45,6 +45,11 @@ class Main {
 				int cost = conIn.nextInt();
 				String a = conIn.next();
 				String b = conIn.next();
+				
+				for (int j = 0; j < numWarehouses; j++) {
+					wasVisited[j] = false;
+				}
+				
 				int distance = bfs(warehouseMap.get(a), warehouseMap.get(b));
 				System.out.println(distance);
 			}
