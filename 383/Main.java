@@ -60,8 +60,9 @@ class Main {
 					System.out.println("$" + cost * distance * 100);
 			}
 			
+			System.out.println();
+			
 			if (n != numCases) {
-				System.out.println();
 				warehouseMap.clear();
 				for (int i = 0; i < numWarehouses; i++) {
 					for (int j = 0; j < numWarehouses; j++) {
@@ -70,6 +71,8 @@ class Main {
 				}	
 			}
 		}
+		
+		System.out.println("END OF OUTPUT");
 	}
 	
 	public static int bfs(int source, int dest) {
