@@ -24,8 +24,10 @@ class Main {
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
+		System.out.println("SHIPPING ROUTES OUTPUT\n");
 		
 		for (int n = 1; n <= numCases; n++) {
+			System.out.println("DATA SET  " + n + "\n");
 			int numWarehouses = conIn.nextInt();
 			int numLegs = conIn.nextInt();
 			int numRequests = conIn.nextInt();
@@ -51,8 +53,15 @@ class Main {
 				}
 				
 				int distance = bfs(warehouseMap.get(a), warehouseMap.get(b));
-				System.out.println(distance);
+				
+				if (distance == -1)
+					System.out.println("NO SHIPMENT POSSIBLE");
+				else
+					System.out.println("$" + cost * distance * 100);
 			}
+			
+			if (n != numCases)
+				System.out.println();
 		}
 	}
 	
