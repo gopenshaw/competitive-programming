@@ -8,7 +8,7 @@ import java.util.*;
 class Main {
 
 	public static HashMap<String, Integer> warehouseMap = new HashMap<String, Integer>();
-	public static boolean[][] graph = new boolean[30][30];
+	public static boolean[][] graph = new boolean[31][31];
 
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
