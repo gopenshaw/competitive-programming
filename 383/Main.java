@@ -60,8 +60,15 @@ class Main {
 					System.out.println("$" + cost * distance * 100);
 			}
 			
-			if (n != numCases)
+			if (n != numCases) {
 				System.out.println();
+				warehouseMap.clear();
+				for (int i = 0; i < numWarehouses; i++) {
+					for (int j = 0; j < numWarehouses; j++) {
+						graph[i][j] = false;
+					}
+				}	
+			}
 		}
 	}
 	
