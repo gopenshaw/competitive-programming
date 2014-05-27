@@ -19,7 +19,7 @@ class Main {
 		
 			int numWords = 0;
 		
-			String input = conIn.next();	
+			String input = conIn.next();
 			while (!input.equals("*")) {
 				wordArray[numWords++] = input;
 				input = conIn.next();
