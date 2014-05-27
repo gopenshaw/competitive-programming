@@ -62,8 +62,17 @@ class Main {
 				
 			}
 			
-			if (n != numCases - 1)
-				System.out.println();	
+			//--Prepare for next case
+			if (n != numCases - 1) {
+				System.out.println();
+				map.clear();
+				for (int i = 0; i < numWords; i++) {
+					wasVisited[i] = false;
+					for (int j = 0; j < numWords; j++) {
+						graph[i][j] = false;
+					}
+				}
+			}
 		}
 	}
 	
