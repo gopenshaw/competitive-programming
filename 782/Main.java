@@ -55,6 +55,7 @@ class Main {
 					if (grid[i][j] != ' '
 						&& grid[i][j] != '#'
 						&& grid[i][j] != '*'
+						&& grid[i][j] != '\u0000'
 						&& grid[i][j] != '_') {
 						WALL = grid[i][j];
 						break outerWallLoop;
@@ -79,11 +80,7 @@ class Main {
 			//--shade contour
 			for (int i = 0; i < numRows; i++) {
 				for (int j = 0; j < LENGTH; j++) {
-					if (grid[i][j] != '*'
-						&& grid[i][j] != '_'
-						&& grid[i][j] != ' '
-						&& grid[i][j] != '#'
-						&& grid[i][j] != '\u0000')
+					if (grid[i][j] == WALL)
 						shadeContour(i, j);
 				}
 			}
