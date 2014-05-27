@@ -52,10 +52,13 @@ class Main {
 			String[] words = new String[2];
 			
 			while (conIn.hasNext()) {
+				for (int i = 0; i < numWords; i++)
+					wasVisited[i] = false;
+					
 				input = conIn.nextLine();
 				if (input.length() == 0)
 					break;
-				
+					
 				words = input.split(" ");
 				System.out.println(words[0] + " " + words[1] + " "
 									+ getDistance(words[0], words[1]));
@@ -67,7 +70,6 @@ class Main {
 				System.out.println();
 				map.clear();
 				for (int i = 0; i < numWords; i++) {
-					wasVisited[i] = false;
 					for (int j = 0; j < numWords; j++) {
 						graph[i][j] = false;
 					}
