@@ -7,14 +7,21 @@ import java.util.*;
 
 class Main {
 
+	public static String[] wordArray = new String[200];
+	public static HashMap<String, Integer> map = new HashMap<String, Integer>();
+	public static int[][] graph = new int[200][200];
+
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
 		
 		for (int n = 0; n < numCases; n++) {
-			String input = conIn.next();
+		
+			int numWords = 0;
+		
+			String input = conIn.next();	
 			while (!input.equals("*")) {
-				//--Add words to dictionary
+				wordArray[numWords++] = input;
 				input = conIn.next();
 			}
 			
