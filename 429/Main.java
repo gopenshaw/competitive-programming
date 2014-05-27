@@ -56,7 +56,19 @@ class Main {
 	}
 	
 	public static boolean areOneLetterApart(int x, int y) {
-		return false;
+		String word1 = wordArray[x];
+		String word2 = wordArray[y];
+		boolean oneDifferent = false;
+		
+		for (int i = 0; i < word1.length(); i++) {
+			if (word1.charAt(i) != word2.charAt(i)) {
+				if (oneDifferent)
+					return false;
+				else
+					oneDifferent = true;
+			}
+		}
+		return true;
 	}
 	
 	public static int getDistance(String word1, String word2) {
