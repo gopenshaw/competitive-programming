@@ -11,7 +11,8 @@ class Main {
 	
 	public static final int HEIGHT = 32;
 	public static final int LENGTH = 82;
-	
+	public static char WALL;
+
 	public static void main(String[] args) {
 	
 		grid = new char[HEIGHT][LENGTH];
@@ -45,6 +46,20 @@ class Main {
 					grid[numRows][i] = temp.charAt(i);
 					
 				numRows++;
+			}
+
+			//--find wall character
+			outerWallLoop:
+			for (int i = 0; i < numRows; i++) {
+				for (int j = 0; j < LENGTH; j++) {
+					if (grid[i][j] != ' '
+						&& grid[i][j] != '#'
+						&& grid[i][j] != '*'
+						&& grid[i][j] != '_') {
+						WALL = grid[i][j];
+						break outerWallLoop;
+					}
+				}
 			}
 			
 			//--flood fill
