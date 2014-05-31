@@ -63,9 +63,16 @@ class Main {
 
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
+		boolean firstCase = true;
 		
 		while (conIn.hasNext()) {
-			q.clear();
+			if (!firstCase) {
+				q.clear();
+				System.out.println();
+			}
+			
+			firstCase = false;
+			int result = 0;
 		
 			int numSites = conIn.nextInt();
 			int originalCost = 0;
@@ -92,6 +99,20 @@ class Main {
 				int cost = conIn.nextInt();
 				q.add(new Edge(source, dest, cost));
 			}
+			
+			//--Kruskal's
+			DisjointSets set = new DisjointSets(numSites);
+			while (!q.isEmpty()) {
+				Edge current = q.poll();
+				int set1 = set.find(current.source - 1);
+				int set2 = set.find(current.dest - 1);
+				if (set1 != set2) {
+					set.union(set1, set2);
+					result += current.cost;
+				}
+			}
+			
+			System.out.println(result);
 		}
 	}
 }
