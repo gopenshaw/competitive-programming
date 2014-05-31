@@ -1,5 +1,5 @@
 // 
-// UVA #10034
+// UVA #10034 - Freckles
 // Garrett Openshaw
 // 
 
@@ -104,6 +104,21 @@ class Main {
 					q.add(new Edge(i, j, dist(i, j)));
 				}
 			}
+			
+			//--Kruskal's
+			double result = 0;
+			DisjointSets set = new DisjointSets(numFreckles);
+			while (!q.isEmpty()) {
+				Edge current = q.poll();
+				int set1 = set.find(current.source);
+				int set2 = set.find(current.dest);
+				if (set1 != set2) {
+					set.union(set1, set2);
+					result += current.cost;
+				}
+			}
+			
+			System.out.printf("%.2f\n", result);
 		}
 	}
 	
