@@ -5,7 +5,6 @@ class Main {
 	public static int[] A = new int[1000000];
 	public static double temp;
 	public static int count;
-	public static int doubleFill;
 
 	public static void main(String[] args) {
 		fillArray();
@@ -55,7 +54,7 @@ class Main {
 			A[i] = count;
 			
 			if (i < 500000) {
-				doubleFill = i;
+				int doubleFill = i;
 				while (doubleFill < 500000) {
 					doubleFill *= 2;
 					count += 1;
