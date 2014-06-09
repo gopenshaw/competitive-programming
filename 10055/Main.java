@@ -10,8 +10,8 @@ class Main {
 		Scanner conIn = new Scanner(System.in);
 		
 		while (conIn.hasNext()) {
-			int a = conIn.nextInt();
-			int b = conIn.nextInt();
+			long a = conIn.nextLong();
+			long b = conIn.nextLong();
 			
 			System.out.println(Math.abs(a - b));
 		}
