@@ -26,9 +26,6 @@ class Main {
 			
 			int offset = totalValue % 2 == 0 ? 0 : 1;
 			
-// 			System.out.println("Total is " + totalValue);
-// 			System.out.println("Our target was " + maxValue);
-// 			System.out.println("We filled " + knapSack(numCoins, maxValue));
 			System.out.println(totalValue - 2 * knapSack(numCoins, maxValue));
 		}
 	}
@@ -42,7 +39,7 @@ class Main {
 						Math.max(V[i - 1][j], 
 								currentValue + V[i - 1][j - currentValue]);
 				}
-				else 
+				else
 					V[i][j] = V[i - 1][j];
 			}
 		} 
