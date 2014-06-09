@@ -3,7 +3,7 @@ import java.util.*;
 class Main {
 
 	public static int[] value = new int[101];
-	public static int[][] V = new int[101][25000];
+	public static int[][] V = new int[101][25001];
 
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
