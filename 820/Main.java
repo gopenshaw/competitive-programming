@@ -7,8 +7,8 @@ import java.util.*;
 class Main {
 
 	public static int numNodes;
-	public static int[][] network;
-	public static int[][] residual;
+	public static int[][] network = new int[101][101];
+	public static int[][] residual = new int[101][101];
 
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
@@ -27,6 +27,9 @@ class Main {
 				int node1 = conIn.nextInt();
 				int node2 = conIn.nextInt();
 				int bandwidth = conIn.nextInt();
+
+				network[node1][node2] += bandwidth;
+				network[node2][node1] += bandwidth;
 			}
 
 			int maxBandwidth = getMaxBandwidth();
@@ -36,7 +39,16 @@ class Main {
 			System.out.println();
 
 			numNodes = conIn.nextInt();
-			networkNumber++;
+
+			if (numNodes != 0) {
+				networkNumber++;
+				for (int i = 1; i <= numNodes; i++) {
+					for (int j = 1; j <= numNodes; j++) {
+						network[i][j] = 0;
+						residual[i][j] = 0;
+					}
+				}
+			}
 		}
 	}
 
