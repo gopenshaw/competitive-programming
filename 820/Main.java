@@ -103,7 +103,17 @@ class Main {
 	}
 
 	public static int getMinFlow(int source, int dest) {
-		return 0;
+		int minFlow = Integer.MAX_VALUE;
+		int current = dest;
+		int previous;
+
+		do {
+			previous = parent[current];
+			minFlow = Math.min(minFlow, residual[previous][current]);
+			current = previous;
+		} while (previous != source);
+
+		return minFlow;
 	}
 
 	public static void updateResiduals(int source, int dest, int minFlow) {
