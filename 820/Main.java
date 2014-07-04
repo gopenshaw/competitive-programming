@@ -39,7 +39,7 @@ class Main {
 			int maxBandwidth = getMaxBandwidth(source, destination);
 
 			System.out.println("Network " + networkNumber);
-			System.out.println("The bandwidth is " + maxBandwidth);
+			System.out.println("The bandwidth is " + maxBandwidth + ".");
 			System.out.println();
 
 			numNodes = conIn.nextInt();
