@@ -9,6 +9,7 @@ class Main {
 		Scanner conIn = new Scanner(System.in);
 
 		int numNodes = conIn.nextInt();
+		int networkNumber = 1;
 
 		while (numNodes != 0) {
 
@@ -21,12 +22,20 @@ class Main {
 				int node1 = conIn.nextInt();
 				int node2 = conIn.nextInt();
 				int bandwidth = conIn.nextInt();
-
-				
 			}
 
+			int maxBandwidth = getMaxBandwidth();
+
+			System.out.println("Network " + networkNumber);
+			System.out.println("The bandwidth is " + maxBandwidth);
+			System.out.println();
 
 			numNodes = conIn.nextInt();
+			networkNumber++;
 		}
+	}
+
+	public static int getMaxBandwidth() {
+		return 0;
 	}
 }
