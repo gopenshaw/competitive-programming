@@ -32,7 +32,7 @@ class Main {
 				network[node2][node1] += bandwidth;
 			}
 
-			int maxBandwidth = getMaxBandwidth();
+			int maxBandwidth = getMaxBandwidth(source, destination);
 
 			System.out.println("Network " + networkNumber);
 			System.out.println("The bandwidth is " + maxBandwidth);
@@ -52,7 +52,7 @@ class Main {
 		}
 	}
 
-	public static int getMaxBandwidth() {
+	public static int getMaxBandwidth(int source, int destination) {
 		return 0;
 	}
 }
