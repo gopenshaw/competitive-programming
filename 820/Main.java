@@ -9,6 +9,8 @@ class Main {
 	public static int numNodes;
 	public static int[][] network = new int[101][101];
 	public static int[][] residual = new int[101][101];
+	public static int[] parent = new int[101];
+	public static boolean[] wasVisited = new boolean[101];
 
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
@@ -30,6 +32,8 @@ class Main {
 
 				network[node1][node2] += bandwidth;
 				network[node2][node1] += bandwidth;
+				residual[node1][node2] += bandwidth;
+				residual[node2][node1] += bandwidth;
 			}
 
 			int maxBandwidth = getMaxBandwidth(source, destination);
@@ -53,6 +57,56 @@ class Main {
 	}
 
 	public static int getMaxBandwidth(int source, int destination) {
+
+		int maxBandwidth = 0;
+
+		while (findPath(source, destination)) {
+			int minFlow = getMinFlow(source, destination);
+			updateResiduals(source, destination, minFlow);
+			maxBandwidth += minFlow;
+		}
+
+		return maxBandwidth;
+	}
+
+	public static boolean findPath(int source, int destination) {
+		
+		for (int i = 1; i <= numNodes; i++)
+			wasVisited[i] = false;
+
+		wasVisited[source] = true;
+		LinkedList<Integer> q = new LinkedList<Integer>();
+
+		for (int i = 1; i <= numNodes; i++) {
+			if (residual[source][i] != 0) {
+				q.add(new Integer(i));
+				wasVisited[i] = true;
+				parent[i] = source;
+			}
+		}
+
+		while(!q.isEmpty()) {
+			int currentVertex = q.pop();
+			if (currentVertex == destination)
+				return true;
+
+			for (int i = 1; i <= numNodes; i++) {
+				if (residual[currentVertex][i] != 0 && !wasVisited[i]) {
+					wasVisited[i] = true;
+					q.add(new Integer(i));
+					parent[i] = currentVertex;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public static int getMinFlow(int source, int dest) {
 		return 0;
+	}
+
+	public static void updateResiduals(int source, int dest, int minFlow) {
+		return;
 	}
 }
