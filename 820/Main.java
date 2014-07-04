@@ -117,6 +117,14 @@ class Main {
 	}
 
 	public static void updateResiduals(int source, int dest, int minFlow) {
-		return;
+		int current = dest;
+		int previous;
+
+		do {
+			previous = parent[current];
+			residual[previous][current] -= minFlow;
+			residual[current][previous] += minFlow;
+			current = previous;
+		} while (previous != source);
 	}
 }
