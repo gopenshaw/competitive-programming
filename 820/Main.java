@@ -5,10 +5,15 @@
 import java.util.*;
 
 class Main {
+
+	public static int numNodes;
+	public static int[][] network;
+	public static int[][] residual;
+
 	public static void main(String[] args) {
 		Scanner conIn = new Scanner(System.in);
 
-		int numNodes = conIn.nextInt();
+		numNodes = conIn.nextInt();
 		int networkNumber = 1;
 
 		while (numNodes != 0) {
