@@ -36,9 +36,9 @@ class Main {
 		int numCases = conIn.nextInt();
 
 		for (int n = 1; n <= numCases; n++) {
+			//--Get input
 			numPeople = conIn.nextInt();
 			numStickers = conIn.nextInt();
-
 			for (int i = 0; i < numPeople; i++) {
 				int count = conIn.nextInt();
 				for (int c = 0; c < count; c++) {
@@ -47,6 +47,7 @@ class Main {
 				}
 			}
 			
+
 			buildGraph();
 			
 			Trade previousTrade = getCycle();
@@ -61,13 +62,9 @@ class Main {
 				previousTrade = getCycle();
 			}
 
-			int count = 0;
-			for (int i = 1 ; i <= numStickers; i++) {
-				if (stickers[0][i] != 0)
-					count++;
-			}
+			
 
-			System.out.println("Case #" + n + ": " + count);
+			System.out.println("Case #" + n + ": " + getCount());
 
 			if (n != numCases) {
 				tearDown();
@@ -136,6 +133,16 @@ class Main {
 		}
 
 		return null;
+	}
+
+	public static int getCount() {
+		int count = 0;
+		for (int i = 1 ; i <= numStickers; i++) {
+			if (stickers[0][i] != 0)
+				count++;
+		}
+
+		return count;
 	}
 
 	public static void tearDown() {
