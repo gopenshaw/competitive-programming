@@ -21,11 +21,11 @@ class Trade {
 class Main {
 	
 	//--The current sticker count for each person
-	public static int[][] stickers = new int[10][25];
+	public static int[][] stickers = new int[10][26];
 
 	//--If a person has a sticker that the other person does not have
 	//--graph[source][destination][sticker]
-	public static boolean[][][] graph = new boolean[10][10][25];
+	public static boolean[][][] graph = new boolean[10][10][26];
 
 	public static int numPeople;
 	public static int numStickers;
