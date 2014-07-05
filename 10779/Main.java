@@ -36,7 +36,6 @@ class Main {
 		int numCases = conIn.nextInt();
 
 		for (int n = 1; n <= numCases; n++) {
-			//--Get input
 			numPeople = conIn.nextInt();
 			numStickers = conIn.nextInt();
 			for (int i = 0; i < numPeople; i++) {
@@ -47,28 +46,27 @@ class Main {
 				}
 			}
 			
-
 			buildGraph();
-			
-			Trade previousTrade = getCycle();
-			while (previousTrade != null) {
-				
-				//--Update stickers for each trade in the cycle
-				do {
-					updateStickers(previousTrade);
-					previousTrade = previousTrade.previous;
-				} while(previousTrade != null);
-
-				previousTrade = getCycle();
-			}
-
-			
-
+			bellmanFord();
 			System.out.println("Case #" + n + ": " + getCount());
 
 			if (n != numCases) {
 				tearDown();
 			}
+		}
+	}
+
+	public static void bellmanFord() {
+		Trade previousTrade = getCycle();
+		while (previousTrade != null) {
+			
+			//--Update stickers for each trade in the cycle
+			do {
+				updateStickers(previousTrade);
+				previousTrade = previousTrade.previous;
+			} while(previousTrade != null);
+
+			previousTrade = getCycle();
 		}
 	}
 
@@ -88,22 +86,17 @@ class Main {
 		for (int i = 0; i < numPeople; i++) {
 			for (int j = 1; j <= numStickers; j++) {
 				if(stickers[i][j] > 1) {
-					connectPeopleWhoWantThisSticker(i, j);
+					for (int k = 0; k < numPeople; k++) {
+						if (stickers[k][j] == 0) {
+							graph[i][k][j] = true;
+						}
+					}
 				}
 			}
 		}
 	}
 
-	public static void connectPeopleWhoWantThisSticker(int person, int sticker) {
-		for (int i = 0; i < numPeople; i++) {
-			if (stickers[i][sticker] == 0) {
-				graph[person][i][sticker] = true;
-			}
-		}
-	}
-
 	public static Trade getCycle() {
-
 		LinkedList<Trade> trades = new LinkedList<Trade>();
 
 		for (int i = 1; i < numPeople; i++) {
