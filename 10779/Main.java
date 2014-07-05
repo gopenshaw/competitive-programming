@@ -102,19 +102,20 @@ class Main {
 			wasVisited[i] = false;
 
 		LinkedList<Trade> trades = new LinkedList<Trade>();
-
+		wasVisited[0] = true;
 		trades.addAll(people[0].trades);
 
 		while (!trades.isEmpty()) {
 			Trade current = trades.pop();
-			if (wasVisited[current.source])
-				continue;
-
-			wasVisited[current.destination] = true;
 
 			if (current.destination == 0) {
 				return current;
 			}
+
+			if (wasVisited[current.source])
+				continue;
+
+			wasVisited[current.source] = true;
 
 			for (Trade trade : people[current.destination].trades) {
 				trade.previous = current;
