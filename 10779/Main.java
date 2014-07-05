@@ -30,6 +30,14 @@ class Main {
 			int maxStickers = maxStickers();
 
 			System.out.println("Case #" + n + ": " + maxStickers);
+
+			if (n != numCases) {
+				for (int i = 0; i < numPeople; i++) {
+					for (int j = 0; j < numStickers; j++) {
+						stickers[i][j] = 0;
+					}
+				}
+			}
 		}
 	}
 
