@@ -48,13 +48,17 @@ class Main {
 			
 			buildGraph();
 			
-			Trade finalTrade = getCycle();
-			if (finalTrade != null)
-				System.out.println("found a cycle!");
-			// while (finalTrade != null) {
-			// 	System.out.println("found a cycle!");
-			// 	finalTrade = getCycle();
-			// }
+			Trade previousTrade = getCycle();
+			while (previousTrade != null) {
+				
+				//--Update stickers for each trade in the cycle
+				do {
+					updateStickers(previousTrade);
+					previousTrade = previousTrade.previous;
+				} while(previousTrade != null);
+
+				previousTrade = getCycle();
+			}
 
 			int count = 0;
 			for (int i = 0 ; i < numStickers; i++) {
@@ -68,6 +72,10 @@ class Main {
 				tearDown();
 			}
 		}
+	}
+
+	public static void updateStickers(Trade trade) {
+		
 	}
 
 	public static void buildGraph() {
