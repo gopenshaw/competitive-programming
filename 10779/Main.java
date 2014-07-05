@@ -5,34 +5,40 @@
 
 import java.util.*;
 
-class Edge {
+class Trade {
 	public int source;
 	public int destination;
 	public int sticker;
+	public Trade previous;
 
-	public Edge(int source, int destination, int stickers) {
+	public Trade (int source, int destination, int sticker) {
 		this.source = source;
 		this.destination = destination;
 		this.sticker = sticker;
 	}
 }
 
-class Path {
-	public ArrayList<Edge> edges;
+class Person {
+	public ArrayList<Trade> trades;
 
-	public Path() {
-		this.edges = new ArrayList<Edge>();
+	public Person() {
+		this.trades = new ArrayList<Trade>();
 	}
 }
-	
 
 class Main {
 	
 	public static int[][] stickers = new int[10][25];
+	public static Person[] people = new Person[10];
+	public static boolean[] wasVisited = new boolean[10];
 	public static int numPeople;
 	public static int numStickers;
 
 	public static void main(String[] args) {
+		for (int i = 0; i < 10; i++) {
+			people[i] = new Person();
+		}
+
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
 
@@ -48,12 +54,11 @@ class Main {
 				}
 			}
 			
-			makeEdges();
+			buildGraph();
 			
-			Path cycle = getCycle();
-			while (cycle != null) {
-				makeTrades(cycle);
-				cycle = getCycle();
+			Trade finalTrade = getCycle();
+			while (finalTrade != null) {
+				//--get the cycle and adjust the values, delete the edges
 			}
 
 			int count = 0;
@@ -74,17 +79,49 @@ class Main {
 		}
 	}
 
-	public static void makeEdges() {
-		return;
+	public static void buildGraph() {
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 0; j < numStickers; j++) {
+				if(stickers[i][j] > 1) {
+					connectPeopleWhoWantThisSticker(i, j);
+				}
+			}
+		}
 	}
 
-	public static Path getCycle() {
-		//--use bfs
+	public static void connectPeopleWhoWantThisSticker(int person, int sticker) {
+		for (int i = 0; i < numPeople; i++) {
+			if (stickers[i][sticker] == 0) {
+				people[person].trades.add(new Trade(person, i, sticker));
+			}
+		}
+	}
+
+	public static Trade getCycle() {
+		for (int i = 0; i < 10; i++)
+			wasVisited[i] = false;
+
+		LinkedList<Trade> trades = new LinkedList<Trade>();
+
+		trades.addAll(people[0].trades);
+
+		while (!trades.isEmpty()) {
+			Trade current = trades.pop();
+			wasVisited[current.destination] = true;
+
+			if (current.destination == 0) {
+				return current;
+			}
+
+			for (Trade trade : people[current.destination].trades) {
+				if (wasVisited[trade.destination])
+					continue;
+
+				trade.previous = current;
+				trades.add(trade);
+			}
+		}
 
 		return null;
-	}
-
-	public static void makeTrades(Path path) {
-		return;
 	}
 }
