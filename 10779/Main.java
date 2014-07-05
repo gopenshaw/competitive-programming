@@ -70,32 +70,6 @@ class Main {
 		}
 	}
 
-	public static void updateStickers(Trade trade) {
-		graph[trade.source][trade.destination][trade.sticker] = false;
-		stickers[trade.source][trade.sticker]--;
-		stickers[trade.destination][trade.sticker]++;
-
-		if (stickers[trade.source][trade.sticker] == 1) {
-			for (int i = 0; i < numPeople; i++) {
-				graph[trade.source][i][trade.sticker] = false;
-			}
-		}
-	}
-
-	public static void buildGraph() {
-		for (int i = 0; i < numPeople; i++) {
-			for (int j = 1; j <= numStickers; j++) {
-				if(stickers[i][j] > 1) {
-					for (int k = 0; k < numPeople; k++) {
-						if (stickers[k][j] == 0) {
-							graph[i][k][j] = true;
-						}
-					}
-				}
-			}
-		}
-	}
-
 	public static Trade getCycle() {
 		LinkedList<Trade> trades = new LinkedList<Trade>();
 
@@ -126,6 +100,32 @@ class Main {
 		}
 
 		return null;
+	}
+
+	public static void updateStickers(Trade trade) {
+		graph[trade.source][trade.destination][trade.sticker] = false;
+		stickers[trade.source][trade.sticker]--;
+		stickers[trade.destination][trade.sticker]++;
+
+		if (stickers[trade.source][trade.sticker] == 1) {
+			for (int i = 0; i < numPeople; i++) {
+				graph[trade.source][i][trade.sticker] = false;
+			}
+		}
+	}
+
+	public static void buildGraph() {
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 1; j <= numStickers; j++) {
+				if(stickers[i][j] > 1) {
+					for (int k = 0; k < numPeople; k++) {
+						if (stickers[k][j] == 0) {
+							graph[i][k][j] = true;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public static int getCount() {
