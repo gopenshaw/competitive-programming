@@ -54,8 +54,6 @@ class Main {
 				
 				//--Update stickers for each trade in the cycle
 				do {
-					System.out.println("Trade " + previousTrade.source + " "
-						+ previousTrade.destination + " " + previousTrade.sticker);
 					updateStickers(previousTrade);
 					previousTrade = previousTrade.previous;
 				} while(previousTrade != null);
@@ -64,7 +62,7 @@ class Main {
 			}
 
 			int count = 0;
-			for (int i = 0 ; i < numStickers; i++) {
+			for (int i = 1 ; i <= numStickers; i++) {
 				if (stickers[0][i] != 0)
 					count++;
 			}
@@ -91,7 +89,7 @@ class Main {
 
 	public static void buildGraph() {
 		for (int i = 0; i < numPeople; i++) {
-			for (int j = 0; j < numStickers; j++) {
+			for (int j = 1; j <= numStickers; j++) {
 				if(stickers[i][j] > 1) {
 					connectPeopleWhoWantThisSticker(i, j);
 				}
@@ -112,7 +110,7 @@ class Main {
 		LinkedList<Trade> trades = new LinkedList<Trade>();
 
 		for (int i = 1; i < numPeople; i++) {
-			for (int j = 0; j < numStickers; j++) {
+			for (int j = 1; j <= numStickers; j++) {
 				if (graph[0][i][j]) {
 					trades.add(new Trade(0, i, j));
 				}
@@ -127,7 +125,7 @@ class Main {
 			}
 
 			for (int i = 0; i < numPeople; i++) {
-				for (int j = 0; j < numStickers; j++) {
+				for (int j = 1; j <= numStickers; j++) {
 					if (graph[current.destination][i][j]) {
 						Trade nextTrade = new Trade(current.destination, i, j);
 						nextTrade.previous = current;
@@ -142,14 +140,14 @@ class Main {
 
 	public static void tearDown() {
 		for (int i = 0; i < numPeople; i++) {
-			for (int j = 0; j < numStickers; j++) {
+			for (int j = 1; j <= numStickers; j++) {
 				stickers[i][j] = 0;
 			}
 		}
 
 		for (int i = 0; i < numPeople; i++) {
 			for (int j = 0; j < numPeople; j++) {
-				for (int k = 0; k < numStickers; k++) {
+				for (int k = 1; k <= numStickers; k++) {
 					graph[i][j][k] = false;
 				}
 			}
