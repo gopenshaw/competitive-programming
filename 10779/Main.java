@@ -107,6 +107,9 @@ class Main {
 
 		while (!trades.isEmpty()) {
 			Trade current = trades.pop();
+			if (wasVisited[current.source])
+				continue;
+
 			wasVisited[current.destination] = true;
 
 			if (current.destination == 0) {
@@ -114,9 +117,6 @@ class Main {
 			}
 
 			for (Trade trade : people[current.destination].trades) {
-				if (wasVisited[trade.destination])
-					continue;
-
 				trade.previous = current;
 				trades.add(trade);
 			}
