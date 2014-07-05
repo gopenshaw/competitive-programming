@@ -49,9 +49,12 @@ class Main {
 			buildGraph();
 			
 			Trade finalTrade = getCycle();
-			while (finalTrade != null) {
-				//--get the cycle and adjust the values, delete the edges
-			}
+			if (finalTrade != null)
+				System.out.println("found a cycle!");
+			// while (finalTrade != null) {
+			// 	System.out.println("found a cycle!");
+			// 	finalTrade = getCycle();
+			// }
 
 			int count = 0;
 			for (int i = 0 ; i < numStickers; i++) {
@@ -67,6 +70,14 @@ class Main {
 						stickers[i][j] = 0;
 					}
 				}
+
+				for (int i = 0; i < numPeople; i++) {
+					for (int j = 0; j < numPeople; j++) {
+						for (int k = 0; k < numStickers; k++) {
+							trade[i][j][k] = false;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -76,14 +87,6 @@ class Main {
 			for (int j = 0; j < numStickers; j++) {
 				if(stickers[i][j] > 1) {
 					connectPeopleWhoWantThisSticker(i, j);
-				}
-			}
-		}
-
-		for (int i = 0; i < numPeople; i++) {
-			for (int j = 0; j < numPeople; j++) {
-				for (int k = 0; k < numStickers; k++) {
-					trade[i][j][k] = false;
 				}
 			}
 		}
