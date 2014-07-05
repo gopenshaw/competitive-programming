@@ -75,7 +75,6 @@ class Main {
 		for (int i = 0; i < numPeople; i++)
 			wasVisited[i] = false;
 
-
 		LinkedList<Trade> trades = new LinkedList<Trade>();
 
 		for (int i = 1; i < numPeople; i++) {
@@ -93,15 +92,12 @@ class Main {
 				return current;
 			}
 
-			if (wasVisited[current.destination]) {
-				continue;
-			}
-
 			wasVisited[current.source] = true;
 
 			for (int i = 0; i < numPeople; i++) {
 				for (int j = 1; j <= numStickers; j++) {
-					if (graph[current.destination][i][j]) {
+					if (graph[current.destination][i][j] 
+						&& !wasVisited[current.destination]) {
 						Trade nextTrade = new Trade(current.destination, i, j);
 						nextTrade.previous = current;
 						trades.add(nextTrade);
