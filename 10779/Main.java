@@ -27,7 +27,7 @@ class Main {
 	//--graph[source][destination][sticker]
 	public static boolean[][][] graph = new boolean[10][10][26];
 
-	public static boolean[] wasVisited = new boolean[10];
+	public static boolean[][] wasVisited = new boolean[10][26];
 	public static int numPeople;
 	public static int numStickers;
 
@@ -72,8 +72,11 @@ class Main {
 	}
 
 	public static Trade getCycle() {
-		for (int i = 0; i < numPeople; i++)
-			wasVisited[i] = false;
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 1; j <= numStickers; j++) {
+				wasVisited[i][j] = false;
+			}
+		}
 
 		LinkedList<Trade> trades = new LinkedList<Trade>();
 
@@ -92,12 +95,12 @@ class Main {
 				return current;
 			}
 
-			wasVisited[current.source] = true;
+			wasVisited[current.source][current.sticker] = true;
 
 			for (int i = 0; i < numPeople; i++) {
 				for (int j = 1; j <= numStickers; j++) {
 					if (graph[current.destination][i][j] 
-						&& !wasVisited[current.destination]) {
+						&& !wasVisited[current.destination][j]) {
 						Trade nextTrade = new Trade(current.destination, i, j);
 						nextTrade.previous = current;
 						trades.add(nextTrade);
