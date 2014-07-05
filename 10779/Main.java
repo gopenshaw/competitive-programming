@@ -65,19 +65,7 @@ class Main {
 			System.out.println("Case #" + n + ": " + count);
 
 			if (n != numCases) {
-				for (int i = 0; i < numPeople; i++) {
-					for (int j = 0; j < numStickers; j++) {
-						stickers[i][j] = 0;
-					}
-				}
-
-				for (int i = 0; i < numPeople; i++) {
-					for (int j = 0; j < numPeople; j++) {
-						for (int k = 0; k < numStickers; k++) {
-							trade[i][j][k] = false;
-						}
-					}
-				}
+				tearDown();
 			}
 		}
 	}
@@ -131,5 +119,21 @@ class Main {
 		}
 
 		return null;
+	}
+
+	public static void tearDown() {
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 0; j < numStickers; j++) {
+				stickers[i][j] = 0;
+			}
+		}
+
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 0; j < numPeople; j++) {
+				for (int k = 0; k < numStickers; k++) {
+					trade[i][j][k] = false;
+				}
+			}
+		}
 	}
 }
