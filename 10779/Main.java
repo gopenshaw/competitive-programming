@@ -87,18 +87,18 @@ class Main {
 		}
 
 		while (!trades.isEmpty()) {
-			Trade current = trades.pop();
+			Trade current = trades.poll();
 
 			if (current.destination == 0) {
 				return current;
 			}
 
-			wasVisited[current.source] = true;
+			wasVisited[current.destination] = true;
 
 			for (int i = 0; i < numPeople; i++) {
 				for (int j = 1; j <= numStickers; j++) {
 					if (graph[current.destination][i][j] 
-						&& !wasVisited[current.destination]) {
+						&& !wasVisited[i]) {
 						Trade nextTrade = new Trade(current.destination, i, j);
 						nextTrade.previous = current;
 						trades.add(nextTrade);
