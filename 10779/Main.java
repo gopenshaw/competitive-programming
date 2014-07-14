@@ -7,7 +7,10 @@ import java.util.*;
 
 class Trade {
 	public ArrayList<Integer> targets;
-	public int activeTarget;
+
+	//--no edge have 0 as a target, so 0 represent no target
+	public int target;
+
 	public int sticker;
 
 	public Trade previous;
@@ -91,6 +94,8 @@ class Main {
 			}
 		}
 	}
+
+	public static 
 
 	// public static void tearDown() {
 	// 	for (int i = 0; i < numPeople; i++) {
