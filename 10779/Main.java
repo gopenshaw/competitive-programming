@@ -106,10 +106,6 @@ class Main {
 			q.add(t);
 
 		while(!q.isEmpty()) {
-			//--Edge may be going forward or backward
-			//If edge is going forward its target is set
-			//If edge is going backward its target is 0
-
 			Trade current = q.poll();
 			int dest = getDestination(current);
 			if (dest == numPeople) {
@@ -119,13 +115,30 @@ class Main {
 
 			for (Trade nextTrade : people[dest].tradesFromMe)
 				q.add(nextTrade);
-
 		}
 
 		return null;
 	}
 
 	public static int getDestination(Trade t) {
+		//--If edge is going forward its target is set
+		//so we check if its source is a valid destination
+
+		//--If edge is going backward its target is 0
+		//so we check if any of its destinations are valid targets
+		if (t.target != 0) {
+			return t.source;
+		}
+
+		for (int dest : t.targets) {
+			for (Trade existing : people[dest].tradesToMe) {
+				if (existing.target == t.sticker)
+					continue;
+			}
+
+			return dest;
+		}
+
 		return -1;
 	}
 
