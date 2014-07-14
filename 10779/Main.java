@@ -6,6 +6,7 @@
 import java.util.*;
 
 class Trade {
+	public int source;
 	public ArrayList<Integer> targets;
 
 	//--no edge have 0 as a target, so 0 represent no target
@@ -15,7 +16,8 @@ class Trade {
 
 	public Trade previous;
 
-	public Trade (int sticker) {
+	public Trade (int source, int sticker) {
+		this.source = source;
 		this.sticker = sticker;
 		this.targets = new ArrayList<Integer>();
 	}
@@ -76,7 +78,7 @@ class Main {
 		for (int i = 0; i < numPeople; i++) {
 			for (int j = 1; j <= numStickers; j++) {
 				if(stickers[i][j] > 1) {
-					Trade t = new Trade(j);
+					Trade t = new Trade(i, j);
 					people[i].tradesFromMe.add(t);
 					for (int k = 0; k < numPeople; k++) {
 						if (stickers[k][j] == 0) {
@@ -95,7 +97,37 @@ class Main {
 		}
 	}
 
-	public static 
+	public static int[] getPath() {
+		//--path array will a parent for each trade in the path
+		int[] path = new int[numPeople + 1];
+
+		LinkedList<Trade> q = new LinkedList<Trade>();
+		for (Trade t : people[0].tradesFromMe)
+			q.add(t);
+
+		while(!q.isEmpty()) {
+			//--Edge may be going forward or backward
+			//If edge is going forward its target is set
+			//If edge is going backward its target is 0
+
+			Trade current = q.poll();
+			int dest = getDestination(current);
+			if (dest == numPeople) {
+				path[numPeople] = current.source;
+				return path;
+			}
+
+			for (Trade nextTrade : people[dest].tradesFromMe)
+				q.add(nextTrade);
+
+		}
+
+		return null;
+	}
+
+	public static int getDestination(Trade t) {
+		return -1;
+	}
 
 	// public static void tearDown() {
 	// 	for (int i = 0; i < numPeople; i++) {
