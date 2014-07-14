@@ -6,15 +6,25 @@
 import java.util.*;
 
 class Trade {
-	public int source;
-	public int destination;
+	public ArrayList<Integer> targets;
+	public int activeTarget;
 	public int sticker;
+
 	public Trade previous;
 
-	public Trade (int source, int destination, int sticker) {
-		this.source = source;
-		this.destination = destination;
+	public Trade (int sticker) {
 		this.sticker = sticker;
+		this.targets = new ArrayList<Integer>();
+	}
+}
+
+class Person {
+	public ArrayList<Trade> tradesToMe;
+	public ArrayList<Trade> tradesFromMe;
+
+	public Person() {
+		this.tradesToMe = new ArrayList<Trade>();
+		this.tradesFromMe = new ArrayList<Trade>();
 	}
 }
 
@@ -23,15 +33,16 @@ class Main {
 	//--The current sticker count for each person
 	public static int[][] stickers = new int[10][26];
 
-	//--If a person has a sticker that the other person does not have
-	//--graph[source][destination][sticker]
-	public static boolean[][][] graph = new boolean[10][10][26];
+	//--Person[10] will represent the destination
+	public static Person[] people = new Person[11];
 
-	public static boolean[] wasVisited = new boolean[10];
 	public static int numPeople;
 	public static int numStickers;
 
 	public static void main(String[] args) {
+
+		for (int i = 0 ; i < 11; i++)
+			people[i] = new Person();
 
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
@@ -48,81 +59,13 @@ class Main {
 			}
 			
 			buildGraph();
-			bellmanFord();
-			System.out.println("Case #" + n + ": " + getCount());
 
-			if (n != numCases) {
-				tearDown();
-			}
-		}
-	}
+			//bellmanFord();
+			//System.out.println("Case #" + n + ": " + getCount());
 
-	public static void bellmanFord() {
-		Trade previousTrade = getCycle();
-		while (previousTrade != null) {
-			
-			//--Update stickers for each trade in the cycle
-			do {
-				updateStickers(previousTrade);
-				previousTrade = previousTrade.previous;
-			} while(previousTrade != null);
-
-			previousTrade = getCycle();
-		}
-	}
-
-	public static Trade getCycle() {
-		for (int i = 0; i < numPeople; i++) {
-			wasVisited[i] = false;
-		}
-
-		LinkedList<Trade> trades = new LinkedList<Trade>();
-
-		for (int i = 1; i < numPeople; i++) {
-			for (int j = 1; j <= numStickers; j++) {
-				if (graph[0][i][j]) {
-					trades.add(new Trade(0, i, j));
-				}
-			}
-		}
-
-		while (!trades.isEmpty()) {
-			Trade current = trades.poll();
-
-			if (current.destination == 0) {
-				return current;
-			}
-
-			wasVisited[current.destination] = true;
-
-			for (int i = 0; i < numPeople; i++) {
-				for (int j = 1; j <= numStickers; j++) {
-					if (graph[current.destination][i][j] 
-						&& !wasVisited[i]) {
-						Trade nextTrade = new Trade(current.destination, i, j);
-						nextTrade.previous = current;
-						trades.add(nextTrade);
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-
-	public static void updateStickers(Trade trade) {
-		graph[trade.source][trade.destination][trade.sticker] = false;
-		stickers[trade.source][trade.sticker]--;
-		stickers[trade.destination][trade.sticker]++;
-
-		for (int i = 0; i < numPeople; i++) {
-			graph[i][trade.destination][trade.sticker] = false;
-		}
-
-		if (stickers[trade.source][trade.sticker] == 1) {
-			for (int i = 0; i < numPeople; i++) {
-				graph[trade.source][i][trade.sticker] = false;
-			}
+			// if (n != numCases) {
+			// 	tearDown();
+			// }
 		}
 	}
 
@@ -130,9 +73,18 @@ class Main {
 		for (int i = 0; i < numPeople; i++) {
 			for (int j = 1; j <= numStickers; j++) {
 				if(stickers[i][j] > 1) {
+					Trade t = new Trade(j);
+					people[i].tradesFromMe.add(t);
 					for (int k = 0; k < numPeople; k++) {
 						if (stickers[k][j] == 0) {
-							graph[i][k][j] = true;
+							int dest = 0;
+							if (k == 0)
+								dest = numPeople;
+							else
+								dest = k;
+
+							t.targets.add(dest);
+							people[dest].tradesToMe.add(t);
 						}
 					}
 				}
@@ -140,29 +92,21 @@ class Main {
 		}
 	}
 
-	public static int getCount() {
-		int count = 0;
-		for (int i = 1 ; i <= numStickers; i++) {
-			if (stickers[0][i] != 0)
-				count++;
-		}
+	// public static void tearDown() {
+	// 	for (int i = 0; i < numPeople; i++) {
+	// 		people[i].trades.clear();
+	// 		for (int j = 1; j <= numStickers; j++) {
+	// 			stickers[i][j] = 0;
+	// 		}
+	// 	}
 
-		return count;
-	}
-
-	public static void tearDown() {
-		for (int i = 0; i < numPeople; i++) {
-			for (int j = 1; j <= numStickers; j++) {
-				stickers[i][j] = 0;
-			}
-		}
-
-		for (int i = 0; i < numPeople; i++) {
-			for (int j = 0; j < numPeople; j++) {
-				for (int k = 1; k <= numStickers; k++) {
-					graph[i][j][k] = false;
-				}
-			}
-		}
-	}
+	// 	for (int i = 0; i < numPeople; i++) {
+	// 		for (int j = 0; j < numPeople; j++) {
+	// 			for (int k = 1; k <= numStickers; k++) {
+	// 				graph[i][j][k] = false;
+	// 				residual[i][j][k] = 0;
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
