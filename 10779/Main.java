@@ -81,8 +81,6 @@ class Main {
 			}
 		}
 
-		printOriginalStickers();
-
 		//--Figure out what stickers people don't have
 		for (int i = 0; i < n; i++) {
 			for (int j = 1; j <= m; j++) {
@@ -230,30 +228,6 @@ class Main {
 		}
 
 		people[trade.destination].stickerCountFromTrades[trade.sticker]++;
-	}
-
-	private static void printStickerCounts() {
-		for (int i = 0; i <= numOfPeople; i++) {
-			if (i == 0 || i == numOfPeople) {
-				for (int j = 0; j <= numOfStickers; j++) {
-					System.out.printf("%d, ", people[i].stickerCount[j]);
-				}
-				System.out.println();
-				for (int j = 0; j <= numOfStickers; j++) {
-					System.out.printf("%d, ", people[i].stickerCountFromTrades[j]);
-				}
-				System.out.println();
-			}
-		}
-	}
-
-	private static void printOriginalStickers() {
-		for (int i = 0; i < numOfPeople; i++) {
-			for (int j = 1; j <= numOfStickers; j++) {
-				System.out.printf("%d, ", people[i].stickerCount[j]);
-			}
-			System.out.println();
-		}
 	}
 
 	private static void tearDown() {
