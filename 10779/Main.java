@@ -120,7 +120,6 @@ class Main {
 		}
 
 		// go from person 0 to person n.
-
 		while (true) {
 			Trade finalTrade = null;
 			LinkedList<Trade> q = new LinkedList<Trade>();
@@ -171,20 +170,6 @@ class Main {
 
 		int result = originalStickers + newStickers;
 		System.out.println("Case #" + caseNum + ": " +  result);
-	}
-
-	private static int getUniqueStickers(int n, int numStickers) {
-		Person person = people[n];
-		int count = 0;
-
-		for (int i = 1; i <= numStickers; i++) {
-			if (person.stickerCount[i] != 0
-				|| person.stickerCountFromTrades[i] != 0) {
-				count++;
-			}
-		}
-
-		return count;
 	}
 
 	private static void processAllTrades(Trade trade) {
