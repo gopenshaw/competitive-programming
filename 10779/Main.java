@@ -132,21 +132,17 @@ class Main {
 					for (int k = 0; k < numPeople; k++) {
 						if (personDoesNotHaveSticker[k][j]) {
 							int destination = k;
+
+							//--Bob is person 0 and person n
+							//trades from bob are from person 0
+							//trades to bob are to person n
 							if (k == 0) {
 								destination = numPeople;
 							}
 
 							Trade trade = new Trade(i, destination, j);
 							people[i].fromHere.add(trade);
-
-							//--Bob is person 0 and person n
-							//trades from bob are from person 0
-							//trades to bob are to person n
-							if (k == 0) {
-								people[numPeople].toHere.add(trade);
-							} else {
-								people[k].toHere.add(trade);
-							}
+							people[destination].toHere.add(trade);
 						}
 					}
 				}
