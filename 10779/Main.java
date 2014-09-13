@@ -58,17 +58,8 @@ class Main {
 		for (int i = 0; i < numOfCases; i++) {
 			caseNum = i + 1;
 			solveProblem();
-
-			for (int j = 0; j <= numOfPeople; j++) {
-				people[j].toHere.clear();
-				people[j].fromHere.clear();
-			
-				for (int k = 1; k <= numOfStickers; k++) {
-					people[j].stickerCount[k] = people[j].stickerCountFromTrades[k] = 0;
-				}
-			}
+			tearDown();
 		}
-
 	}
 
 	static void solveProblem() {
@@ -262,6 +253,17 @@ class Main {
 				System.out.printf("%d, ", people[i].stickerCount[j]);
 			}
 			System.out.println();
+		}
+	}
+
+	private static void tearDown() {
+		for (int j = 0; j <= numOfPeople; j++) {
+			people[j].toHere.clear();
+			people[j].fromHere.clear();
+		
+			for (int k = 1; k <= numOfStickers; k++) {
+				people[j].stickerCount[k] = people[j].stickerCountFromTrades[k] = 0;
+			}
 		}
 	}
 }
