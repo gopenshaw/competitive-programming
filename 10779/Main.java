@@ -20,7 +20,7 @@ class Trade {
 		this.sticker = sticker;
 	}
 	
-	void printIt() {
+	void print() {
 		System.out.printf("src - %d, dest = %d, sticker = %d\n", source, destination, sticker);
 	}
 
@@ -64,15 +64,16 @@ class Main {
 	private static void solveProblem() {
 		numPeople = input.nextInt();
 		numStickers = input.nextInt();
-
 		getInput();
+		// printAllStickers();
 
 		buildGraph();
-
 		doMaxFlow();
 
 		int result = getBobsUniqueStickers();
 		System.out.println("Case #" + caseNum + ": " +  result);
+
+		// printAllStickers();
 	}
 
 	private static void doMaxFlow() {
@@ -81,6 +82,7 @@ class Main {
 			Trade finalTrade = null;
 			LinkedList<Trade> q = new LinkedList<Trade>();
 			boolean visited[] = new boolean[numPeople + 1];
+			visited[0] = true;
 
 			for (Trade trade : people[0].fromHere) {
 				if (tradeIsValid(trade)) {
@@ -174,8 +176,6 @@ class Main {
 	private static void processAllTrades(Trade trade) {
 		Trade current = trade;
 		while (current != null) {
-			//printStickerCounts();
-			//current.printIt();
 			adjustStickerCount(current);
 			makeResidual(current);
 			current = current.parent;
@@ -198,13 +198,32 @@ class Main {
 		int sticker = trade.sticker;
 		boolean sourceIsValid = source.currentStickers[sticker] > 1
 					|| source.currentStickers[sticker] > source.originalStickers[sticker];
+					// || (trade.source == 0 
+					// 	&& source.currentStickers[sticker] > 0);
 		boolean destinationIsValid = dest.currentStickers[sticker] == 0;
 		return sourceIsValid && destinationIsValid;
 	}
 
 	private static void adjustStickerCount(Trade trade) {
-		people[trade.source].currentStickers[trade.sticker]--;
-		people[trade.destination].currentStickers[trade.sticker]++;
+		int source = trade.source;
+		if (source == 0
+			|| source == numPeople) {
+			people[0].currentStickers[trade.sticker]--;
+			people[numPeople].currentStickers[trade.sticker]--;
+		}
+		else {
+			people[source].currentStickers[trade.sticker]--;
+		}
+
+		int destination = trade.destination;
+		if (destination == 0
+			|| destination == numPeople) {
+			people[0].currentStickers[trade.sticker]++;
+			people[numPeople].currentStickers[trade.sticker]++;
+		}
+		else {
+			people[destination].currentStickers[trade.sticker]++;
+		}
 	}
 
 	private static void tearDown() {
@@ -226,5 +245,14 @@ class Main {
 		}
 
 		return result;
+	}
+
+	private static void printAllStickers() {
+		for (int i = 0; i <= numPeople; i++) {
+			for (int j = 1; j <= numStickers; j++) {
+				System.out.printf("%d, ", people[i].currentStickers[j]);
+			}
+			System.out.println();
+		}
 	}
 }
