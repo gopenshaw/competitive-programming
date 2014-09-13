@@ -27,8 +27,8 @@ class Trade {
 }
 
 class Person {
-	int[] stickerCount = new int[26];
-	int[] stickerCountFromTrades = new int[26];
+	int[] originalStickers = new int[26];
+	int[] currentStickers = new int[26];
 	ArrayList<Trade> toHere = new ArrayList<Trade>();
 	ArrayList<Trade> fromHere = new ArrayList<Trade>();
 
@@ -38,10 +38,9 @@ class Main {
 
 	static Scanner input;
 	static Person[] people = new Person[11];
-	static boolean[][] personDoesNotHaveSticker = new boolean[10][26];
 
-	static int numOfPeople;
-	static int numOfStickers;
+	static int numPeople;
+	static int numStickers;
 
 	static int caseNum;
 
@@ -62,68 +61,26 @@ class Main {
 		}
 	}
 
-	static void solveProblem() {
-		int n, m;
-		n = input.nextInt();
-		m = input.nextInt();
+	private static void solveProblem() {
+		numPeople = input.nextInt();
+		numStickers = input.nextInt();
 
-		numOfPeople = n;
-		numOfStickers = m;
+		getInput();
 
-		for (int i = 0; i < n; i++) {
-			int stickerCount = input.nextInt();
-			for (int j = 0; j < stickerCount; j++) {
-				int stickerNumber = input.nextInt();
-				people[i].stickerCount[stickerNumber]++;
+		buildGraph();
 
-				if (i == 0)
-					people[n].stickerCount[stickerNumber]++;
-			}
-		}
+		doMaxFlow();
 
-		//--Figure out what stickers people don't have
-		for (int i = 0; i < n; i++) {
-			for (int j = 1; j <= m; j++) {
-				if (people[i].stickerCount[j] == 0)
-					personDoesNotHaveSticker[i][j] = true;
-			}
-		}
+		int result = getBobsUniqueStickers();
+		System.out.println("Case #" + caseNum + ": " +  result);
+	}
 
-		//--Build graph
-		for (int i = 0; i < n; i++) {
-			for (int j = 1; j <= m; j++) {
-				if (people[i].stickerCount[j] > 1) {
-					for (int k = 0; k < n; k++) {
-						if (personDoesNotHaveSticker[k][j]) {
-							int destination = k;
-							if (k == 0) {
-								destination = n;
-							}
-
-							Trade trade = new Trade(i, destination, j);
-							people[i].fromHere.add(trade);
-
-							//--Bob is person 0 and person n
-							//trades from bob are from person 0
-							//trades to bob are to person n
-							if (k == 0) {
-								people[n].toHere.add(trade);
-							} else {
-								people[k].toHere.add(trade);
-							}
-						}
-
-					}
-
-				}
-			}
-		}
-
-		// go from person 0 to person n.
+	private static void doMaxFlow() {
+		// source is person 0, destination is person numPeople
 		while (true) {
 			Trade finalTrade = null;
 			LinkedList<Trade> q = new LinkedList<Trade>();
-			boolean visited[] = new boolean[n + 1];
+			boolean visited[] = new boolean[numPeople + 1];
 
 			for (Trade trade : people[0].fromHere) {
 				if (tradeIsValid(trade)) {
@@ -133,7 +90,7 @@ class Main {
 
 			while (!q.isEmpty()) {
 				Trade currentTrade = q.poll();	
-				if (currentTrade.destination == n) {
+				if (currentTrade.destination == numPeople) {
 					finalTrade = currentTrade;
 					break;	
 				}
@@ -155,21 +112,67 @@ class Main {
 				break;
 			}
 		}
+	}
 
-		int originalStickers = 0;
-		for (int i = 1; i <= numOfStickers; i++) {
-			if (people[0].stickerCount[i] != 0)
-				originalStickers++;
+	private static void buildGraph() {
+		boolean[][] personDoesNotHaveSticker = new boolean[numPeople][numStickers + 1];
+
+		//--Figure out what stickers people don't have
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 1; j <= numStickers; j++) {
+				if (people[i].originalStickers[j] == 0)
+					personDoesNotHaveSticker[i][j] = true;
+			}
 		}
 
-		int newStickers = 0;
-		for (int i = 0; i <= numOfStickers; i++) {
-			if (people[n].stickerCountFromTrades[i] != 0)
-				newStickers++;
+		//--Build graph
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 1; j <= numStickers; j++) {
+				if (people[i].originalStickers[j] > 1) {
+					for (int k = 0; k < numPeople; k++) {
+						if (personDoesNotHaveSticker[k][j]) {
+							int destination = k;
+							if (k == 0) {
+								destination = numPeople;
+							}
+
+							Trade trade = new Trade(i, destination, j);
+							people[i].fromHere.add(trade);
+
+							//--Bob is person 0 and person n
+							//trades from bob are from person 0
+							//trades to bob are to person n
+							if (k == 0) {
+								people[numPeople].toHere.add(trade);
+							} else {
+								people[k].toHere.add(trade);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void getInput() {
+		//--get input
+		for (int i = 0; i < numPeople; i++) {
+			int stickerCount = input.nextInt();
+			for (int j = 0; j < stickerCount; j++) {
+				int stickerNumber = input.nextInt();
+				people[i].originalStickers[stickerNumber]++;
+
+				if (i == 0)
+					people[numPeople].originalStickers[stickerNumber]++;
+			}
 		}
 
-		int result = originalStickers + newStickers;
-		System.out.println("Case #" + caseNum + ": " +  result);
+		//--copy original stickers to current stickers
+		for (int i = 0; i <= numPeople; i++) {
+			for (int j = 1; j <= numStickers; j++) {
+				people[i].currentStickers[j] = people[i].originalStickers[j];
+			}
+		}
 	}
 
 	private static void processAllTrades(Trade trade) {
@@ -197,32 +200,35 @@ class Main {
 		Person source = people[trade.source];
 		Person dest = people[trade.destination];
 		int sticker = trade.sticker;
-		boolean sourceIsValid = source.stickerCount[sticker] > 1
-					|| source.stickerCountFromTrades[sticker] > 0;
-		boolean destinationIsValid = dest.stickerCount[sticker] == 0
-						&& dest.stickerCountFromTrades[sticker] == 0;
+		boolean sourceIsValid = source.currentStickers[sticker] > 1
+					|| source.currentStickers[sticker] > source.originalStickers[sticker];
+		boolean destinationIsValid = dest.currentStickers[sticker] == 0;
 		return sourceIsValid && destinationIsValid;
 	}
 
 	private static void adjustStickerCount(Trade trade) {
-
-		if (people[trade.source].stickerCount[trade.sticker] == 0) {
-			people[trade.source].stickerCountFromTrades[trade.sticker]--;
-		} else {
-			people[trade.source].stickerCount[trade.sticker]--;
-		}
-
-		people[trade.destination].stickerCountFromTrades[trade.sticker]++;
+		people[trade.source].currentStickers[trade.sticker]--;
+		people[trade.destination].currentStickers[trade.sticker]++;
 	}
 
 	private static void tearDown() {
-		for (int j = 0; j <= numOfPeople; j++) {
+		for (int j = 0; j <= numPeople; j++) {
 			people[j].toHere.clear();
 			people[j].fromHere.clear();
 		
-			for (int k = 1; k <= numOfStickers; k++) {
-				people[j].stickerCount[k] = people[j].stickerCountFromTrades[k] = 0;
+			for (int k = 1; k <= numStickers; k++) {
+				people[j].currentStickers[k] = people[j].originalStickers[k] = 0;
 			}
 		}
+	}
+
+	private static int getBobsUniqueStickers() {
+		int result = 0;
+		for (int i = 1; i <= numStickers; i++) {
+			if (people[numPeople].currentStickers[i] != 0)
+				result++;
+		}
+
+		return result;
 	}
 }
