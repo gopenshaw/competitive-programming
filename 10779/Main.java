@@ -1,12 +1,12 @@
 import java.util.*;
 
 class Edge {
-	int source;
-	int target;
-	int capacity;
-	int flow;
-	Edge parent;
-	Edge residual;
+	Vertex source;
+	Vertex target;
+	public int capacity;
+	public int flow;
+	public Edge parent;
+	public Edge residual;
 
 	public Edge(int capacity) {
 		this.capacity = capacity;
@@ -14,29 +14,45 @@ class Edge {
 }
 
 class Vertex {
-	ArrayList<Edge> fromHere = new ArrayList<Edge>();
+	int id;
+	ArrayList<Edge> fromHere;
+
+	public Vertex(int id) {
+		this.id = id;
+		fromHere = new ArrayList<Edge>();
+	}
 }
 
 class Main {
+	final static int MAX_PEOPLE = 10;
+	final static int MAX_STICKERS = 25;
+
+	//--need a vertex for each person/sticker combination,
+	//-plus a target vertex for each sticker,
+	//-plus an overall source and target vertex
+	final static int NUM_VERTEXES = (MAX_PEOPLE + 1) * MAX_STICKERS + 2;
+
+	static Vertex[] v = new Vertex[NUM_VERTEXES];
+	final static int SOURCE_VERTEX_INDEX = NUM_VERTEXES - 2;
+	final static int TARGET_VERTEX_INDEX = NUM_VERTEXES - 1;
+
+	//--this will hold original stickers counts
+	static int[][] originalStickers = new int[MAX_PEOPLE][MAX_STICKERS];
+
 	static Scanner input;
-	static int numCases;
+
 	static int numPeople;
 	static int numStickers;
-	static int numVertexes;
-	static int sourceVertex;
-	static int targetVertex;
-	static Vertex[] vertexArray;
-	static int[][] stickerCount;
 
 	static void getInput() {
 		numPeople = input.nextInt();
 		numStickers = input.nextInt();
 
 		for (int i = 0; i < numPeople; i++) {
-			int numStickersForPerson = input.nextInt();
-			for (int j = 0; j < numStickersForPerson; j++) {
+			int stickerCount = input.nextInt();
+			for (int j = 0; j < stickerCount; j++) {
 				int stickerNumber = input.nextInt();
-				stickerCount[i][j]++;
+				originalStickers[i][stickerNumber - 1]++;
 			}
 		}
 	}
@@ -45,17 +61,56 @@ class Main {
 
 	}
 
-	static void doMaxFlowAndPrintResult() {
-		Edge finalEdge = bfs();
+	static int getMaxFlow() {
+		int maxFlow = 0;
+		Edge finalEdge = null;
+		do {
+			finalEdge = bfs();
+			if (finalEdge != null) {
+				int minimumCapacity = getMinimumCapacityOnPath(finalEdge);
+				updateFlowAndResiduals(finalEdge, minimumCapacity);
+			}
+		} while (finalEdge != null);
+
+		Edge sourceEdge = v[SOURCE_VERTEX_INDEX].fromHere.get(0);
+		return sourceEdge.flow = sourceEdge.residual.flow;
+	}
+
+	static int getMinimumCapacityOnPath(Edge edge) {
+		int minimumCapacity = Integer.MAX_VALUE;
+
+		Edge current = edge;
+		while (current.parent != null) {
+			int capacity = current.capacity;
+			if (capacity < minimumCapacity)
+				minimumCapacity = capacity;
+
+			current = edge.parent;
+		}
+
+		return minimumCapacity;
+	}
+
+	static void updateFlowAndResiduals(Edge edge, int minimumCapacity) {
+		Edge current = edge;
+		while (current.parent != null) {
+			current.flow += minimumCapacity;
+			current.residual.flow -= minimumCapacity;
+
+			current.capacity -= minimumCapacity;
+			current.residual.capacity += minimumCapacity;
+
+			current = edge.parent;
+		}
 	}
 
 	static Edge bfs() {
 		Edge finalEdge = null;
 		LinkedList<Edge> q = new LinkedList<Edge>();
-		boolean visited[] = new boolean[numVertexes];
-		visited[sourceVertex] = true;
+		boolean visited[] = new boolean[NUM_VERTEXES];
+		visited[SOURCE_VERTEX_INDEX] = true;
 
-		for (Edge edge : vertexArray[sourceVertex].fromHere) {
+		for (Edge edge : v[SOURCE_VERTEX_INDEX].fromHere) {
 			if (edge.flow < edge.capacity) {
 				q.add(edge);
 			}
@@ -63,14 +118,14 @@ class Main {
 
 		while (!q.isEmpty()) {
 			Edge current = q.poll();	
-			if (current.target == targetVertex) {
+			if (current.target.id == TARGET_VERTEX_INDEX) {
 				finalEdge = current;
-				break;	
+				break;
 			}
-			visited[current.source] = true;
+			visited[current.source.id] = true;
 			
-			for (Edge edge : vertexArray[current.target].fromHere) {
-				if (!visited[edge.target]
+			for (Edge edge : current.target.fromHere) {
+				if (!visited[edge.target.id]
 					&& edge.flow < edge.capacity) {
 					edge.parent = current;
 					q.add(edge);
@@ -81,14 +136,43 @@ class Main {
 		return finalEdge;
 	}
 
-	public static void main(String[] args) {
-		input = new Scanner(System.in);
-		numCases = input.nextInt();
+	static int getBobsOriginalStickers() {
+		int count = 0;
 
-		for (int i = 0; i < numCases; i++) {
+		for (int i = 1; i <= numStickers; i++) {
+			if (originalStickers[0][i] != 0)
+				count++;
+		}
+
+		return count;
+	}
+
+	static void tearDown() {
+		for (int i = 0; i < NUM_VERTEXES; i++) {
+			v[i].fromHere.clear();
+		}
+
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 0; j < numStickers; j++) {
+				originalStickers[i][j] = 0;
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < NUM_VERTEXES; i++) {
+			v[i] = new Vertex(i);
+		}
+
+		input = new Scanner(System.in);
+		int numCases = input.nextInt();
+
+		for (int i = 1; i <= numCases; i++) {
 			getInput();
 			buildGraph();
-			doMaxFlowAndPrintResult();
+			int result = getMaxFlow() + getBobsOriginalStickers();
+			System.out.println("Case #" + i + ": " +  result);
+			tearDown();
 		}
 	}
 }
