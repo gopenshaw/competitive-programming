@@ -3,13 +3,19 @@ import java.util.*;
 class Edge {
 	Vertex source;
 	Vertex target;
-	public int capacity;
-	public int flow;
-	public Edge parent;
-	public Edge residual;
+	int capacity;
+	int flow;
+	Edge parent;
+	Edge residual;
 
-	public Edge(int capacity) {
+	public Edge(Vertex source, Vertex target, int capacity) {
+		this.source = source;
+		this.target = target;
 		this.capacity = capacity;
+	}
+
+	public void print() {
+		System.out.printf("source - %d, target = %d, cap = %d, flow = %d\n", source.id, target.id, capacity, flow);
 	}
 }
 
@@ -58,7 +64,61 @@ class Main {
 	}
 
 	static void buildGraph() {
+		//--there is an infinite capacity edge from the source to all of bobs vertexes (no residual necessary)
+		Vertex source = v[SOURCE_VERTEX_INDEX];
+		for (int i = 0; i < numStickers; i++) {
+			Vertex bob_i = v[i];
+			Edge edge = new Edge(source, bob_i, Integer.MAX_VALUE);
+			source.fromHere.add(edge);
 
+			// edge.print();
+		}
+
+		//--The vertex for a person/sticker will is at personNumber * numStickers + stickerNumber (sticker # is 0 indexed!)
+		//--The "t" vertex for each sticker will be at index numPeople * numStickers + stickerNumber (sticker # is 0 indexed!)
+		for (int i = 0; i < numPeople; i++) {
+			for (int j = 0; j < numStickers; j++) {
+
+				Vertex t_j = v[numPeople * numStickers + j];
+				Vertex person_j = v[i * numStickers + i];
+				int count = originalStickers[i][j];
+
+				if (count == 0) {
+					//--make an edge of capacity one from the "t" vertex of that sticker
+					//-to the persons vertex for that sticker
+
+					//--but if this person is bob the edge should go to the target
+					if (i == 0)
+						person_j = v[TARGET_VERTEX_INDEX];
+					Edge edge = new Edge(t_j, person_j, 1);
+					Edge residual = new Edge(person_j, t_j, 1);
+					residual.flow = 1;
+
+					edge.residual = residual;
+					residual.residual = edge;
+
+					t_j.fromHere.add(edge);
+					person_j.fromHere.add(residual);
+
+					// edge.print();
+				}
+				else if (count > 1) {
+					//--make an edge of capacity (count - 1)
+					//-from person_sticker to t_sticker
+					Edge edge = new Edge(person_j, t_j, count - 1);
+					Edge residual = new Edge(t_j, person_j, count - 1);
+					residual.flow = count - 1;
+
+					edge.residual = residual;
+					residual.residual = edge;
+
+					person_j.fromHere.add(edge);
+					t_j.fromHere.add(residual);
+
+					// edge.print();
+				}
+			}
+		}
 	}
 
 	static int getMaxFlow() {
@@ -72,20 +132,24 @@ class Main {
 			}
 		} while (finalEdge != null);
 
-		Edge sourceEdge = v[SOURCE_VERTEX_INDEX].fromHere.get(0);
-		return sourceEdge.flow = sourceEdge.residual.flow;
+		for (Edge edge : v[SOURCE_VERTEX_INDEX].fromHere) {
+			maxFlow += edge.flow;
+		}
+		
+		// System.out.println("max flow is " + maxFlow);
+		return maxFlow;
 	}
 
 	static int getMinimumCapacityOnPath(Edge edge) {
 		int minimumCapacity = Integer.MAX_VALUE;
 
 		Edge current = edge;
-		while (current.parent != null) {
+		while (current != null) {
 			int capacity = current.capacity;
 			if (capacity < minimumCapacity)
 				minimumCapacity = capacity;
 
-			current = edge.parent;
+			current = current.parent;
 		}
 
 		return minimumCapacity;
@@ -93,14 +157,17 @@ class Main {
 
 	static void updateFlowAndResiduals(Edge edge, int minimumCapacity) {
 		Edge current = edge;
-		while (current.parent != null) {
+		while (current != null) {
 			current.flow += minimumCapacity;
-			current.residual.flow -= minimumCapacity;
-
 			current.capacity -= minimumCapacity;
-			current.residual.capacity += minimumCapacity;
 
-			current = edge.parent;
+			if (current.residual != null) {
+				current.residual.flow -= minimumCapacity;
+				current.residual.capacity += minimumCapacity;
+			}
+
+			// current.print();
+			current = current.parent;
 		}
 	}
 
@@ -139,7 +206,7 @@ class Main {
 	static int getBobsOriginalStickers() {
 		int count = 0;
 
-		for (int i = 1; i <= numStickers; i++) {
+		for (int i = 0; i < numStickers; i++) {
 			if (originalStickers[0][i] != 0)
 				count++;
 		}
