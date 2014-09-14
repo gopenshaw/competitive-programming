@@ -88,8 +88,6 @@ class Main {
 			Vertex bob_i = v[i];
 			Edge edge = new Edge(source, bob_i, Integer.MAX_VALUE);
 			source.fromHere.add(edge);
-
-			// edge.print();
 		}
 
 		//--The vertex for a person/sticker will is at personNumber * numStickers + stickerNumber (sticker # is 0 indexed!)
@@ -116,8 +114,6 @@ class Main {
 
 					t_j.fromHere.add(edge);
 					person_j.fromHere.add(residual);
-
-					// edge.print();
 				}
 				else if (count > 1) {
 					//--make an edge of capacity (count - 1)
@@ -130,8 +126,6 @@ class Main {
 
 					person_j.fromHere.add(edge);
 					t_j.fromHere.add(residual);
-
-					// edge.print();
 				}
 			}
 		}
@@ -152,7 +146,6 @@ class Main {
 			maxFlow += edge.flow;
 		}
 		
-		// System.out.println("max flow is " + maxFlow);
 		return maxFlow;
 	}
 
@@ -176,7 +169,6 @@ class Main {
 		while (current != null) {
 			current.addFlow(minimumCapacity);
 
-			// current.print();
 			current = current.parent;
 		}
 	}
