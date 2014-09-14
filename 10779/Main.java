@@ -14,6 +14,24 @@ class Edge {
 		this.capacity = capacity;
 	}
 
+	public void addFlow(int flow) {
+		this.flow += flow;
+		if (this.residual == null)
+			return;
+
+		int amount = flow;
+		while (amount > 0) {
+			if (this.residual.flow > 0) {
+				this.residual.flow--;
+				this.capacity--;
+			}
+			else
+				this.residual.capacity++;
+
+			amount--;
+		}
+	}
+
 	public void print() {
 		System.out.printf("source - %d, target = %d, cap = %d, flow = %d\n", source.id, target.id, capacity, flow);
 	}
@@ -91,8 +109,7 @@ class Main {
 					if (i == 0)
 						person_j = v[TARGET_VERTEX_INDEX];
 					Edge edge = new Edge(t_j, person_j, 1);
-					Edge residual = new Edge(person_j, t_j, 1);
-					residual.flow = 1;
+					Edge residual = new Edge(person_j, t_j, 0);
 
 					edge.residual = residual;
 					residual.residual = edge;
@@ -106,8 +123,7 @@ class Main {
 					//--make an edge of capacity (count - 1)
 					//-from person_sticker to t_sticker
 					Edge edge = new Edge(person_j, t_j, count - 1);
-					Edge residual = new Edge(t_j, person_j, count - 1);
-					residual.flow = count - 1;
+					Edge residual = new Edge(t_j, person_j, 0);
 
 					edge.residual = residual;
 					residual.residual = edge;
@@ -158,13 +174,7 @@ class Main {
 	static void updateFlowAndResiduals(Edge edge, int minimumCapacity) {
 		Edge current = edge;
 		while (current != null) {
-			current.flow += minimumCapacity;
-			current.capacity -= minimumCapacity;
-
-			if (current.residual != null) {
-				current.residual.flow -= minimumCapacity;
-				current.residual.capacity += minimumCapacity;
-			}
+			current.addFlow(minimumCapacity);
 
 			// current.print();
 			current = current.parent;
