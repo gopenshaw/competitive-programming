@@ -43,13 +43,14 @@ class Main {
 	final static int MAX_PEOPLE = 10;
 	final static int MAX_STICKERS = 25;
 
-	//--need a vertex for each person/sticker combination,
+
+	//--We need a source and target vertex for Bob,
+	//-plus one vertex for each person other than Bob,
 	//-plus a target_sticker vertex for each sticker,
-	//-plus a source and target vertex
-	final static int NUM_VERTEXES = (MAX_PEOPLE + 1) * MAX_STICKERS + 2;
+	final static int NUM_VERTEXES = MAX_PEOPLE + MAX_STICKERS + 1;
 
 	static Vertex[] v = new Vertex[NUM_VERTEXES];
-	final static int SOURCE_VERTEX_INDEX = NUM_VERTEXES - 2;
+	final static int SOURCE_VERTEX_INDEX = 0;
 	final static int TARGET_VERTEX_INDEX = NUM_VERTEXES - 1;
 
 	static int[][] originalStickerCount = new int[MAX_PEOPLE][MAX_STICKERS];
@@ -90,42 +91,48 @@ class Main {
 	}
 
 	static void buildGraph() {
-		//--There is an infinite capacity edge from the source to all of bob's vertexes (no residual necessary)
+		//--For each person, if they don't have a sticker, we make an edge from t_sticker
+		//-to that person's vertex. If a person has more than one sticker, we make an edge
+		//-from that person to t_sticker with a capacity of count - 1.
+		//--The only exception is that edges from Bob will come from SOURCE and edges from
+		//-Bob will go to the TARGET.
+
+		//--Set up Bob's edges (no residual necessary)
 		Vertex source = v[SOURCE_VERTEX_INDEX];
+		Vertex target = v[TARGET_VERTEX_INDEX];
 		for (int i = 0; i < numStickers; i++) {
-			Vertex bob_i = v[i];
-			Edge edge = new Edge(source, bob_i, Integer.MAX_VALUE, false);
-			source.fromHere.add(edge);
+			Vertex t_n = v[numPeople + i];
+			int count = originalStickerCount[0][i];
+			if (count == 0)
+			{
+				Edge edge = new Edge(t_n, target, 1, false);
+				t_n.fromHere.add(edge);
+			}
+			else if (count > 1)
+			{
+				Edge edge = new Edge(source, t_n, count - 1, false);
+				source.fromHere.add(edge);
+			}
 		}
 
-		//--The vertex for a person/sticker will is at index: personNumber * numStickers + stickerNumber
-		//--Each target_sticker will be at index: numPeople * numStickers + stickerNumber 
-		//--Note: sticker number is 0 indexed even though it is one indexed in the problem domain
-		for (int i = 0; i < numPeople; i++) {
-			for (int j = 0; j < numStickers; j++) {
-
-				Vertex t_j = v[numPeople * numStickers + j];
-				Vertex person_j = v[i * numStickers + i];
+		//--Set up all other edges (with residuals)
+		for (int i = 1; i < numPeople; i++) {
+			Vertex person = v[i];
+			for (int j = 0; j < numStickers; j++)
+			{
+				Vertex t_n = v[numPeople + j];
 				int count = originalStickerCount[i][j];
-
-				//--If they have none, they are willing to take stickers
-				//--Make an edge of capacity one from the t_sticker to person_sticker
-				if (count == 0) {
-					//--but if this person is bob the edge should go to the target
-					if (i == 0) {
-						person_j = v[TARGET_VERTEX_INDEX];
-					}
-						
-					Edge edge = new Edge(t_j, person_j, 1, true);
-					t_j.fromHere.add(edge);
-					person_j.fromHere.add(edge.residual);
+				if (count == 0)
+				{
+					Edge edge = new Edge(t_n, person, 1, true);
+					t_n.fromHere.add(edge);
+					person.fromHere.add(edge.residual);
 				}
-				//--If they have more than one, they are willing to give a sticker
-				//--Make an edge from person_sticker to target_sticker of capacity (count - 1)
-				else if (count > 1) {
-					Edge edge = new Edge(person_j, t_j, count - 1, true);
-					person_j.fromHere.add(edge);
-					t_j.fromHere.add(edge.residual);
+				else if (count > 1)
+				{
+					Edge edge = new Edge(person, t_n, count - 1, true);
+					person.fromHere.add(edge);
+					t_n.fromHere.add(edge.residual);
 				}
 			}
 		}
@@ -217,8 +224,6 @@ class Main {
 	}
 
 	static void tearDown() {
-		//--It is not necessary to clean all vertexes,
-		//  but I am too lazy to write the logic
 		for (int i = 0; i < NUM_VERTEXES; i++) {
 			v[i].fromHere.clear();
 		}
