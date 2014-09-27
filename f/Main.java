@@ -30,14 +30,37 @@ where k a vertex on the graph other than i and k.
 
 import java.util.*;
 
+class Edge implements Comparable<Edge> {
+	String s1;
+	String s2;
+
+	public Edge(String s1, String s2) {
+		this.s1 = s1;
+		this.s2 = s2;
+	}
+
+	public String toString() {
+		return s1 + "," + s2;
+	}
+
+	@Override
+	public int compareTo(Edge e) {
+		if (this.s1.equals(e.s1))
+			return this.s2.compareTo(e.s2);
+
+		return this.s1.compareTo(s1);
+	}
+}
 class Main {
 	static Scanner conIn;
 	static final int MAX_V = 200;
 	static int numConnections;
 	static HashMap<String, Integer> nameToIndex = new HashMap<String, Integer>();
+	static HashMap<Integer, String> indexToName = new HashMap<Integer, String>();
 	static int numVertex;
 	static boolean[][] graph = new boolean[MAX_V][MAX_V];
 	static boolean[][] trans = new boolean[MAX_V][MAX_V];
+	static PriorityQueue<Edge> results = new PriorityQueue<Edge>();
 	
 	public static void main(String[] args) {
 		numVertex = 0;
@@ -61,11 +84,15 @@ class Main {
 		for (int i = 0; i < numConnections; i++) {
 			String s1 = conIn.next();
 			if (nameToIndex.get(s1) == null) {
-				nameToIndex.put(s1, numVertex++);
+				nameToIndex.put(s1, numVertex);
+				indexToName.put(numVertex, s1);
+				numVertex++;
 			}
 			String s2 = conIn.next();
 			if (nameToIndex.get(s2) == null) {
-				nameToIndex.put(s2, numVertex++);
+				nameToIndex.put(s2, numVertex);
+				indexToName.put(numVertex, s2);
+				numVertex++;
 			}
 			int i1 = nameToIndex.get(s1);
 			int i2 = nameToIndex.get(s2);
@@ -85,6 +112,19 @@ class Main {
 		}
 	}
 
-	static void trimEdges() {}
+	static void trimEdges() {
+		for (int i = 0; i < numVertex; i++) {
+			for (int j = 0; j < numVertex; j++) {
+				if (graph[i][j]) {
+					for (int k = 0; k < numVertex; k++) {
+						if (trans[i][k] && trans[k][j])
+							results.add(new Edge(indexToName.get(i), indexToName.get(j)));
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	static void printTrimmedEdges() {}
 }
