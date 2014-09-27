@@ -28,4 +28,32 @@ if a pair of edges, e(i,k) and e(k,j), exist on the transitive closure,
 where k a vertex on the graph other than i and k.
 */
 
+import java.util.*;
 
+class Main {
+	static Scanner conIn;
+	static final int MAX_V = 200;
+	static int numConnections;
+	
+	public static void main(String[] args) {
+		conIn = new Scanner(System.in);
+		
+		numConnections = conIn.nextInt();
+		while (numConnections != 0) {
+			solveProblem();
+			numConnections = conIn.nextInt();
+		}
+	}
+
+	static void solveProblem() {
+		getInput();
+		buildTransitiveClosure();
+		trimEdges();
+		printTrimmedEdges();
+	}
+
+	static void getInput() {}
+	static void buildTransitiveClosure() {}
+	static void trimEdges() {}
+	static void printTrimmedEdges() {}
+}
