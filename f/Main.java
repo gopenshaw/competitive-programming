@@ -34,8 +34,13 @@ class Main {
 	static Scanner conIn;
 	static final int MAX_V = 200;
 	static int numConnections;
+	static HashMap<String, Integer> nameToIndex = new HashMap<String, Integer>();
+	static int numVertex;
+	static boolean[][] graph = new boolean[MAX_V][MAX_V];
+	static boolean[][] trans = new boolean[MAX_V][MAX_V];
 	
 	public static void main(String[] args) {
+		numVertex = 0;
 		conIn = new Scanner(System.in);
 		
 		numConnections = conIn.nextInt();
@@ -52,7 +57,23 @@ class Main {
 		printTrimmedEdges();
 	}
 
-	static void getInput() {}
+	static void getInput() {
+		for (int i = 0; i < numConnections; i++) {
+			String s1 = conIn.next();
+			if (nameToIndex.get(s1) == null) {
+				nameToIndex.put(s1, numVertex++);
+			}
+			String s2 = conIn.next();
+			if (nameToIndex.get(s2) == null) {
+				nameToIndex.put(s2, numVertex++);
+			}
+			int i1 = nameToIndex.get(s1);
+			int i2 = nameToIndex.get(s2);
+			graph[i1][i2] = true;
+			trans[i1][i2] = true;
+		}
+	}
+
 	static void buildTransitiveClosure() {}
 	static void trimEdges() {}
 	static void printTrimmedEdges() {}
