@@ -74,7 +74,17 @@ class Main {
 		}
 	}
 
-	static void buildTransitiveClosure() {}
+	static void buildTransitiveClosure() {
+		for (int k = 0; k < numVertex; k++) {
+			for (int i = 0; i < numVertex; i++) {
+				for (int j = 0; j < numVertex; j++) {
+					if (trans[i][k] && trans[k][j])
+						trans[i][j] = true;
+				}
+			}
+		}
+	}
+
 	static void trimEdges() {}
 	static void printTrimmedEdges() {}
 }
