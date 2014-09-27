@@ -39,6 +39,7 @@ class Edge implements Comparable<Edge> {
 		this.s2 = s2;
 	}
 
+	@Override
 	public String toString() {
 		return s1 + "," + s2;
 	}
