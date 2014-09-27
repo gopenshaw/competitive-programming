@@ -48,7 +48,7 @@ class Edge implements Comparable<Edge> {
 		if (this.s1.equals(e.s1))
 			return this.s2.compareTo(e.s2);
 
-		return this.s1.compareTo(s1);
+		return this.s1.compareTo(e.s1);
 	}
 }
 class Main {
@@ -61,13 +61,15 @@ class Main {
 	static boolean[][] graph = new boolean[MAX_V][MAX_V];
 	static boolean[][] trans = new boolean[MAX_V][MAX_V];
 	static PriorityQueue<Edge> results = new PriorityQueue<Edge>();
+	static int caseNum = 0;
 	
 	public static void main(String[] args) {
-		numVertex = 0;
 		conIn = new Scanner(System.in);
 		
 		numConnections = conIn.nextInt();
 		while (numConnections != 0) {
+			numVertex = 0;
+			caseNum++;
 			solveProblem();
 			numConnections = conIn.nextInt();
 		}
@@ -78,6 +80,7 @@ class Main {
 		buildTransitiveClosure();
 		trimEdges();
 		printTrimmedEdges();
+		cleanUp();
 	}
 
 	static void getInput() {
@@ -105,8 +108,9 @@ class Main {
 		for (int k = 0; k < numVertex; k++) {
 			for (int i = 0; i < numVertex; i++) {
 				for (int j = 0; j < numVertex; j++) {
-					if (trans[i][k] && trans[k][j])
+					if (trans[i][k] && trans[k][j]) {
 						trans[i][j] = true;
+					}
 				}
 			}
 		}
@@ -117,14 +121,35 @@ class Main {
 			for (int j = 0; j < numVertex; j++) {
 				if (graph[i][j]) {
 					for (int k = 0; k < numVertex; k++) {
-						if (trans[i][k] && trans[k][j])
+						if (trans[i][k] && trans[k][j]) {
 							results.add(new Edge(indexToName.get(i), indexToName.get(j)));
-						break;
+							break;
+						}
 					}
 				}
 			}
 		}
 	}
 
-	static void printTrimmedEdges() {}
+	static void printTrimmedEdges() {
+		System.out.printf("Case %d: %d", caseNum, results.size());
+		while (!results.isEmpty()) {
+			System.out.print(" " + results.poll());
+		}
+
+		System.out.println();
+	}
+
+	static void cleanUp() {
+		results.clear();
+		for (int i = 0; i < numVertex; i++) {
+			for (int j = 0; j < numVertex; j++) {
+				graph[i][j] = false;
+				trans[i][j] = false;
+			}
+		}
+
+		indexToName.clear();
+		nameToIndex.clear();
+	}
 }
