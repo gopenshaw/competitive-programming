@@ -47,6 +47,9 @@ class Main {
 				int result = waterfall(new Point(x, y));
 				System.out.println(result);
 			}
+
+			if (i < numCases - 1)
+				System.out.println();
 		}
 	}
 
