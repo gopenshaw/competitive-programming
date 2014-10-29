@@ -2,7 +2,7 @@
 //  We will start at the source and make a temporary vertical line.
 //  For all lines that this line crosses, we will get the intersection point.
 //  We will choose the line associated with the point with the greatest y value.
-//  For that point, the new source will be the point with the smallest x value.
+//  For that point, the new source will be the point on the line with the smaller y value.
 //  
 //  This will be implemented recursively
 //  
@@ -39,21 +39,39 @@ class Main {
 			}
 
 			Arrays.sort(line, 0, numLines);
-			for (int j = 0; j < numLines; j++) {
-				System.out.print(line[j]);
-			}
 
 			numSources = conIn.nextInt();
 			for (int j = 0; j < numSources; j++) {
 				int x = conIn.nextInt();
 				int y = conIn.nextInt();
-				int highestLineUnderY = getHighestLineUnder(y);
-				//--make temporary line down to y = 0
-				//--for all lines under this y value
-				//--the line with the intersection point with the greatest
-				//-y value is the line that we will hit.
+				int result = waterfall(new Point(x, y));
+				System.out.println(result);
 			}
 		}
+	}
+
+	static int waterfall(Point source) {
+		Line temp = new Line(source, new Point(source.x, 0));
+		int highestLineUnderY = getHighestLineUnder((int)source.y);
+		double max = 0;
+		int nextLine = -1;
+		for (int i = 0; i <= highestLineUnderY; i++) {
+			Point cross = temp.getIntersection(line[i]);
+			if (cross == null)
+				continue;
+
+			double pointHeight = cross.y;
+			if (pointHeight > max) {
+				max = pointHeight;
+				nextLine = i;
+			}
+		}
+
+		if (nextLine == -1)
+			return (int)source.x;
+
+		Point minPoint = line[nextLine].getLowerPoint();
+		return waterfall(minPoint);
 	}
 
 	static int getHighestLineUnder(int y) {
@@ -131,6 +149,10 @@ class Line implements Comparable<Line> {
 							&& Math.min(line.p1.y, line.p2.y) <= p.y
 							&& p.y <= Math.max(line.p1.y, line.p2.y);
 		return onThisLine && onThatLine ? p : null;
+	}
+
+	Point getLowerPoint() {
+		return p1.y < p2.y ? p1 : p2;
 	}
 
 	double minY() {
