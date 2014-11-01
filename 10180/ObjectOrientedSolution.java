@@ -24,7 +24,7 @@
 
 import java.util.*;
 
-class Main {
+class ObjectOrientedSolution {
 
 	static final Point ORIGIN = new Point(0, 0);
 
@@ -32,16 +32,10 @@ class Main {
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
 		for (int i = 0; i < numCases; i++) {
-			double x1 = conIn.nextFloat();
-			double y1 = conIn.nextFloat();
-			double x2 = conIn.nextFloat();
-			double y2 = conIn.nextFloat();
-			double r = conIn.nextFloat();
-			Point p1 = new Point(x1, y1);
-			Point p2 = new Point(x2, y2);
-			Circle circle = new Circle(ORIGIN, r);
-			if (!circleIntersectsLine(x1, y1, x2, y2, r)) {
-				System.out.println("line solution");
+			Point p1 = new Point(conIn.nextFloat(), conIn.nextFloat());
+			Point p2 = new Point(conIn.nextFloat(), conIn.nextFloat());
+			Circle circle = new Circle(ORIGIN, conIn.nextFloat());
+			if (!circle.intersects(new Line(p1, p2))) {
 				System.out.printf("%.3f\n",p1.distanceTo(p2));
 				continue;
 			}
@@ -56,17 +50,6 @@ class Main {
 			double arcLength = circle.arcLength(arcAngle);
 			System.out.printf("%.3f\n",segment1 + segment2 + arcLength);
 		}
-	}
-
-	static boolean circleIntersectsLine(
-		double x1, double y1, double x2, double y2, double radius) {
-		double dx = x2 - x1;
-		double dy = y2 - y1;
-		double factor = (dx * -x1 + dy * -y1) / 
-			(dx * dx + dy * dy);
-		double x3 = dx * factor + x1;
-		double y3 = dy * factor + x2;
-		return (Math.sqrt(x3 * x3 + y3 * y3) <= radius);
 	}
 
 	static double getSegmentLength(double segment, double hypotenuse) {
