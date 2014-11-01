@@ -10,17 +10,14 @@
 // If the rope intersects the circle, then the rope length will 
 // be the two segments plus the arc length.
 // 
-// The length of the segment can be found using pythagorean theorem,
+// The length of the segments can be found using pythagorean theorem,
 // where the hypotenuse is the distance from point to origin, and the
 // triangle sides are the segment length and the radius.
 //
-// The arc length depends on the angle the between the lines
-// formed by connecting p1 to the origin and p2 to the origin
-// and the radius of the circle. The shortest line that includes
-// the arc length will have the lines intersecting the circle
-// at a tangent. Therefore the arc angle is the angle between the
-// two lines - 90 degrees.
-//
+// The arc length can be found by taking the angle between the lines
+// and subtracting the angle corresponding the the triangle formed by
+// connecting each point to the origin and the point at which it connects
+// with the circle. This is hard to write in words.
 
 import java.util.*;
 
@@ -32,16 +29,10 @@ class Main {
 		Scanner conIn = new Scanner(System.in);
 		int numCases = conIn.nextInt();
 		for (int i = 0; i < numCases; i++) {
-			double x1 = conIn.nextFloat();
-			double y1 = conIn.nextFloat();
-			double x2 = conIn.nextFloat();
-			double y2 = conIn.nextFloat();
-			double r = conIn.nextFloat();
-			Point p1 = new Point(x1, y1);
-			Point p2 = new Point(x2, y2);
-			Circle circle = new Circle(ORIGIN, r);
-			if (!circleIntersectsLine(x1, y1, x2, y2, r)) {
-				System.out.println("line solution");
+			Point p1 = new Point(conIn.nextFloat(), conIn.nextFloat());
+			Point p2 = new Point(conIn.nextFloat(), conIn.nextFloat());
+			Circle circle = new Circle(ORIGIN, conIn.nextFloat());
+			if (!circle.intersects(new Line(p1, p2))) {
 				System.out.printf("%.3f\n",p1.distanceTo(p2));
 				continue;
 			}
@@ -50,23 +41,17 @@ class Main {
 				getSegmentLength(circle.radius, p1.distanceTo(ORIGIN));
 			double segment2 =
 				getSegmentLength(circle.radius, p2.distanceTo(ORIGIN));
-			double arcAngle =
-				p1.vectorTo(ORIGIN).angleInRadiansTo(p2.vectorTo(ORIGIN))
-					- Math.PI / 2;
+			double angleBetweenVectors = 
+				p1.vectorTo(ORIGIN).angleInRadiansTo(p2.vectorTo(ORIGIN));
+			double arcAngle = 
+				angleBetweenVectors 
+					- Math.atan(segment1 / circle.radius)
+					- Math.atan(segment2 / circle.radius);
 			double arcLength = circle.arcLength(arcAngle);
+//			System.out.printf("line1,%f\nline2,%f\narcLength,%f\n",
+//				segment1, segment2, arcAngle);
 			System.out.printf("%.3f\n",segment1 + segment2 + arcLength);
 		}
-	}
-
-	static boolean circleIntersectsLine(
-		double x1, double y1, double x2, double y2, double radius) {
-		double dx = x2 - x1;
-		double dy = y2 - y1;
-		double factor = (dx * -x1 + dy * -y1) / 
-			(dx * dx + dy * dy);
-		double x3 = dx * factor + x1;
-		double y3 = dy * factor + x2;
-		return (Math.sqrt(x3 * x3 + y3 * y3) <= radius);
 	}
 
 	static double getSegmentLength(double segment, double hypotenuse) {
@@ -80,21 +65,44 @@ class Main {
 }
 
 class Circle {
-	Point origin;
+	Point center;
 	double radius;
 
-	Circle(Point origin, double radius) {
-		this.origin = origin;
+	Circle(Point center, double radius) {
+		this.center = center;
 		this.radius = radius;
 	}
 
+	boolean isContained(Point p) {
+		return center.distanceTo(p) < radius;
+	}
+
+	boolean hasOnBoundary(Point p) {
+		return p.distanceTo(center) == radius;
+	}
+
 	boolean intersects(Line line) {
-		Vector v = line.p1.vectorTo(line.p2);
-		Vector toCircle = line.p1.vectorTo(origin);
-		Vector proj = toCircle.projectOnto(v);
-		Point p = line.p1.addVector(proj);
-		double distance = origin.distanceTo(p);
-		return (distance <= radius);
+		Point closePoint, farPoint;
+		if (line.p1.distanceTo(center) < line.p2.distanceTo(center)) {
+			closePoint = line.p1;
+			farPoint = line.p2;
+		}
+		else {
+			closePoint = line.p2;
+			farPoint = line.p1;
+		}
+		
+		Vector v = closePoint.vectorTo(farPoint);
+		Vector toCenter = closePoint.vectorTo(center);
+		Vector proj = toCenter.projectOnto(v);
+		if (!isContained(closePoint)
+			&& v.angleInRadiansTo(toCenter) >= Math.PI / 2) {
+			return false;
+		}
+
+		Point p = closePoint.addVector(proj);
+		double distance = center.distanceTo(p);
+		return (distance < radius);
 	}
 
 	double circumference() {
