@@ -1,4 +1,4 @@
 uva-solutions
 =============
 
-Problems 11456, 11790, and 782 are not valid solutions.
+Problems 10180, 11456, 11790, and 782 are not AC solutions.
