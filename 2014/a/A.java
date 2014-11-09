@@ -7,6 +7,7 @@ class A {
 		int n1 = conIn.nextInt();
 		int n2 = conIn.nextInt();
 		while (n1 != 0 || n2 != 0) {
+			caseNum++;
 			ArrayList<Integer> conFrac1 = new ArrayList<Integer>();
 			for (int i = 0; i < n1; i++) {
 				conFrac1.add(conIn.nextInt());
@@ -17,9 +18,8 @@ class A {
 			}
 			Fraction r1 = convertToFraction(conFrac1, 0);
 			Fraction r2 = convertToFraction(conFrac2, 0);
-//			System.out.printf("n1:%d,d1:%d\nn2:%d,d2:%d\n",
-//				r1.num,r1.den,r2.num,r2.den);
 
+			System.out.printf("Case %d:\n",caseNum);
 			printList(convertToContinuousFraction(r1.add(r2)));
 			printList(convertToContinuousFraction(r1.subtract(r2)));
 			printList(convertToContinuousFraction(r1.multiply(r2)));
@@ -40,9 +40,16 @@ class A {
 
 	static ArrayList<Long> convertToContinuousFraction(Fraction f) {
 		ArrayList<Long> result = new ArrayList<Long>();
-		long value = f.num / f.den;
-		result.add(value);
+		long value = 0L;
+		if (f.isNegative()) {
+			value = f.num / f.den - 1;
+		}
+		else {
+			value = f.num / f.den;
+		}
+
 		Fraction rem = f.subtract(new Fraction(value, 1L));
+		result.add(value);
 		while (rem.num != 0) {
 			value = rem.den / rem.num;
 			result.add(value);
@@ -71,6 +78,11 @@ class Fraction {
 	Fraction(long num, long den) {
 		this.num = num;
 		this.den = den;
+	}
+
+	boolean isNegative() {
+		return (num > 0 && den < 0)
+			|| (num < 0 && den > 0);
 	}
 
 	Fraction add(Fraction f) {
