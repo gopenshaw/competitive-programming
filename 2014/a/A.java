@@ -18,6 +18,8 @@ class A {
 			}
 			Fraction r1 = convertToFraction(conFrac1, 0);
 			Fraction r2 = convertToFraction(conFrac2, 0);
+//			System.out.printf("n1:%d,d1:%d,n2:%d,d2:%d\n",
+//				r1.num,r1.den,r2.num,r2.den);
 
 			System.out.printf("Case %d:\n",caseNum);
 			printList(convertToContinuousFraction(r1.add(r2)));
@@ -87,7 +89,7 @@ class Fraction {
 	}
 
 	boolean isWholeNumber() {
-		return (num / den % 1) == 0;
+		return (num % den) == 0;
 	}
 
 	Fraction add(Fraction f) {
