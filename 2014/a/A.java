@@ -41,7 +41,8 @@ class A {
 	static ArrayList<Long> convertToContinuousFraction(Fraction f) {
 		ArrayList<Long> result = new ArrayList<Long>();
 		long value = 0L;
-		if (f.isNegative()) {
+		if (f.isNegative()
+			&& !f.isWholeNumber()) {
 			value = f.num / f.den - 1;
 		}
 		else {
@@ -83,6 +84,10 @@ class Fraction {
 	boolean isNegative() {
 		return (num > 0 && den < 0)
 			|| (num < 0 && den > 0);
+	}
+
+	boolean isWholeNumber() {
+		return (num / den % 1) == 0;
 	}
 
 	Fraction add(Fraction f) {
