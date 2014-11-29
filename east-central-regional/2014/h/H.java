@@ -45,7 +45,8 @@ class H {
 	}
 
 	static int getSecondsBefore(int theta, int hour) {
-		return (int)Math.round(-120.0 / 11 * ( theta - 30 * (12 - hour)));
+		int h = hour == 12 ? 12 : 12 - hour;
+		return (int)Math.round(-120.0 / 11 * ( theta - 30 * h));
 	}
 
 	static int getHoursLost(int seconds) {
