@@ -24,7 +24,7 @@ class Main {
 	}
 
 	static void solve() {
-		int[][] dp = new int[M + 1][20];
+		int[][] dp = new int[M + 1][21];
 		//--For each item type i
 		for (int i = 1; i <= C; i++) {
 			//--and item number j
