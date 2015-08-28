@@ -36,7 +36,7 @@ class Main {
 					//  the greatest we could spend on types 1 to i - 1
 					//  with this "k-minus-this-item's-cost" dollars
 					//  OR
-					//  The greatest amount we could with this item
+					//  The greatest amount we could without this item
 					int oldTotal = dp[k - itemCost][i - 1];
 					if (oldTotal == 0 && i != 1)
 						continue; //--We did not have the i - 1 types, so
