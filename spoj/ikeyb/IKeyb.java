@@ -7,7 +7,6 @@ class IKeyb {
 	static String keys;
 	static int[] freq = new int[L];
 	static int[][] dp = new int[K][L];
-	static BackPointer[][] trail = new BackPointer[K][L];
 
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
@@ -31,6 +30,7 @@ class IKeyb {
 
 	public BackPointer solve() {
 		int[] minPos = new int[K];
+		BackPointer[][] trail = new BackPointer[K][L];
 		//--For every letter, start at the last
 		//  position it could be placed.
 		//--Calculate the cost of putting it there, and
