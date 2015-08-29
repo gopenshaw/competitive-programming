@@ -1,28 +1,40 @@
 import java.util.*;
 
 class IKeyb {
-
-	//1 8 26 23456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ 
-	static int[] freq = {3371, 589, 1575, 1614, 6212, 971, 773, 1904, 2989, 123, 209, 1588, 1513, 2996, 3269, 1080, 121, 2726, 3083, 4368, 1334, 518, 752, 427, 733, 871 };
+	static int K = 90;
+	static int L = 90;
+	static String letters;
+	static String keys;
+	static int[] freq = new int[L];
+	static int[][] dp = new int[K][L];
 
 	public static void main(String[] args) {
-		new IKeyb().solve();
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		for (int i = 0; i < n; i++) {
+			K = s.nextInt();
+			L = s.nextInt();
+			keys = s.next();
+			letters = s.next();
+			for (int j = 0; j < L; j++) {
+				freq[j] = s.nextInt();
+			}
+
+			new IKeyb().solve();
+		}
 	}
 
 	public void solve() {
-		int letterCount = 26;
-		int keyCount = 8;
-		int[][] dp = new int[keyCount][26];
-		BackPointer[][] trail = new BackPointer[keyCount][26];
-		int[] minPos = new int[keyCount];
+		BackPointer[][] trail = new BackPointer[K][L];
+		int[] minPos = new int[K];
 		//--For every letter, start at the last
 		//  position it could be placed.
 		//--Calculate the cost of putting it there, and
 		//  all previous, valid positions
 		dp[0][0] = freq[0];
-		trail[0][0] = new BackPointer('a',0,0,null);
-		for (int letter = 1; letter < freq.length; letter++) {
-			for (int key = Math.min(letter, keyCount - 1); key >= 0; key--) {
+		trail[0][0] = new BackPointer(0,0,0,null);
+		for (int letter = 1; letter < L; letter++) {
+			for (int key = Math.min(letter, K - 1); key >= 0; key--) {
 				int minCost = Integer.MAX_VALUE;
 				for (int pos = letter - key; pos >= 0; pos--) {
 					if (key == 0 && pos < letter) break;
@@ -30,14 +42,14 @@ class IKeyb {
 					BackPointer p;
 					if (pos != 0) {
 						cost = dp[key][pos - 1] + (pos + 1) * freq[letter];
-						trail[key][pos] = new BackPointer((char)((int)letter + 'a'),
+						trail[key][pos] = new BackPointer(letter,
 							key,
 							pos,
 							trail[key][pos - 1]);
 					}
 					else {
 						cost = freq[letter] + dp[key - 1][minPos[key - 1]];
-						trail[key][pos] = new BackPointer((char)((int)letter + 'a'),
+						trail[key][pos] = new BackPointer(letter,
 							key,
 							pos,
 							trail[key - 1][minPos[key - 1]]);
@@ -56,9 +68,9 @@ class IKeyb {
 		//--Find the best result
 		int result = Integer.MAX_VALUE;
 		BackPointer last = null;
-		for (int key = Math.min(letterCount, keyCount) - 1; key >= 0; key--) {
-			for (int pos = letterCount - 1 - key; pos >= 0; pos--) {
-				if (key == 0 && pos < letterCount - 1) break;
+		for (int key = Math.min(L, K) - 1; key >= 0; key--) {
+			for (int pos = L - 1 - key; pos >= 0; pos--) {
+				if (key == 0 && pos < L - 1) break;
 				System.out.printf("Count %d key %d pos %d\n",
 					dp[key][pos], key, pos);
 				if (dp[key][pos] < result) {
@@ -76,13 +88,13 @@ class IKeyb {
 	}
 
 	class BackPointer {
-		char letter;
+		int letter;
 		int key;
 		int pos;
 
 		BackPointer prev;
 
-		public BackPointer(char letter, int key, int pos, BackPointer prev) {
+		public BackPointer(int letter, int key, int pos, BackPointer prev) {
 			this.letter = letter;
 			this.key = key;
 			this.pos = pos;
@@ -91,8 +103,10 @@ class IKeyb {
 
 		@Override
 		public String toString() {
-			return String.format("%s, key %d, pos %d\n",
-				letter, key, pos);
+			return String.format("%s, key %s, pos %d\n",
+				letters.charAt(letter),
+				keys.charAt(key),
+				pos);
 		}
 	}
 }
