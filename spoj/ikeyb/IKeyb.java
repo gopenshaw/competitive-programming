@@ -24,7 +24,7 @@ class IKeyb {
 			BackPointer last = new IKeyb().solve();
 
 			System.out.printf("Keyboard #%d:\n", i + 1);
-			printReverse(last);
+			printReverse(last, L - 1, K - 1);
 			System.out.println("\n");
 		}
 	}
@@ -36,7 +36,7 @@ class IKeyb {
 		//--Calculate the cost of putting it there, and
 		//  all previous, valid positions
 		dp[0][0] = freq[0];
-		trail[0][0] = new BackPointer(0,0,0,null);
+		trail[0][0] = new BackPointer(true, null);
 		for (int letter = 1; letter < L; letter++) {
 			for (int key = Math.min(letter, K - 1); key >= 0; key--) {
 				int minCost = Integer.MAX_VALUE;
@@ -46,16 +46,13 @@ class IKeyb {
 					BackPointer p;
 					if (pos != 0) {
 						cost = dp[key][pos - 1] + (pos + 1) * freq[letter];
-						trail[key][pos] = new BackPointer(letter,
-							key,
-							pos,
-							trail[key][pos - 1]);
+						trail[key][pos] =
+							new BackPointer(false, trail[key][pos - 1]);
 					}
 					else {
 						cost = freq[letter] + dp[key - 1][minPos[key - 1]];
-						trail[key][pos] = new BackPointer(letter,
-							key,
-							pos,
+						trail[key][pos] = new BackPointer(
+							true,
 							trail[key - 1][minPos[key - 1]]);
 					}
 
@@ -85,37 +82,27 @@ class IKeyb {
 		return last;
 	}
 
-	static void printReverse(BackPointer p) {
+	static void printReverse(BackPointer p, int letter, int key) {
 		if (p == null) return;
-		printReverse(p.prev);
-		if (p.pos == 0) {
-			if (p.letter != 0) System.out.println();
-			System.out.printf("%s: ", keys.charAt(p.key));
+
+		if (p.isFirst) printReverse(p.prev, letter - 1, key - 1);
+		else printReverse(p.prev, letter - 1, key);
+
+		if (p.isFirst) {
+			if (letter != 0) System.out.println();
+			System.out.printf("%s: ", keys.charAt(key));
 		}
 
-		System.out.print(letters.charAt(p.letter));
+		System.out.print(letters.charAt(letter));
 	}
 
 	class BackPointer {
-		int letter;
-		int key;
-		int pos;
-
+		boolean isFirst;
 		BackPointer prev;
 
-		public BackPointer(int letter, int key, int pos, BackPointer prev) {
-			this.letter = letter;
-			this.key = key;
-			this.pos = pos;
+		public BackPointer(boolean isFirst, BackPointer prev) {
+			this.isFirst = isFirst;
 			this.prev= prev;
-		}
-
-		@Override
-		public String toString() {
-			return String.format("%s, key %s, pos %d\n",
-				letters.charAt(letter),
-				keys.charAt(key),
-				pos);
 		}
 	}
 }
