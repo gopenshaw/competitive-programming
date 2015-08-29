@@ -23,7 +23,7 @@ class IKeyb {
 
 			BackPointer last = new IKeyb().solve();
 
-			System.out.printf("Keyboard #%d:\n", i + 1);
+			System.out.printf("Keypad #%d:\n", i + 1);
 			printReverse(last, L - 1, K - 1);
 			System.out.println("\n");
 		}
