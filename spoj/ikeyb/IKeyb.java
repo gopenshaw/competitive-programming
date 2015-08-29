@@ -7,6 +7,7 @@ class IKeyb {
 	static String keys;
 	static int[] freq = new int[L];
 	static int[][] dp = new int[K][L];
+	static BackPointer[][] trail = new BackPointer[K][L];
 
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
@@ -20,12 +21,15 @@ class IKeyb {
 				freq[j] = s.nextInt();
 			}
 
-			new IKeyb().solve();
+			BackPointer last = new IKeyb().solve();
+
+			System.out.printf("Keyboard #%d:\n", i + 1);
+			printReverse(last);
+			System.out.println("\n");
 		}
 	}
 
-	public void solve() {
-		BackPointer[][] trail = new BackPointer[K][L];
+	public BackPointer solve() {
 		int[] minPos = new int[K];
 		//--For every letter, start at the last
 		//  position it could be placed.
@@ -71,8 +75,6 @@ class IKeyb {
 		for (int key = Math.min(L, K) - 1; key >= 0; key--) {
 			for (int pos = L - 1 - key; pos >= 0; pos--) {
 				if (key == 0 && pos < L - 1) break;
-				System.out.printf("Count %d key %d pos %d\n",
-					dp[key][pos], key, pos);
 				if (dp[key][pos] < result) {
 					result = dp[key][pos];
 					last = trail[key][pos];
@@ -80,11 +82,18 @@ class IKeyb {
 			}
 		}
 
-		System.out.println(result);
-		while (last != null) {
-			System.out.print(last);
-			last = last.prev;
+		return last;
+	}
+
+	static void printReverse(BackPointer p) {
+		if (p == null) return;
+		printReverse(p.prev);
+		if (p.pos == 0) {
+			if (p.letter != 0) System.out.println();
+			System.out.printf("%s: ", keys.charAt(p.key));
 		}
+
+		System.out.print(letters.charAt(p.letter));
 	}
 
 	class BackPointer {
