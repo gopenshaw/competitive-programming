@@ -1,4 +1,4 @@
-**I-Keyboard** - *accepted* - 1.56 seconds
+**I-Keyboard** - accepted - 1.56 seconds
 
 Tags:		`DP`, `bottom-up`
 
