@@ -1,1 +1,1 @@
-import java.util.*;class K{public static void main(String[] args){Scanner s=new Scanner(System.in);for(int i=0;i<10;i++){int r=1;char[] w=s.next().toCharArray();for(int j=0;j<w.length;j++)if(w[j]==84||w[j]==68||w[j]==76||w[j]==70)r*=2;System.out.println(r);}}}
+import java.util.*;class K{public static void main(String[]args){Scanner s=new Scanner(System.in);while(s.hasNext()){int r=1;char[]w=s.next().toCharArray();int j=w.length;while(j-->0)if(w[j]==84||w[j]==68||w[j]==76||w[j]==70)r*=2;System.out.println(r);}}}
