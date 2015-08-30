@@ -1,11 +1,19 @@
+import java.util.*;
+
 class NSystem {
 	static char[] token = {'m', 'c', 'x', 'i'};
 
 	public static void main(String[] args) {
-		System.out.println(convertToString(123));
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		for (int i = 0 ; i < n; i++) {
+			String s1 = s.next();
+			String s2 = s.next();
+			System.out.println(toString(toInt(s1) + toInt(s2)));
+		}
 	}
 
-	static int convertToInt(String s) {
+	static int toInt(String s) {
 		int result = 0;
 		int lastIndex = -1;
 		for (int i = 0; i < token.length; i++) {
@@ -25,7 +33,7 @@ class NSystem {
 		return result;
 	}
 
-	static String convertToString(int i) {
+	static String toString(int i) {
 		int power = token.length - 1;
 		StringBuilder s = new StringBuilder();
 		while (power >= 0) {
