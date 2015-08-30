@@ -1,14 +1,12 @@
 class NSystem {
+	static char[] token = {'m', 'c', 'x', 'i'};
+
 	public static void main(String[] args) {
-		String s1 = "c2x2i";
-		String s2 = "4c8x8i";
-		System.out.println(convertToInt(s1));
-		System.out.println(convertToInt(s2));
+		System.out.println(convertToString(123));
 	}
 
 	static int convertToInt(String s) {
 		int result = 0;
-		char[] token = {'m', 'c', 'x', 'i'};
 		int lastIndex = -1;
 		for (int i = 0; i < token.length; i++) {
 			int index = s.indexOf(token[i]);
@@ -25,5 +23,26 @@ class NSystem {
 		}
 
 		return result;
+	}
+
+	static String convertToString(int i) {
+		int power = token.length - 1;
+		StringBuilder s = new StringBuilder();
+		while (power >= 0) {
+			int mult = (int)Math.pow(10, power);
+			int res = i / mult;
+			if (res == 0) {
+				power--;
+				continue;
+			}
+
+			if (res > 1) s.append(res);
+
+			s.append(token[token.length - power - 1]);
+			i %= mult;
+			power--;
+		}
+
+		return s.toString();
 	}
 }
