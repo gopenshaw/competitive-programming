@@ -16,8 +16,13 @@ class Main {
                     }
                     else {
                         larger = true;
-                        n[pair] = (char)(n[j] + 1);
-                        n[j]++;
+                        if (n[pair] > n[j]) {
+                            n[pair] = (char)(n[j] + 1);
+                            n[j]++;
+                        }
+                        else {
+                            n[pair] = n[j];
+                        }
                     }
                 }
             }
