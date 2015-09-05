@@ -22,44 +22,44 @@ class Main {
                 }
             }
 
-            //--handle a string of 9's separately
-            boolean special = false;
+            if (larger) {
+                System.out.println(n);
+                continue;
+            }
 
             //--The number was already a palindrome
-            if (!larger) {
-                //--we may have to change 1 or 2 digits
-                //  at the center of the number
-                int mid = (n.length - 1) / 2;
-                while (mid >= 0 && n[mid] == '9') {
-                    if (n.length % 2 == 0) {
-                        n[mid] = '0';
-                    }
 
-                    n[n.length - mid - 1] = '0';
-                    mid--;
+            boolean allNines = false;
 
-                    special = mid < 0;
+            //--we may have to change 1 or 2 digits
+            //  at the center of the number
+            int mid = (n.length - 1) / 2;
+            while (mid >= 0 && n[mid] == '9') {
+                if (n.length % 2 == 0) {
+                    n[mid] = '0';
                 }
-                
-                if (special) {
-                    int zeroLength = n.length - 1;
-                    System.out.print(1);
-                    for (int j = 0; j < zeroLength; j++)
-                        System.out.print(0);
-                    
-                    System.out.println(1);
-                }
-                else {
-                    if (n.length % 2 == 0
-                        || mid != (n.length - 1) / 2) {
-                        n[n.length - mid - 1]++;
-                    }
 
-                    n[mid]++;
-                }
+                n[n.length - mid - 1] = '0';
+                mid--;
+
+                allNines = mid < 0;
             }
             
-            if (!special) {
+            if (allNines) {
+                int zeroLength = n.length - 1;
+                System.out.print(1);
+                for (int j = 0; j < zeroLength; j++)
+                    System.out.print(0);
+                
+                System.out.println(1);
+            }
+            else {
+                if (n.length % 2 == 0
+                    || mid != (n.length - 1) / 2) {
+                    n[n.length - mid - 1]++;
+                }
+
+                n[mid]++;
                 System.out.println(n);
             }
         }
