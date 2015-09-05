@@ -27,40 +27,39 @@ class Main {
                 continue;
             }
 
-            //--The number was already a palindrome
+            //--The number was already a palindrome!
 
-            boolean allNines = false;
-
-            //--we may have to change 1 or 2 digits
-            //  at the center of the number
+            //--Set all the 9's to 0's, and leave the pointer
+            //  on the first non-9 digit
             int mid = (n.length - 1) / 2;
-            while (mid >= 0 && n[mid] == '9') {
+            int pointer = mid;
+            while (pointer >= 0 && n[pointer] == '9') {
                 if (n.length % 2 == 0) {
-                    n[mid] = '0';
+                    n[pointer] = '0';
                 }
 
-                n[n.length - mid - 1] = '0';
-                mid--;
-
-                allNines = mid < 0;
+                n[n.length - pointer - 1] = '0';
+                pointer--;
             }
             
-            if (allNines) {
+            //--Increment the pointer and maybe it's pair
+            if (pointer >= 0) {
+                if (n.length % 2 == 0
+                    || pointer != mid) {
+                    n[n.length - pointer - 1]++;
+                }
+
+                n[pointer]++;
+                System.out.println(n);
+            }
+            //--The number was all nines, print
+            else {
                 int zeroLength = n.length - 1;
                 System.out.print(1);
                 for (int j = 0; j < zeroLength; j++)
                     System.out.print(0);
                 
                 System.out.println(1);
-            }
-            else {
-                if (n.length % 2 == 0
-                    || mid != (n.length - 1) / 2) {
-                    n[n.length - mid - 1]++;
-                }
-
-                n[mid]++;
-                System.out.println(n);
             }
         }
     }
