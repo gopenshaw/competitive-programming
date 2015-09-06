@@ -7,6 +7,8 @@ class Main {
         test("203", "212");
         test("88988", "89098");
         test("9999", "10001");
+        test("10320", "10401");
+        test("1425151", "1425241");
     }
 
     public static void test(String number, String expected) {
@@ -21,15 +23,24 @@ class Main {
         char[] n = number.toCharArray();
         int mid = (n.length - 1) / 2;
         boolean increased = false;
+        boolean decreased = false;
+        boolean directionSet = false;
         for (int i = mid; i >=0; i--) {
             int pair = n.length - i - 1;
             if (n[pair] != n[i]) {
-                if (n[i] > n[pair])
-                    increased = true;
+                if (!directionSet) {
+                    directionSet = true;
+                    if (n[i] > n[pair])
+                        increased = true;
+                    else
+                        decreased = true;
+                }
 
                 n[pair] = n[i];
             }
         }
+
+        increased = (increased && !decreased);
 
         if (increased) {
             return new String(n);
