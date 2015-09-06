@@ -9,16 +9,23 @@ class Main {
             boolean larger = false;
             for (int j = (n.length - 1) / 2; j >= 0; j--) {
                 int pair = n.length - j - 1;
-                if (pair == j) continue;
                 if (n[j] != n[pair]) {
                     if (larger) {
                         n[pair] = n[j];
                     }
                     else {
                         larger = true;
-                        if (n[pair] > n[j]) {
+                        if (pair == j) {
+                            n[pair]++;
+                        }
+                        else if (n[pair] > n[j]) {
                             n[pair] = (char)(n[j] + 1);
                             n[j]++;
+
+                            //--reset all inner digits to 0
+                            for (int k = j + 1; k < pair; k++) {
+                                n[k] = '0';
+                            }
                         }
                         else {
                             n[pair] = n[j];
