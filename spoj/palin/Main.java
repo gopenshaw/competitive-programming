@@ -2,77 +2,41 @@ import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-        Scanner conIn = new Scanner(System.in);
-        int numCases = conIn.nextInt();
-        for (int i = 0; i < numCases; i++) {
-            char[] n = conIn.next().toCharArray();
-            boolean larger = false;
-            for (int j = (n.length - 1) / 2; j >= 0; j--) {
-                int pair = n.length - j - 1;
-                if (n[j] != n[pair]) {
-                    if (larger) {
-                        n[pair] = n[j];
-                    }
-                    else {
-                        larger = true;
-                        if (pair == j) {
-                            n[pair]++;
-                        }
-                        else if (n[pair] > n[j]) {
-                            n[pair] = (char)(n[j] + 1);
-                            n[j]++;
+        test("1000", "1001");
+        test("2003", "2112");
+        test("203", "212");
+    }
 
-                            //--reset all inner digits to 0
-                            for (int k = j + 1; k < pair; k++) {
-                                n[k] = '0';
-                            }
-                        }
-                        else {
-                            n[pair] = n[j];
-                        }
-                    }
-                }
-            }
+    public static void test(String number, String expected) {
+        String result = nextPalindrome(number);
+        if (expected.equals(result)) System.out.printf(
+            "Correct result for %s\n", number);
+        else System.out.printf("For %s expected %s but result was %s\n",
+            number, expected, result);
+    }
 
-            if (larger) {
-                System.out.println(n);
-                continue;
-            }
+    public static String nextPalindrome(String number) {
+        char[] n = number.toCharArray();
+        int mid = (n.length - 1) / 2;
+        boolean increased = false;
+        for (int i = mid; i >=0; i--) {
+            int pair = n.length - i - 1;
+            if (n[pair] != n[i]) {
+                if (n[i] > n[pair])
+                    increased = true;
 
-            //--The number was already a palindrome!
-
-            //--Set all the 9's to 0's, and leave the pointer
-            //  on the first non-9 digit
-            int mid = (n.length - 1) / 2;
-            int pointer = mid;
-            while (pointer >= 0 && n[pointer] == '9') {
-                if (n.length % 2 == 0) {
-                    n[pointer] = '0';
-                }
-
-                n[n.length - pointer - 1] = '0';
-                pointer--;
-            }
-            
-            //--Increment the pointer and maybe it's pair
-            if (pointer >= 0) {
-                if (n.length % 2 == 0
-                    || pointer != mid) {
-                    n[n.length - pointer - 1]++;
-                }
-
-                n[pointer]++;
-                System.out.println(n);
-            }
-            //--The number was all nines, print
-            else {
-                int zeroLength = n.length - 1;
-                System.out.print(1);
-                for (int j = 0; j < zeroLength; j++)
-                    System.out.print(0);
-                
-                System.out.println(1);
+                n[pair] = n[i];
             }
         }
+
+        if (increased) {
+            return new String(n);
+        }
+
+        n[mid]++;
+        if (n.length % 2 == 0)
+            n[mid + 1]++;
+
+        return new String(n);
     }
 }
