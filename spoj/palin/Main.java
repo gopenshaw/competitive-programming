@@ -49,7 +49,7 @@ class Main {
         while (pointer >= 0
                 && n[pointer] == '9') {
             int pair = n.length - pointer - 1;
-            n[mid] = '0';
+            n[pointer] = '0';
             n[pair] = '0';
             pointer--;
         }
