@@ -12,30 +12,27 @@ class Main {
         char[] n = number.toCharArray();
         int mid = (n.length - 1) / 2;
         boolean increased = false;
-        boolean decreased = false;
         boolean directionSet = false;
-        for (int i = mid; i >=0; i--) {
+        for (int i = mid; i >= 0; i--) {
             int pair = n.length - i - 1;
             if (n[pair] != n[i]) {
                 if (!directionSet) {
                     directionSet = true;
                     if (n[i] > n[pair])
                         increased = true;
-                    else
-                        decreased = true;
                 }
 
                 n[pair] = n[i];
             }
         }
 
-        increased = (increased && !decreased);
-
         if (increased) {
             System.out.println(n);
             return;
         }
 
+        //--We have smallest palindrome.
+        //--Increment the digit(s) to make it larger
         if (n[mid] != '9') {
             n[mid]++;
             if (n.length % 2 == 0)
@@ -45,6 +42,7 @@ class Main {
             return;
         }
 
+        //--Update all 9's to 0's
         int pointer = mid;
         while (pointer >= 0
                 && n[pointer] == '9') {
@@ -55,6 +53,7 @@ class Main {
         }
 
         if (pointer < 0) {
+            //--The number was all 9's
             System.out.print('1');
             for (int i = 0; i < n.length - 1; i++) {
                 System.out.print('0');
@@ -63,6 +62,7 @@ class Main {
             return;
         }
 
+        //--Increment pair that surrounded the 9's
         n[pointer]++;
         n[n.length - pointer - 1]++;
         System.out.println(n);
