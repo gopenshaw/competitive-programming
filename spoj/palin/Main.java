@@ -9,6 +9,8 @@ class Main {
         test("9999", "10001");
         test("10320", "10401");
         test("1425151", "1425241");
+        test("808", "818");
+        test("2133", "2222");
     }
 
     public static void test(String number, String expected) {
