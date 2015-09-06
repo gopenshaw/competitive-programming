@@ -2,27 +2,13 @@ import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-        test("1000", "1001");
-        test("2003", "2112");
-        test("203", "212");
-        test("88988", "89098");
-        test("9999", "10001");
-        test("10320", "10401");
-        test("103320", "104401");
-        test("1425151", "1425241");
-        test("808", "818");
-        test("2133", "2222");
+        Scanner conIn = new Scanner(System.in);
+        int n = conIn.nextInt();
+        for (int i = 0; i < n; i++)
+            nextPalindrome(conIn.next());
     }
 
-    public static void test(String number, String expected) {
-        String result = nextPalindrome(number);
-        if (expected.equals(result)) System.out.printf(
-            "Correct! %s --> %s\n", number, result);
-        else System.out.printf("For %s expected %s but result was %s\n",
-            number, expected, result);
-    }
-
-    public static String nextPalindrome(String number) {
+    public static void nextPalindrome(String number) {
         char[] n = number.toCharArray();
         int mid = (n.length - 1) / 2;
         boolean increased = false;
@@ -46,7 +32,8 @@ class Main {
         increased = (increased && !decreased);
 
         if (increased) {
-            return new String(n);
+            System.out.println(n);
+            return;
         }
 
         if (n[mid] != '9') {
@@ -54,7 +41,8 @@ class Main {
             if (n.length % 2 == 0)
                 n[mid + 1]++;
 
-            return new String(n);
+            System.out.println(n);
+            return;
         }
 
         int pointer = mid;
@@ -67,15 +55,17 @@ class Main {
         }
 
         if (pointer < 0) {
-            char[] result = new char[n.length + 1];
-            Arrays.fill(result, '0');
-            result[0] = '1';
-            result[result.length - 1] = '1';
-            return new String(result);
+            System.out.print('1');
+            for (int i = 0; i < n.length - 1; i++) {
+                System.out.print('0');
+            }
+            System.out.println('1');
+            return;
         }
 
         n[pointer]++;
         n[n.length - pointer - 1]++;
-        return new String(n);
+        System.out.println(n);
+        return;
     }
 }
