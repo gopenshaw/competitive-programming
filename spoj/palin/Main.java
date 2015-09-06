@@ -5,12 +5,14 @@ class Main {
         test("1000", "1001");
         test("2003", "2112");
         test("203", "212");
+        test("88988", "89098");
+        test("9999", "10001");
     }
 
     public static void test(String number, String expected) {
         String result = nextPalindrome(number);
         if (expected.equals(result)) System.out.printf(
-            "Correct result for %s\n", number);
+            "Correct! %s --> %s\n", number, result);
         else System.out.printf("For %s expected %s but result was %s\n",
             number, expected, result);
     }
@@ -33,10 +35,33 @@ class Main {
             return new String(n);
         }
 
-        n[mid]++;
-        if (n.length % 2 == 0)
-            n[mid + 1]++;
+        if (n[mid] != '9') {
+            n[mid]++;
+            if (n.length % 2 == 0)
+                n[mid + 1]++;
 
+            return new String(n);
+        }
+
+        int pointer = mid;
+        while (pointer >= 0
+                && n[pointer] == '9') {
+            int pair = n.length - pointer - 1;
+            n[mid] = '0';
+            n[pair] = '0';
+            pointer--;
+        }
+
+        if (pointer < 0) {
+            char[] result = new char[n.length + 1];
+            Arrays.fill(result, '0');
+            result[0] = '1';
+            result[result.length - 1] = '1';
+            return new String(result);
+        }
+
+        n[pointer]++;
+        n[n.length - pointer - 1]++;
         return new String(n);
     }
 }
