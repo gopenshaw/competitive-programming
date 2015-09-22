@@ -1,6 +1,7 @@
 /*
 
-https://www.quora.com/A-robber-enters-a-colony-of-houses...
+Problem description:
+  https://www.quora.com/A-robber-enters-a-colony-of-houses-numbered-from-1-to-n-Every-house-has-a-number-printed-on-the-top-of-it-That-number-is-the-amount-of-money-inside-that-house-However-there-is-one-constraint-If-the-robber-robs-the-i-th-house-he-cant-rob-house-no-i-1-and-house-no-i+1-How-can-the-robber-maximise-his
 
 Recurrence relation:
   max(n) is maximum sum from set of houses 1..n
