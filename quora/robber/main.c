@@ -9,7 +9,6 @@ Recurrence relation:
 
 */
 
-#include <math.h>
 #include <stdio.h>
 
 int max(int a, int b) {
