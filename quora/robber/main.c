@@ -16,6 +16,10 @@ int max(int a, int b) {
   return (a > b) ? a : b;
 }
 
+void print(int n) {
+  printf("%d\n", n);
+}
+
 int main() {
   int MAX_N = 10000;
   int value[MAX_N];
@@ -28,10 +32,10 @@ int main() {
   }
 
   if (count == 0) {
-    printf("%d\n", -1);
+    print(-1);
   }
   else if (count == 1) {
-    printf("%d\n", value[0]);
+    print(value[0]);
   }
   else {
     dp[0] = value[0];
@@ -39,7 +43,7 @@ int main() {
     for (int i = 2; i < count; i++)
       dp[i] = max(dp[i - 2] + value[i], dp[i - 1]);
 
-    printf("%d\n", dp[count - 1]);
+    print(dp[count - 1]);
   }
 
   return 0;
