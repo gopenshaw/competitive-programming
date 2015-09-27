@@ -26,7 +26,7 @@ class Main {
   void test(int[] height, int[] width, int L, int expected) {
     Book[] book = new Book[height.length];
     for (int i = 0; i < height.length; i++)
-      book[i] = new Book(height[i], width[i]);
+      book[i] = new Book(i, height[i], width[i]);
 
     System.out.printf("expected %d actual %d\n", expected, minHeight(book, L));
   }
@@ -38,19 +38,14 @@ class Main {
     int N = book.length;
 
     //--init
-    State[] row = new State[N];
-    row[0] = new State();
-    row[0].spaceRem = L - book[0].width;
-    row[0].totalHeight = book[0].height;
-    row[0].tallest = book[0].height;
-    row[0].lastBook = 0;
+    Row[] row = new Row[N];
+    row[0] = new Row(L);
+    row[0].add(book[0]);
 
     for (int i = 1; i < row.length; i++) {
-      row[i] = new State();
-      row[i].spaceRem = L - book[i].width;
-      row[i].totalHeight = row[i - 1].totalHeight + book[i].height;
-      row[i].tallest = book[i].height;
-      row[i].lastBook = i;
+      row[i] = new Row(L);
+      row[i].add(book[i]);
+      row[i].totalHeight += row[i - 1].totalHeight;
     }
 
     //--dp
@@ -78,7 +73,7 @@ class Main {
 
     int min = Integer.MAX_VALUE;
     for (int i = 0; i < row.length; i++) {
-      State s = row[i];
+      Row s = row[i];
       if (s.lastBook == N - 1)
         min = Math.min(min, s.totalHeight);
     }
@@ -86,22 +81,31 @@ class Main {
     return min;
   }
 
-  class State {
+  class Row {
     int tallest;
     int spaceRem;
     int totalHeight;
     int lastBook;
     
-    State() {
-      totalHeight = Integer.MAX_VALUE;
+    Row(int length) {
+      spaceRem = length;
+    }
+
+    void add(Book b) {
+      spaceRem -= b.width;
+      tallest = Math.max(tallest, b.height);
+      totalHeight += b.height;
+      lastBook = Math.max(lastBook, b.id);
     }
   }
 
   class Book {
+    int id;
     int height;
     int width;
 
-    Book(int h, int w) {
+    Book(int id, int h, int w) {
+      this.id = id;
       height = h;
       width = w;
     }
