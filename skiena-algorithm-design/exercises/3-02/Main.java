@@ -21,6 +21,18 @@ class Main {
     int[] w3 = new int[] {1, 1, 1, 1, 1};
     int L3 = 4;
     test(h3, w3, L3, 7);
+
+    //--base
+    int[] h4 = new int[] {2};
+    int[] w4 = new int[] {2};
+    int L4 = 100;
+    test(h4, w4, L4, 2);
+
+    //--base2
+    int[] h5 = new int[0];
+    int[] w5 = new int[0];
+    int L5 = 100;
+    test(h5, w5, L5, 0);
   }
 
   void test(int[] height, int[] width, int L, int expected) {
@@ -34,6 +46,8 @@ class Main {
   int minHeight(Book[] book, int L) {
     for (Book b : book)
       if (b.width > L) return -1;
+
+    if (book.length == 0) return 0;
 
     int N = book.length;
 
