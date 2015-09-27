@@ -24,31 +24,32 @@ class Main {
   }
 
   void test(int[] height, int[] width, int L, int expected) {
-    System.out.printf("expected %d actual %d\n", expected, minHeight(height, width, L));
+    Book[] book = new Book[height.length];
+    for (int i = 0; i < height.length; i++)
+      book[i] = new Book(height[i], width[i]);
+
+    System.out.printf("expected %d actual %d\n", expected, minHeight(book, L));
   }
 
-  int minHeight(int[] height, int[] width, int L) {
-    for (int i : width)
-      if (i > L) return -1;
+  int minHeight(Book[] book, int L) {
+    for (Book b : book)
+      if (b.width > L) return -1;
 
-    if (height.length != width.length)
-      return -1;
-
-    int N = height.length;
+    int N = book.length;
 
     //--init
     State[] row = new State[N];
     row[0] = new State();
-    row[0].spaceRem = L - width[0];
-    row[0].totalHeight = height[0];
-    row[0].tallest = height[0];
+    row[0].spaceRem = L - book[0].width;
+    row[0].totalHeight = book[0].height;
+    row[0].tallest = book[0].height;
     row[0].lastBook = 0;
 
     for (int i = 1; i < row.length; i++) {
       row[i] = new State();
-      row[i].spaceRem = L - width[i];
-      row[i].totalHeight = row[i - 1].totalHeight + height[i];
-      row[i].tallest = height[i];
+      row[i].spaceRem = L - book[i].width;
+      row[i].totalHeight = row[i - 1].totalHeight + book[i].height;
+      row[i].tallest = book[i].height;
       row[i].lastBook = i;
     }
 
@@ -56,18 +57,18 @@ class Main {
     for (int i = 1; i < N; i++) {
       for (int j = i - 1; j >= 0; j--) {
         if (row[j].lastBook != i - 1) break;
-        if (row[j].totalHeight + height[i] < row[j + 1].totalHeight
-          || (row[j].totalHeight + height[i] == row[j + 1].totalHeight
-            && L - width[i] <= row[j + 1].spaceRem)) {
-          row[j + 1].spaceRem = L - width[i];
-          row[j + 1].totalHeight = row[j].totalHeight + height[i];
-          row[j + 1].tallest = height[i];
+        if (row[j].totalHeight + book[i].height < row[j + 1].totalHeight
+          || (row[j].totalHeight + book[i].height == row[j + 1].totalHeight
+            && L - book[i].width <= row[j + 1].spaceRem)) {
+          row[j + 1].spaceRem = L - book[i].width;
+          row[j + 1].totalHeight = row[j].totalHeight + book[i].height;
+          row[j + 1].tallest = book[i].height;
           row[j + 1].lastBook = i;
         }
 
-        if (row[j].spaceRem >= width[i]) {
-          row[j].spaceRem -= width[i];
-          int dif = Math.max(0, height[i] - row[j].tallest);
+        if (row[j].spaceRem >= book[i].width) {
+          row[j].spaceRem -= book[i].width;
+          int dif = Math.max(0, book[i].height - row[j].tallest);
           row[j].totalHeight += dif;
           row[j].tallest += dif;
           row[j].lastBook = i;
@@ -93,6 +94,16 @@ class Main {
     
     State() {
       totalHeight = Integer.MAX_VALUE;
+    }
+  }
+
+  class Book {
+    int height;
+    int width;
+
+    Book(int h, int w) {
+      height = h;
+      width = w;
     }
   }
 }
