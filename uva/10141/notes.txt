@@ -1,0 +1,1 @@
+Ignore the requirements specified in text. The problem states that all requirements are in the list so just take the given number of requirements met and choose the best one.
