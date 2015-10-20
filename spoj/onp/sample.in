@@ -1,4 +1,11 @@
-3
+10
 (a+(b*c))
 ((a+b)*(z+x))
 ((a+t)*((b+(a+c))^(c+d)))
+a*b+c
+a+b*c
+(a*b)+c
+(a+b)*c
+a+(b*c)
+a*(b+c)
+a+(b+c*d)*(e*f+g)
