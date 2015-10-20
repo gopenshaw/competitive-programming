@@ -53,7 +53,7 @@ int main()
         }
       }
       else if (is_operand(s[i])) {
-        if (ops.size() > 0
+        while (ops.size() > 0
             && ops.top().level == level
             && get_priority(ops.top().c) > get_priority(s[i])) {
           cout << ops.top().c;
